@@ -1,0 +1,100 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Thesis OS architecture</title>
+  <desc id="desc">A three-agent investment research operating system: Alpha collects evidence, Lattice makes judgment, Arki governs the system, and feedback improves future judgments.</desc>
+  <defs>
+    <linearGradient id="header" x1="80" y1="56" x2="1200" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0F766E"/>
+      <stop offset="1" stop-color="#1E3A8A"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2 2L10 6L2 10" stroke="#334155" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="tealArrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+      <path d="M2 2L10 6L2 10" stroke="#0F766E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+  </defs>
+
+  <rect width="1280" height="720" fill="#F8FAFC"/>
+  <rect x="80" y="52" width="1120" height="88" rx="24" fill="url(#header)"/>
+  <text x="110" y="96" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="34" font-weight="800" fill="white">Thesis OS</text>
+  <text x="110" y="122" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="17" fill="#DFF7F3">A thesis-driven investment research operating system</text>
+  <text x="900" y="104" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="18" font-weight="700" fill="white">Evidence → Thesis → Prediction → Feedback</text>
+
+  <g filter="url(#shadow)">
+    <rect x="80" y="190" width="210" height="155" rx="20" fill="white" stroke="#D8E2EA"/>
+    <text x="105" y="226" font-family="Inter, ui-sans-serif, system-ui" font-size="22" font-weight="800" fill="#0F172A">Sources</text>
+    <text x="105" y="260" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">Quant data</text>
+    <text x="105" y="286" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">Qualitative intel</text>
+    <text x="105" y="312" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">Filings / transcripts</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="360" y="185" width="220" height="165" rx="22" fill="#ECFDF5" stroke="#99F6E4"/>
+    <text x="390" y="225" font-family="Inter, ui-sans-serif, system-ui" font-size="25" font-weight="800" fill="#0F766E">Alpha</text>
+    <text x="390" y="252" font-family="Inter, ui-sans-serif, system-ui" font-size="15" font-weight="700" fill="#115E59">Evidence agent</text>
+    <text x="390" y="286" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">Collect</text>
+    <text x="390" y="312" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">Normalize</text>
+    <text x="390" y="338" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">Verify</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="650" y="185" width="220" height="165" rx="22" fill="white" stroke="#D8E2EA"/>
+    <text x="680" y="225" font-family="Inter, ui-sans-serif, system-ui" font-size="25" font-weight="800" fill="#1E3A8A">Local Memory</text>
+    <text x="680" y="252" font-family="Inter, ui-sans-serif, system-ui" font-size="15" font-weight="700" fill="#334155">DB + Vault</text>
+    <text x="680" y="286" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">Evidence records</text>
+    <text x="680" y="312" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">Markdown notes</text>
+    <text x="680" y="338" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">Audit trail</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="940" y="185" width="260" height="165" rx="22" fill="#EFF6FF" stroke="#BFDBFE"/>
+    <text x="970" y="225" font-family="Inter, ui-sans-serif, system-ui" font-size="25" font-weight="800" fill="#1D4ED8">Lattice</text>
+    <text x="970" y="252" font-family="Inter, ui-sans-serif, system-ui" font-size="15" font-weight="700" fill="#1E40AF">Judgment agent / 격자</text>
+    <text x="970" y="286" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">Thesis registry</text>
+    <text x="970" y="312" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">Decision card</text>
+    <text x="970" y="338" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">Devil's advocate</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="650" y="440" width="220" height="130" rx="20" fill="#FFF7ED" stroke="#FED7AA"/>
+    <text x="680" y="478" font-family="Inter, ui-sans-serif, system-ui" font-size="22" font-weight="800" fill="#C2410C">Ledger</text>
+    <text x="680" y="512" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">Action queue</text>
+    <text x="680" y="538" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">Prediction ledger</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="940" y="440" width="260" height="130" rx="20" fill="#FDF2F8" stroke="#FBCFE8"/>
+    <text x="970" y="478" font-family="Inter, ui-sans-serif, system-ui" font-size="22" font-weight="800" fill="#BE185D">Feedback Loop</text>
+    <text x="970" y="512" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">Returns / MFE / MAE</text>
+    <text x="970" y="538" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">Failure modes</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="80" y="440" width="500" height="130" rx="20" fill="#F1F5F9" stroke="#CBD5E1"/>
+    <text x="110" y="478" font-family="Inter, ui-sans-serif, system-ui" font-size="24" font-weight="800" fill="#0F172A">Arki</text>
+    <text x="110" y="508" font-family="Inter, ui-sans-serif, system-ui" font-size="15" font-weight="700" fill="#334155">System governance agent</text>
+    <text x="110" y="540" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">Schemas · Vault policy · Recurring jobs · Health checks · Public/private boundary</text>
+  </g>
+
+  <path d="M290 267H352" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M580 267H642" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M870 267H932" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M1070 350V432" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M940 505H878" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M760 440V360" stroke="#334155" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M1070 440C1110 402 1110 376 1070 350" stroke="#0F766E" stroke-width="3" stroke-dasharray="8 8" marker-end="url(#tealArrow)"/>
+
+  <path d="M330 440V365" stroke="#64748B" stroke-width="2" stroke-dasharray="7 7"/>
+  <path d="M330 440C420 390 455 375 470 350" stroke="#64748B" stroke-width="2" stroke-dasharray="7 7"/>
+  <path d="M330 440C545 390 700 370 760 350" stroke="#64748B" stroke-width="2" stroke-dasharray="7 7"/>
+  <path d="M330 440C690 395 915 380 1055 350" stroke="#64748B" stroke-width="2" stroke-dasharray="7 7"/>
+
+  <text x="80" y="645" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="700" fill="#0F172A">Public core:</text>
+  <text x="190" y="645" font-family="Inter, ui-sans-serif, system-ui" font-size="18" fill="#334155">schemas, templates, vault writer, sample adapters, feedback evaluator</text>
+  <text x="80" y="675" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="700" fill="#0F172A">Private adapters:</text>
+  <text x="228" y="675" font-family="Inter, ui-sans-serif, system-ui" font-size="18" fill="#334155">broker APIs, Telegram/Gmail sessions, paid feeds, real portfolio data</text>
+</svg>
+

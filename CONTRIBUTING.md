@@ -32,6 +32,13 @@ python -m thesis_os demo --out /tmp/thesis-os-demo
 python -m unittest discover -s tests
 ```
 
+To regenerate README visual assets:
+
+```bash
+python -m pip install -e ".[assets]"
+python scripts/render_assets.py
+```
+
 ## Design Standard
 
 New features should answer:
@@ -41,4 +48,3 @@ New features should answer:
 3. What evidence does it require?
 4. What is the public/private data boundary?
 5. How can the output be checked later?
-

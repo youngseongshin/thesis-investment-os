@@ -12,7 +12,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - run: python -m pip install -e .
+      - run: python -m pip install -e . pillow
+      - run: python scripts/render_assets.py
       - run: python -m thesis_os lint --root .
       - run: python -m thesis_os demo --out /tmp/thesis-os-demo
       - run: python -m thesis_os arki init --workspace /tmp/thesis-os-workspace

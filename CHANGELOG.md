@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.0 - 2026-05-28
+
+- Add README architecture SVG.
+- Add terminal quickstart GIF.
+- Add demo workspace tree SVG.
+- Add asset regeneration script.
+- Add Korean README visuals.
+
 ## 0.2.0 - 2026-05-28
 
 - Add public adapter contracts.

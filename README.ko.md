@@ -8,6 +8,10 @@ Thesis OS는 **테시스 기반 투자 리서치 OS**입니다.
 
 목표는 자동매매 봇을 만드는 것이 아닙니다. 목표는 투자 판단을 더 명시적이고, 근거 기반이며, 감사 가능하고, 시간이 지날수록 개선 가능한 형태로 만드는 것입니다.
 
+<p align="center">
+  <img src="docs/assets/thesis-os-architecture.svg" alt="Thesis OS architecture" width="100%">
+</p>
+
 ## 핵심 루프
 
 ```mermaid
@@ -65,6 +69,10 @@ Arki는 Research OS의 구조와 운영을 관리합니다.
 
 Python 3.10+이 필요합니다.
 
+<p align="center">
+  <img src="docs/assets/terminal-demo.gif" alt="Thesis OS terminal demo" width="100%">
+</p>
+
 ```bash
 git clone https://github.com/youngseongshin/thesis-os.git
 cd thesis-os
@@ -73,6 +81,12 @@ python3 -m venv .venv
 python -m pip install -e .
 python -m thesis_os demo --out ./demo_run
 ```
+
+생성되는 workspace 구조:
+
+<p align="center">
+  <img src="docs/assets/demo-workspace-tree.svg" alt="Thesis OS demo workspace tree" width="85%">
+</p>
 
 에이전트별 명령:
 

@@ -1,0 +1,36 @@
+<svg width="980" height="560" viewBox="0 0 980 560" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Thesis OS demo workspace tree</title>
+  <desc id="desc">The demo creates a local database, markdown vault notes, action queue, prediction ledger, and job manifest.</desc>
+  <rect width="980" height="560" rx="28" fill="#0F172A"/>
+  <rect x="24" y="24" width="932" height="512" rx="18" fill="#111827" stroke="#334155"/>
+  <circle cx="54" cy="54" r="7" fill="#EF4444"/>
+  <circle cx="78" cy="54" r="7" fill="#F59E0B"/>
+  <circle cx="102" cy="54" r="7" fill="#22C55E"/>
+  <text x="132" y="61" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="15" fill="#CBD5E1">demo_run workspace</text>
+
+  <text x="52" y="106" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="18" fill="#E5E7EB">demo_run/</text>
+  <text x="82" y="142" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#93C5FD">├── local/</text>
+  <text x="128" y="174" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">│   └── thesis_os.db</text>
+  <text x="82" y="214" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#93C5FD">├── vault/</text>
+  <text x="128" y="246" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">│   ├── evidence/</text>
+  <text x="128" y="278" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">│   ├── theses/</text>
+  <text x="128" y="310" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">│   ├── decisions/</text>
+  <text x="128" y="342" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">│   └── feedback/</text>
+  <text x="82" y="382" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">├── action_queue.json</text>
+  <text x="82" y="414" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">├── prediction_ledger.jsonl</text>
+  <text x="82" y="446" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">├── jobs.yaml</text>
+  <text x="82" y="478" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">└── manifest.json</text>
+
+  <rect x="575" y="120" width="300" height="88" rx="16" fill="#ECFDF5" stroke="#5EEAD4"/>
+  <text x="604" y="154" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="800" fill="#0F766E">Alpha writes evidence</text>
+  <text x="604" y="182" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">DB rows + markdown notes</text>
+
+  <rect x="575" y="242" width="300" height="88" rx="16" fill="#EFF6FF" stroke="#93C5FD"/>
+  <text x="604" y="276" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="800" fill="#1D4ED8">Lattice writes judgment</text>
+  <text x="604" y="304" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">thesis, decision, prediction</text>
+
+  <rect x="575" y="364" width="300" height="88" rx="16" fill="#F1F5F9" stroke="#CBD5E1"/>
+  <text x="604" y="398" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="800" fill="#0F172A">Arki checks health</text>
+  <text x="604" y="426" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">schemas, jobs, workspace state</text>
+</svg>
+

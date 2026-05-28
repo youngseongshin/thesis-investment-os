@@ -11,6 +11,10 @@ It combines quantitative market data, qualitative intelligence channels, local d
 
 The goal is not to build an autonomous trading bot. The goal is to make investment judgment explicit, evidence-backed, auditable, and improvable over time.
 
+<p align="center">
+  <img src="docs/assets/thesis-os-architecture.svg" alt="Thesis OS architecture" width="100%">
+</p>
+
 ## Core Idea
 
 Investment work is often scattered across charts, filings, chats, notes, videos, news, spreadsheets, and memory. Thesis OS turns those fragments into a structured loop:
@@ -90,6 +94,10 @@ Excluded:
 
 Requires Python 3.10+.
 
+<p align="center">
+  <img src="docs/assets/terminal-demo.gif" alt="Thesis OS terminal demo" width="100%">
+</p>
+
 ```bash
 git clone https://github.com/youngseongshin/thesis-os.git
 cd thesis-os
@@ -100,6 +108,10 @@ thesis-os demo --out ./demo_run
 ```
 
 The demo creates:
+
+<p align="center">
+  <img src="docs/assets/demo-workspace-tree.svg" alt="Thesis OS demo workspace tree" width="85%">
+</p>
 
 - `demo_run/local/thesis_os.db`
 - `demo_run/vault/evidence/`
