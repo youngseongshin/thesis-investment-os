@@ -263,16 +263,6 @@ Thesis OS is composed of reusable skills with explicit owners and boundaries.
 
 The public skill catalog includes social collection, Facebook collection, YouTube scout, real-time market monitoring, quantitative screening, Top 5 deep dives, semiconductor specialist analysis, Deep Alpha, devil's advocate, roundtable judgment, and feedback evaluation.
 
-## Operational Coverage
-
-Thesis OS is designed as an executable operating loop, not only a document set. The current coverage is tracked in [Thesis OS Coverage](docs/thesis-os-coverage.md).
-
-Key executable components include:
-
-- `alpha trade-proxy`: turns customs/export-import style proxy data into evidence and vault notes for memory, HBM, substrate, and supply-chain theses.
-- `arki validate-harness`: validates job contracts so ownership, trigger, inputs, outputs, delivery, and failure behavior are explicit.
-- `arki build-dashboard`: builds a static HTML cockpit for thesis cards, watchlist/holdings alerts, action queues, prediction ledgers, and performance feedback.
-
 ## Quickstart
 
 Requires Python 3.10+.
@@ -375,23 +365,18 @@ Use private repositories or local runtime secrets for anything that can identify
 
 This is an early public scaffold. The current implementation focuses on the minimum viable loop:
 
-1. Create evidence
-2. Store evidence in a local DB and vault
-3. Create a thesis
-4. Create a decision card
-5. Register a prediction
-6. Generate a feedback report
-7. Generate screener candidates and evaluate their forward performance
-8. Generate vault wiki and SSOT notes
-9. Run a sample Lattice roundtable for increase/hold/decrease/exit/watch decisions
-10. Refresh sample KR/US market snapshots
-11. Generate sample intraday alerts
-12. Evaluate a Lattice decision/action over a fixed horizon
-13. Convert sample trade/customs proxy rows into evidence and a vault note
-14. Validate sample harness contracts for recurring job governance
-15. Build a static thesis, watchlist, portfolio-action, and feedback dashboard
+1. Collect evidence into a local DB and markdown vault.
+2. Run screeners and daily discovery to create review candidates.
+3. Build a thesis card and decision card from current evidence.
+4. Register a prediction before the outcome is known.
+5. Evaluate screener candidates, predictions, and Lattice actions over fixed horizons.
+6. Compile wiki/SSOT notes so agents can retrieve the current canonical context.
+7. Export a dashboard cockpit for theses, watchlists, action queues, prediction ledgers, and feedback.
+8. Validate recurring job contracts so automation remains auditable.
 
-The next milestones are connector interfaces, richer feedback metrics, and reproducible job scheduling.
+Specialized adapters such as trade/customs proxy data are included as examples of how to extend the evidence layer. They are not the center of the framework. The current coverage map is in [Thesis OS Coverage](docs/thesis-os-coverage.md).
+
+The next milestones are connector interfaces, richer feedback metrics, reproducible job scheduling, and stronger dashboard examples.
 
 ## Community
 

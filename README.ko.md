@@ -319,35 +319,20 @@ Thesis OS는 명시적인 owner와 boundary를 가진 재사용 스킬들로 구
 
 공개 skill catalog에는 소셜 수집, 페이스북 수집, 유튜브 scout, 종목 실시간 데이터 모니터링, 정량 스크리닝, Top 5 딥다이브, 반도체 전문분석, Deep Alpha, 악마의 변호인, 라운드테이블 판단, 피드백 평가가 포함됩니다.
 
-## Thesis OS 운영 범위
-
-Thesis OS는 단순 문서 묶음이 아니라 실행 가능한 투자 판단 루프를 목표로 합니다. 현재 구현/부분구현/제외 범위는 [Thesis OS Coverage](docs/thesis-os-coverage.md)에 정리했습니다.
-
-현재 실행 가능한 주요 구성요소는 다음과 같습니다.
-
-- `alpha trade-proxy`: 메모리, HBM, 기판, 공급망 수출입 흐름 같은 통관/수출입 proxy 데이터를 CSV adapter로 받아 evidence와 vault note로 변환합니다.
-- `arki validate-harness`: 반복작업이 누구 소유인지, 어떤 입력을 읽고, 무엇을 쓰고, 어디로 전달하며, 실패 시 어떻게 처리하는지 contract 단위로 검증합니다.
-- `arki build-dashboard`: thesis card, watchlist/holding alert, action queue, prediction ledger, performance feedback을 한 화면에서 보는 static HTML cockpit을 생성합니다.
-
 ## 프로젝트 상태
 
 현재는 public core scaffold 단계입니다. 하지만 최소 루프는 실제로 동작합니다.
 
-1. Evidence 생성
-2. Local DB와 vault 저장
-3. Thesis 생성
-4. Decision Card 생성
-5. Prediction Ledger 기록
-6. Feedback Report 생성
-7. Screener Candidate 생성과 forward 성과평가
-8. Vault wiki index와 SSOT note 생성
-9. 증액/홀드/감액/청산/관찰 판단을 위한 sample roundtable 실행
-10. 한국/미국 market snapshot refresh
-11. 보유/관찰 종목 intraday alert 생성
-12. 격자 판단/action의 기간별 성과평가
-13. 통관/수출입 proxy 데이터를 evidence와 vault note로 변환
-14. 반복작업 harness contract 검증
-15. 테시스, 워치리스트, 포트폴리오 판단, 성과 피드백 dashboard 생성
+1. Evidence를 local DB와 markdown vault에 저장합니다.
+2. Screener와 daily discovery로 검토 후보를 만듭니다.
+3. 최신 evidence로 thesis card와 decision card를 생성합니다.
+4. 결과가 나오기 전에 prediction ledger에 예측을 기록합니다.
+5. Screener 후보, prediction, Lattice/격자 action을 기간별로 평가합니다.
+6. Wiki/SSOT note를 만들어 에이전트가 최신 canonical context를 찾게 합니다.
+7. Thesis, watchlist, action queue, prediction ledger, feedback을 dashboard cockpit으로 export합니다.
+8. Recurring job contract를 검증해 자동화가 감사 가능한 상태를 유지합니다.
+
+통관/수출입 proxy 같은 특수 어댑터는 evidence layer를 확장하는 예시로 포함되어 있습니다. 프레임워크의 중심은 특정 데이터 소스가 아니라 **테시스와 판단 피드백 루프**입니다. 현재 구현/부분구현/제외 범위는 [Thesis OS Coverage](docs/thesis-os-coverage.md)에 정리했습니다.
 
 이 프로젝트는 투자 판단을 “그럴듯한 설명”에서 “검증 가능한 판단 시스템”으로 바꾸는 것을 목표로 합니다.
 
