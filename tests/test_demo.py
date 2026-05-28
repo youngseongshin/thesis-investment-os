@@ -7,6 +7,7 @@ from pathlib import Path
 
 from thesis_os.alpha.quant_screener import build_quant_candidates
 from thesis_os.cli import main, run_demo, run_lint
+from thesis_os.lattice.process_quality import native_horizons, process_score_for_action, result_score_from_excess
 
 
 class DemoTest(unittest.TestCase):
@@ -83,6 +84,22 @@ class DemoTest(unittest.TestCase):
             self.assertIn('"source": "bundled_sample_csv"', manifest)
             self.assertIn('"rolling_result"', manifest)
             self.assertNotIn('"observations"', manifest)
+
+    def test_process_quality_is_separate_from_result_score(self) -> None:
+        action = {
+            "id": "ACTION-1",
+            "entity": "Example",
+            "action": "watch",
+            "reason": "Evidence supports review.",
+            "evidence_ids": ["EVID-1"],
+            "thesis_id": "THESIS-1",
+            "confidence": "medium",
+            "next_check": "Recheck after the next filing.",
+        }
+        self.assertEqual(process_score_for_action(action, "1m"), 1.0)
+        self.assertGreater(result_score_from_excess(0.04), result_score_from_excess(-0.04))
+        self.assertGreater(result_score_from_excess(-0.04, "relative_underperform"), result_score_from_excess(0.04, "relative_underperform"))
+        self.assertIn("1y", native_horizons("compounder_hold"))
 
     def _write_price_csv(self, path: Path) -> None:
         lines = ["ticker,date,open,high,low,close,volume"]
@@ -162,6 +179,7 @@ class DemoTest(unittest.TestCase):
             "docs/sample-output-pack.md",
             "docs/skills-and-pipelines.md",
             "docs/thesis-os-coverage.md",
+            "docs/thesis-types-and-horizons.md",
             "docs/vault-governance.md",
             "examples/sample_harness_contracts.json",
             "examples/sample_jobs.yaml",

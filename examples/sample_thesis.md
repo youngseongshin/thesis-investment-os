@@ -2,6 +2,8 @@
 id: THESIS-SAMPLE-AI-INFRA-001
 entity: AI Infrastructure Basket
 status: active
+thesis_type: cycle_rerating
+native_horizon: 6m
 sample: true
 ---
 
@@ -27,3 +29,6 @@ AI infrastructure demand remains investable only if evidence confirms both deman
 - Two consecutive evidence updates weaken demand persistence.
 - Price and consensus already reflect the positive scenario.
 
+## Measurement Note
+
+Short-term return feedback checks timing and crowding. The thesis itself should be reviewed over 3m/6m/1y evidence and outcome windows.

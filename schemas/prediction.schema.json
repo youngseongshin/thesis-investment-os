@@ -10,13 +10,14 @@
     "thesis_id": {"type": "string"},
     "prediction": {"type": "string"},
     "direction": {"type": "string", "enum": ["up", "down", "neutral", "relative_outperform", "relative_underperform"]},
-    "horizon": {"type": "string", "enum": ["3d", "1w", "2w", "1m", "2m", "3m", "6m", "1y"]},
+    "horizon": {"type": "string", "description": "Native evaluation horizon, for example 1m, 6m, 1y, or 21 trading days."},
     "confidence": {"type": "number", "minimum": 0, "maximum": 1},
     "created_at": {"type": "string"},
     "evaluation_due": {"type": "string"},
     "evidence_ids": {"type": "array", "items": {"type": "string"}},
-    "invalidation": {"type": "array", "items": {"type": "string"}}
+    "invalidation": {"type": "array", "items": {"type": "string"}},
+    "thesis_type": {"type": "string"},
+    "evaluation_kind": {"type": "string", "enum": ["process", "timing_result", "thesis_result", "mixed"]}
   },
   "additionalProperties": true
 }
-

@@ -39,6 +39,9 @@ class Thesis:
     risks: list[str] = field(default_factory=list)
     updated_at: str = field(default_factory=utc_now)
     tags: list[str] = field(default_factory=list)
+    thesis_type: str = "timing_trade"
+    native_horizon: str = "1m"
+    measurement_note: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -109,6 +112,9 @@ class ScreenerFeedback:
     hit: bool
     lesson: str
     failure_mode: str = "none"
+    process_score: float = 0.0
+    result_score: float = 0.0
+    outcome_confidence: str = "unknown"
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -148,6 +154,9 @@ class JudgmentFeedback:
     process_lesson: str
     failure_mode: str = "none"
     thesis_id: str = ""
+    process_score: float = 0.0
+    result_score: float = 0.0
+    outcome_confidence: str = "unknown"
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

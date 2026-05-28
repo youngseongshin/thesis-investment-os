@@ -5,6 +5,7 @@ from pathlib import Path
 
 from thesis_os.alpha.local_db import connect, init_db, insert_judgment_feedback
 from thesis_os.arki.vault_writer import VaultWriter
+from thesis_os.lattice.process_quality import outcome_confidence_for_horizon, process_score_for_action, result_score_from_excess
 from thesis_os.models import JudgmentFeedback, utc_now
 
 
@@ -23,6 +24,7 @@ def evaluate_judgment(
     excess = absolute_return - benchmark_return
     hit = _judgment_hit(str(action.get("action", "")), excess)
     failure_mode = "none" if hit else _failure_mode(str(action.get("action", "")), excess)
+    process_score = process_score_for_action(action, horizon)
     feedback = JudgmentFeedback(
         id=f"JFB-{action_id}-{horizon}",
         action_id=action_id,
@@ -37,6 +39,9 @@ def evaluate_judgment(
         failure_mode=failure_mode,
         process_lesson=_process_lesson(str(action.get("action") or ""), hit, failure_mode),
         thesis_id=str(action.get("thesis_id") or ""),
+        process_score=process_score,
+        result_score=result_score_from_excess(excess, _expected_direction(str(action.get("action") or ""))),
+        outcome_confidence=outcome_confidence_for_horizon(horizon),
     )
 
     conn = connect(workspace / "local" / "thesis_os.db")
@@ -68,15 +73,22 @@ def judgment_feedback_markdown(feedback: JudgmentFeedback, action: dict[str, obj
             f"- Excess return: {feedback.excess_return:.2%}",
             f"- Hit: {'yes' if feedback.hit else 'no'}",
             f"- Failure mode: {feedback.failure_mode}",
+            f"- Result score: {feedback.result_score:.2f}",
+            f"- Outcome confidence: {feedback.outcome_confidence}",
             "",
             "## Original Reason",
             str(action.get("reason") or ""),
+            "",
+            "## Process Quality",
+            f"- Process score: {feedback.process_score:.2f}",
+            "- Process score checks whether the decision had a reason, evidence link, thesis link, confidence, next check, and evaluation horizon.",
+            "- Do not rewrite the original decision after the outcome is known.",
             "",
             "## Process Lesson",
             feedback.process_lesson,
             "",
             "## Closed Loop Rule",
-            "Lattice judgments should improve through fixed-horizon review of entity-level and portfolio-inclusion decisions.",
+            "Lattice judgments should improve through process-quality review first and native-horizon outcome review second.",
         ]
     )
 
@@ -111,6 +123,14 @@ def _failure_mode(action: str, excess: float) -> str:
     if action in {"trim_candidate", "decrease", "exit", "invalidate"} and excess > 0:
         return "interpretation_failure"
     return "unknown"
+
+
+def _expected_direction(action: str) -> str:
+    if action in {"trim_candidate", "decrease", "exit", "invalidate"}:
+        return "negative"
+    if action in {"hold", "watch"}:
+        return "neutral"
+    return "positive"
 
 
 def _process_lesson(action: str, hit: bool, failure_mode: str) -> str:

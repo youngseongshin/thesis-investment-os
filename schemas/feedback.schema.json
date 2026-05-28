@@ -15,8 +15,11 @@
     "mfe": {"type": "number"},
     "mae": {"type": "number"},
     "failure_mode": {"type": "string", "enum": ["none", "data_failure", "interpretation_failure", "timing_failure", "already_priced_in", "execution_failure", "unknown"]},
-    "lesson": {"type": "string"}
+    "lesson": {"type": "string"},
+    "process_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "result_score": {"type": "number", "minimum": 0, "maximum": 1},
+    "outcome_confidence": {"type": "string", "enum": ["low", "medium", "high", "unknown"]},
+    "evaluation_kind": {"type": "string", "enum": ["process", "timing_result", "thesis_result", "mixed"]}
   },
   "additionalProperties": true
 }
-

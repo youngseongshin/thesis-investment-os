@@ -24,6 +24,8 @@ If a system explains everything after the fact, it has no memory discipline. The
 
 Research is incomplete until the system checks what happened. The feedback loop evaluates direction, timing, drawdown, maximum favorable excursion, relative performance, and failure mode.
 
+Feedback must not confuse process quality with outcome noise. A cleanly registered decision can have a bad short-term result, and a sloppy decision can get lucky. Thesis OS tracks both process score and result score.
+
 ### 5. Agents Need Clear Boundaries
 
 Alpha collects evidence. Lattice makes investment judgments. Arki maintains the operating system. Each agent has a role, skill scope, and output contract.
@@ -36,6 +38,7 @@ Open-source code should expose methods, schemas, and examples, not real accounts
 
 - Not an autonomous trading bot
 - Not a promise of alpha
+- Not a claim that short-term returns validate every long-term thesis
 - Not financial advice
 - Not a replacement for licensed professionals
 - Not a place to store secrets

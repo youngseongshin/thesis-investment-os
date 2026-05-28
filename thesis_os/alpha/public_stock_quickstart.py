@@ -140,7 +140,7 @@ def run_stock_quickstart(
     top_candidate = candidates[0] if candidates else {}
     top_ticker = str(top_candidate.get("ticker", tickers[0] if tickers else "UNKNOWN"))
     top_row = returns_by_ticker.get(top_ticker, rows[0] if rows else {})
-    thesis = _quickstart_thesis(top_candidate, top_row, benchmark)
+    thesis = _quickstart_thesis(top_candidate, top_row, benchmark, horizon_days)
     vault = VaultWriter(workspace / "vault")
     vault.ensure_layout()
     thesis_path = vault.write_note(
@@ -610,7 +610,7 @@ def _row_to_evidence(row: dict[str, object], benchmark: str) -> Evidence:
     )
 
 
-def _quickstart_thesis(candidate: dict[str, object], row: dict[str, object], benchmark: str) -> Thesis:
+def _quickstart_thesis(candidate: dict[str, object], row: dict[str, object], benchmark: str, horizon_days: int) -> Thesis:
     ticker = str(candidate.get("ticker") or row.get("ticker") or "UNKNOWN")
     evidence_id = f"EVID-QUICKSTART-{ticker}-{row.get('as_of_date', 'unknown')}"
     return Thesis(
@@ -635,6 +635,9 @@ def _quickstart_thesis(candidate: dict[str, object], row: dict[str, object], ben
         ],
         updated_at=utc_now(),
         tags=["quickstart", "public-data", "stock-screener"],
+        thesis_type="timing_trade",
+        native_horizon=f"{horizon_days} trading days",
+        measurement_note="The quickstart is a timing/screener demonstration. It should not be used to evaluate a multi-year compounder thesis.",
     )
 
 

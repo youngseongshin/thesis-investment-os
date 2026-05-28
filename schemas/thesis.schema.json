@@ -7,15 +7,17 @@
   "properties": {
     "id": {"type": "string"},
     "entity": {"type": "string"},
-    "status": {"type": "string", "enum": ["draft", "active", "watch", "weakened", "invalidated", "retired"]},
+    "status": {"type": "string", "enum": ["draft", "active", "active_watch", "demo_review", "watch", "weakened", "invalidated", "retired"]},
     "claim": {"type": "string"},
     "assumptions": {"type": "array", "items": {"type": "string"}},
     "evidence_ids": {"type": "array", "items": {"type": "string"}},
     "risks": {"type": "array", "items": {"type": "string"}},
     "invalidation": {"type": "array", "items": {"type": "string"}},
     "updated_at": {"type": "string"},
-    "tags": {"type": "array", "items": {"type": "string"}}
+    "tags": {"type": "array", "items": {"type": "string"}},
+    "thesis_type": {"type": "string", "enum": ["timing_trade", "compounder_hold", "cycle_rerating", "special_situation", "research_note"]},
+    "native_horizon": {"type": "string"},
+    "measurement_note": {"type": "string"}
   },
   "additionalProperties": true
 }
-

@@ -196,7 +196,7 @@ skills:
 
   - id: lattice-judgment-feedback
     agent: lattice
-    purpose: "Evaluate Lattice decisions/actions over fixed horizons and improve the judgment process."
+    purpose: "Evaluate Lattice decisions/actions over thesis-native horizons and improve the judgment process."
     inputs:
       - "action queue"
       - "forward returns"

@@ -52,8 +52,13 @@ Implemented as:
 
 - feedback schema
 - screener feedback schema
+- process score
+- result score
+- outcome confidence
 - failure modes
 - feedback vault notes
+
+The process score is intentionally separate from the result score. This is the Goodhart guard: Thesis OS should not optimize every thesis toward whatever short-term return metric is easiest to collect.
 
 ## 6. Lattice Thinking Beats Single-Lens Narratives
 

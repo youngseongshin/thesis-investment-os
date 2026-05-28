@@ -86,7 +86,7 @@ Thesis OS is especially useful when a portfolio is concentrated. In that case, t
 
 ## 7. Feedback
 
-Every roundtable decision that implies a prediction should be evaluated over fixed horizons.
+Every roundtable decision that implies a prediction should be evaluated over predefined horizons, but the horizon must match the thesis type.
 
 Suggested horizons:
 
@@ -106,3 +106,10 @@ It should also evaluate Lattice's own judgment process:
 - Did increase/hold/decrease/exit work over the selected horizon?
 - Was the failure caused by data, interpretation, timing, crowding, or execution?
 - Should the next roundtable process change?
+
+Feedback should be split into:
+
+- process score: whether the original decision was well-formed, evidence-linked, pre-registered, and assigned a horizon
+- result score: whether the measured market outcome worked after the horizon matured
+
+For long-duration compounder theses, short-term return feedback should be treated as timing evidence, not final thesis proof.

@@ -14,7 +14,7 @@ Skills are how the system turns raw data and unstructured sources into judgment-
 | Research synthesis | Alpha / Lattice | Turn evidence into deep dives, specialist reviews, and thesis packets |
 | Judgment challenge | Lattice | Red-team theses through devil's advocate and invalidation checks |
 | Portfolio judgment | Lattice | Convert thesis updates into increase, hold, decrease, exit, or watch decisions |
-| Feedback | Lattice | Evaluate predictions, candidates, and actions over fixed horizons |
+| Feedback | Lattice | Evaluate predictions, candidates, and actions over thesis-native horizons |
 | Governance | Arki | Validate schemas, vault policy, recurring jobs, and public/private boundaries |
 
 ## Collection Skills

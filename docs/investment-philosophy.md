@@ -11,6 +11,18 @@ audit everything with feedback
 
 A private deployment can keep this as an Investment Philosophy Ledger in the vault. The ledger should link philosophy to actual decisions, thesis cards, action queues, and feedback reports. Philosophy is useful only if it changes behavior and can be audited later.
 
+## Conflict Resolution
+
+The default philosophy combines investors who do not always agree. That conflict should be explicit.
+
+- Munger-style compounder theses can tolerate business-cycle volatility if the long-term business case remains intact.
+- O'Neil/Minervini-style timing trades should respect tight invalidation and avoid averaging down against the setup.
+- Druckenmiller-style concentration is earned only when thesis quality, timing, risk/reward, and flexibility align.
+
+Thesis OS resolves the conflict by tagging the thesis type and evaluating it on its native horizon. A 1m underperformance can be serious evidence against a `timing_trade`, but only noisy timing evidence for a `compounder_hold`.
+
+See [Thesis Types And Native Horizons](thesis-types-and-horizons.md).
+
 ## Munger: Latticework Of Mental Models
 
 Use multiple models instead of one story. Munger's latticework is the discovery and interpretation layer.
@@ -67,6 +79,15 @@ Applied as:
 | Portfolio inclusion | Munger + Druckenmiller | Require thesis fit, common-driver awareness, and asymmetric risk/reward |
 | Sizing | Druckenmiller | Concentrate only when conviction, timing, and flexibility align |
 | Feedback | All | Evaluate whether the philosophy improved actual decisions |
+
+## Native Horizon Rule
+
+| Thesis type | Primary lens | Native feedback |
+|---|---|---|
+| `timing_trade` | O'Neil + Minervini | 3d/1w/2w/1m result quality |
+| `cycle_rerating` | Munger + O'Neil | 1m/3m/6m estimate and price follow-through |
+| `compounder_hold` | Munger | 6m/1y/3y/5y thesis persistence and business quality |
+| `special_situation` | Munger + Druckenmiller | 1m/3m/6m catalyst path and downside protection |
 
 ## Anti-Patterns
 

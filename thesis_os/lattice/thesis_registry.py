@@ -26,6 +26,9 @@ def build_sample_thesis(evidence: list[Evidence]) -> Thesis:
         ],
         updated_at=utc_now(),
         tags=["sample", "ai-infra", "thesis-os"],
+        thesis_type="cycle_rerating",
+        native_horizon="6m",
+        measurement_note="Short-term price feedback checks timing. Thesis quality should be reviewed over 3m/6m/1y evidence and outcome windows.",
     )
 
 
@@ -34,6 +37,8 @@ def thesis_markdown(thesis: Thesis) -> str:
         [
             f"**Entity:** {thesis.entity}",
             f"**Status:** {thesis.status}",
+            f"**Type:** {thesis.thesis_type}",
+            f"**Native horizon:** {thesis.native_horizon}",
             "",
             "## Claim",
             thesis.claim,
@@ -49,6 +54,8 @@ def thesis_markdown(thesis: Thesis) -> str:
             "",
             "## Invalidation",
             *[f"- {item}" for item in thesis.invalidation],
+            "",
+            "## Measurement Note",
+            thesis.measurement_note or "Evaluate this thesis on its native horizon. Short-term return feedback is timing evidence, not final thesis proof.",
         ]
     )
-

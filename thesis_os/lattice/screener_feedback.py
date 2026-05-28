@@ -4,6 +4,7 @@ from pathlib import Path
 
 from thesis_os.alpha.local_db import connect, get_screener_candidate, init_db, insert_screener_feedback
 from thesis_os.arki.vault_writer import VaultWriter
+from thesis_os.lattice.process_quality import outcome_confidence_for_horizon, process_score_for_screener_candidate, result_score_from_excess
 from thesis_os.models import ScreenerFeedback, utc_now
 
 
@@ -25,6 +26,7 @@ def evaluate_screener_candidate(
     excess = absolute_return - benchmark_return
     hit = excess > 0
     failure_mode = "none" if hit else _classify_failure(candidate, absolute_return, benchmark_return)
+    process_score = process_score_for_screener_candidate(candidate, horizon)
     feedback = ScreenerFeedback(
         id=f"FB-{candidate_id}-{horizon}",
         candidate_id=candidate_id,
@@ -36,6 +38,9 @@ def evaluate_screener_candidate(
         hit=hit,
         failure_mode=failure_mode,
         lesson=_lesson(candidate, hit, failure_mode),
+        process_score=process_score,
+        result_score=result_score_from_excess(excess),
+        outcome_confidence=outcome_confidence_for_horizon(horizon),
     )
     insert_screener_feedback(conn, feedback)
     conn.close()
@@ -64,12 +69,19 @@ def screener_feedback_markdown(candidate: dict[str, object], feedback: ScreenerF
             f"- Excess return: {feedback.excess_return:.2%}",
             f"- Hit: {'yes' if feedback.hit else 'no'}",
             f"- Failure mode: {feedback.failure_mode}",
+            f"- Result score: {feedback.result_score:.2f}",
+            f"- Outcome confidence: {feedback.outcome_confidence}",
+            "",
+            "## Process Quality",
+            f"- Process score: {feedback.process_score:.2f}",
+            "- Process score checks whether the candidate had a clear ID, score, feature snapshot, evidence link, thesis link, as-of date, and evaluation horizon.",
+            "- A clean process can still have a bad short-term result; a lucky result does not excuse a weak process.",
             "",
             "## Lesson",
             feedback.lesson,
             "",
             "## Thesis OS Rule",
-            "A screener has value only when its candidates are connected to thesis cards and evaluated over fixed horizons.",
+            "A screener has value only when its candidates are connected to thesis cards and evaluated over horizons that match the thesis type.",
         ]
     )
 
@@ -92,4 +104,3 @@ def _lesson(candidate: dict[str, object], hit: bool, failure_mode: str) -> str:
     if failure_mode == "timing_failure":
         return "The candidate rose but lagged the benchmark. Review timing, benchmark choice, and opportunity cost."
     return "The candidate failed. Review whether the screener feature mix actually maps to thesis-relevant evidence."
-

@@ -28,10 +28,11 @@ Most AI investing tools try to recommend stocks. Thesis OS takes a different rou
 1. **A judgment object model**
    - Separate `thesis`, `evidence`, `action`, `prediction`, and `feedback`.
    - Turn vague investment conviction into records that can be reviewed later.
+   - Tag each thesis by type and native horizon, so a timing trade is not graded like a multi-year compounder.
 
 2. **A quant screener-to-judgment loop**
    - Connect quantitative stock screeners to candidate queues, thesis cards, and forward-return feedback.
-   - Evaluate whether a screener signal worked over fixed horizons and rolling walk-forward windows instead of just collecting interesting names.
+   - Evaluate whether a screener signal worked over thesis-native horizons and rolling walk-forward windows, while keeping process quality separate from noisy outcomes.
 
 3. **A multi-agent operating model**
    - Alpha collects and verifies evidence.
@@ -79,6 +80,7 @@ These channels are examples of a live research publishing surface. They are not 
 | Research notes pile up and go stale | Thesis cards stay linked to current evidence |
 | Screeners produce lists with no accountability | Candidates are evaluated over forward horizons |
 | LLMs write plausible narratives | Lattice records actions, predictions, invalidation, and feedback |
+| Short-term returns overrule every thesis | Thesis type and native horizon distinguish timing trades from compounder holds |
 | Data lives in scattered tools | Local DB + markdown vault + wiki/SSOT keep retrieval clean |
 | Automation is a bundle of scripts | Harness contracts define owner, trigger, inputs, outputs, delivery, and failure policy |
 | Portfolio review is hard to audit | Dashboard cockpit shows theses, watchlist alerts, actions, predictions, and performance feedback |
@@ -147,7 +149,7 @@ flowchart LR
   Arki -. governs .-> Memory
 ```
 
-The loop is deliberately explicit: collect evidence, write memory, form a thesis, register a prediction, evaluate the outcome, and improve the next judgment.
+The loop is deliberately explicit: collect evidence, write memory, form a thesis, register a prediction, evaluate process quality immediately, evaluate market outcomes later, and improve the next judgment.
 
 ## Why Thesis OS?
 
@@ -163,7 +165,7 @@ Thesis OS focuses on the part that compounds:
 - Intraday monitors route price and flow alerts for holdings and watchlist names.
 - Lattice keeps thesis cards current by reading Alpha evidence, screeners, alerts, and local DB snapshots.
 - Lattice records predictions before outcomes are known.
-- Feedback jobs evaluate whether Lattice's entity-level and portfolio-inclusion judgments worked over fixed horizons.
+- Feedback jobs evaluate whether Lattice's entity-level and portfolio-inclusion judgments had a sound process and whether the market outcome worked over the thesis's native horizon.
 - Arki keeps the vault, SSOT notes, schemas, and wiki index clean enough for agents to retrieve current context.
 
 The value is the closed loop: **market DB refresh -> evidence refresh -> three-channel discovery -> Top 5 screening -> Lattice portfolio review -> prediction/action -> forward performance review -> thesis/process update**.
@@ -180,13 +182,13 @@ The default workflow is built for holdings and watchlists:
 6. Lattice reviews thesis cards with current evidence and decides whether candidates deserve portfolio inclusion.
 7. Lattice runs a daily roundtable for increase, hold, decrease, exit, or watch decisions.
 8. Lattice registers predictions or actions when a judgment has a measurable market implication.
-9. Feedback jobs evaluate outcomes over fixed horizons and feed lessons back into thesis cards, screener rules, and Lattice judgment process.
+9. Feedback jobs separate process score from result score, then feed lessons back into thesis cards, screener rules, and Lattice judgment process.
 
 The default philosophy is deliberately explicit: use Munger's latticework to discover and understand opportunities, use William O'Neil and Mark Minervini to filter timing and risk, and bet with a Druckenmiller-style focus on concentration, flexibility, and asymmetry.
 
 ## Default Investment Philosophy
 
-A live Thesis OS deployment can maintain an **Investment Philosophy Ledger** in its vault. The public version documents the same idea in [Investment Philosophy](docs/investment-philosophy.md): philosophy should be written down, linked to decisions, and audited through feedback rather than left as vague taste.
+A live Thesis OS deployment can maintain an **Investment Philosophy Ledger** in its vault. The public version documents the same idea in [Investment Philosophy](docs/investment-philosophy.md) and [Thesis Types And Native Horizons](docs/thesis-types-and-horizons.md): philosophy should be written down, linked to decisions, and audited through feedback rather than left as vague taste.
 
 The default operating philosophy has three layers:
 
@@ -203,6 +205,7 @@ In practice:
 - Lattice uses O'Neil/Minervini-style timing discipline to avoid buying weak, extended, or invalidated setups.
 - Lattice sizes and prioritizes through a Druckenmiller-style lens: few high-conviction opportunities, asymmetric upside, and willingness to reverse when evidence changes.
 - Feedback jobs test whether this philosophy actually improved decisions.
+- Thesis types prevent a Munger-style compounder thesis from being invalidated by a Minervini-style timing window unless the thesis itself claimed that timing window.
 
 ## Three Agents
 
@@ -479,7 +482,7 @@ This is an early public scaffold. The current implementation focuses on the mini
 2. Run screeners and daily discovery to create review candidates.
 3. Build a thesis card and decision card from current evidence.
 4. Register a prediction before the outcome is known.
-5. Evaluate screener candidates, predictions, and Lattice actions over fixed horizons.
+5. Evaluate screener candidates, predictions, and Lattice actions over thesis-native horizons while separating process score from result score.
 6. Compile wiki/SSOT notes so agents can retrieve the current canonical context.
 7. Export a dashboard cockpit for theses, watchlists, action queues, prediction ledgers, and feedback.
 8. Validate recurring job contracts so automation remains auditable.
@@ -494,7 +497,7 @@ For the public positioning draft, see [Why Thesis OS Is Not Another Stock Picker
 
 ## Community
 
-If you believe investment agents should be auditable, evidence-linked, and self-improving instead of just persuasive, please star the repo. It helps more builders find the project.
+If you believe investment agents should be auditable, evidence-linked, and honest about process quality instead of just persuasive, please star the repo. It helps more builders find the project.
 
 Open issues with concrete agent ownership:
 

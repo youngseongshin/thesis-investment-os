@@ -8,6 +8,8 @@ thesis_id: THESIS-SAMPLE-AI-INFRA-001
 entity: AI Infrastructure Basket
 ticker: AI-INFRA
 status: active_watch
+thesis_type: cycle_rerating
+native_horizon: 6m
 owner_agent: lattice
 updated_by: alpha_evidence_refresh
 ---
@@ -25,8 +27,9 @@ This thesis is not a buy signal. It is a structured judgment object that Lattice
 | Field | Sample Value |
 |---|---|
 | Thesis status | Active watch |
+| Thesis type | Cycle rerating |
 | Portfolio role | Candidate for review, not automatic inclusion |
-| Primary horizon | 1 to 6 months |
+| Native horizon | 3 to 6 months, with 1y follow-up |
 | Evidence freshness | Current sample cycle |
 | Next review trigger | Top 5 queue inclusion, capex update, or forward-return feedback |
 
@@ -68,7 +71,7 @@ The thesis can fail even if the theme is real.
 |---|---|---|
 | Already priced in | Strong themes often become crowded before earnings catch up | Compare forward return after screener inclusion |
 | Wrong beneficiary | The bottleneck may not benefit this basket directly | Require supplier/customer linkage evidence |
-| Timing error | A true thesis can still be too early | Use 3d, 1w, 1m, and 3m feedback |
+| Timing error | A true thesis can still be too early | Use short horizons as timing evidence, not final thesis proof |
 | Macro compression | Higher rates can compress long-duration growth multiples | Track benchmark and factor-relative returns |
 | Narrative contamination | Social attention can amplify weak facts | Keep raw social signals out of thesis without evidence grade |
 
@@ -106,8 +109,12 @@ If this thesis enters the Top 5 queue or receives a portfolio-inclusion decision
 - as-of date
 - benchmark
 - 3d, 1w, 2w, 1m, 3m, 6m, 1y return windows
+- process score
+- result score
+- outcome confidence
 - maximum favorable excursion
 - maximum adverse excursion
 - failure mode
 - process lesson
 
+Short-horizon feedback should flag timing and crowding. It should not automatically invalidate a cycle or compounder thesis unless the thesis explicitly claimed that short-term horizon.

@@ -10,6 +10,7 @@ It is intentionally public-safe. It describes reusable architecture and contract
 |---|---|---|
 | Three-agent model | Reflected | Alpha, Lattice, Arki docs and CLI |
 | Thesis / evidence / action / prediction / feedback loop | Reflected | schemas, demo CLI, vault notes, feedback commands |
+| Thesis type and native horizon discipline | Reflected | `docs/thesis-types-and-horizons.md`, thesis schema fields, process/result feedback scores |
 | Stock quickstart and live data option | Reflected | `thesis-os quickstart-stock` defaults to a bundled sample CSV and supports `--live` Yahoo/Stooq or a local price CSV to run screener -> thesis -> prediction -> rolling feedback |
 | Public data-source strategy | Reflected | `docs/public-data-sources.md` documents how to plug in Stooq, FinanceDataReader, OpenBB, pykrx, SEC/DART, FRED, customs APIs, and compatible public datasets |
 | Quant screeners and Top 5 discovery | Reflected | Thesis OS-style CSV-backed quant stack; `alpha discover` uses social/report signals only as context overlays |

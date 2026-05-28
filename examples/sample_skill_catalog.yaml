@@ -107,7 +107,7 @@ skill_catalog:
     - id: lattice-screener-feedback
       owner_agent: lattice
       category: feedback
-      purpose: "Evaluate screener candidates over fixed horizons."
+      purpose: "Evaluate screener candidates over thesis-native horizons."
       inputs: ["candidate record", "forward returns", "benchmark returns"]
       outputs: ["screener feedback report", "rule update"]
       memory_target: "feedback/"
@@ -123,4 +123,3 @@ skill_catalog:
       memory_target: "ssot/"
       forbidden_actions: ["make investment decision"]
       downstream_consumer: "all agents"
-

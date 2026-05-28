@@ -67,7 +67,10 @@ def init_db(conn: sqlite3.Connection) -> None:
             excess_return REAL NOT NULL,
             hit INTEGER NOT NULL,
             failure_mode TEXT NOT NULL,
-            lesson TEXT NOT NULL
+            lesson TEXT NOT NULL,
+            process_score REAL NOT NULL DEFAULT 0,
+            result_score REAL NOT NULL DEFAULT 0,
+            outcome_confidence TEXT NOT NULL DEFAULT 'unknown'
         );
 
         CREATE TABLE IF NOT EXISTS market_snapshots (
@@ -98,7 +101,10 @@ def init_db(conn: sqlite3.Connection) -> None:
             hit INTEGER NOT NULL,
             failure_mode TEXT NOT NULL,
             process_lesson TEXT NOT NULL,
-            thesis_id TEXT NOT NULL
+            thesis_id TEXT NOT NULL,
+            process_score REAL NOT NULL DEFAULT 0,
+            result_score REAL NOT NULL DEFAULT 0,
+            outcome_confidence TEXT NOT NULL DEFAULT 'unknown'
         );
 
         CREATE TABLE IF NOT EXISTS intraday_alerts (
@@ -118,6 +124,12 @@ def init_db(conn: sqlite3.Connection) -> None:
         """
     )
     _ensure_column(conn, "screener_candidates", "thesis_id", "TEXT NOT NULL DEFAULT ''")
+    _ensure_column(conn, "screener_feedback", "process_score", "REAL NOT NULL DEFAULT 0")
+    _ensure_column(conn, "screener_feedback", "result_score", "REAL NOT NULL DEFAULT 0")
+    _ensure_column(conn, "screener_feedback", "outcome_confidence", "TEXT NOT NULL DEFAULT 'unknown'")
+    _ensure_column(conn, "judgment_feedback", "process_score", "REAL NOT NULL DEFAULT 0")
+    _ensure_column(conn, "judgment_feedback", "result_score", "REAL NOT NULL DEFAULT 0")
+    _ensure_column(conn, "judgment_feedback", "outcome_confidence", "TEXT NOT NULL DEFAULT 'unknown'")
     conn.commit()
 
 
@@ -222,8 +234,9 @@ def insert_screener_feedback(conn: sqlite3.Connection, record: ScreenerFeedback)
         """
         INSERT OR REPLACE INTO screener_feedback (
             id, candidate_id, evaluated_at, horizon, absolute_return,
-            benchmark_return, excess_return, hit, failure_mode, lesson
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            benchmark_return, excess_return, hit, failure_mode, lesson,
+            process_score, result_score, outcome_confidence
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             record.id,
@@ -236,6 +249,9 @@ def insert_screener_feedback(conn: sqlite3.Connection, record: ScreenerFeedback)
             1 if record.hit else 0,
             record.failure_mode,
             record.lesson,
+            record.process_score,
+            record.result_score,
+            record.outcome_confidence,
         ),
     )
     conn.commit()
@@ -282,8 +298,9 @@ def insert_judgment_feedback(conn: sqlite3.Connection, record: JudgmentFeedback)
         INSERT OR REPLACE INTO judgment_feedback (
             id, action_id, entity, evaluated_at, horizon, action,
             absolute_return, benchmark_return, excess_return, hit,
-            failure_mode, process_lesson, thesis_id
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            failure_mode, process_lesson, thesis_id,
+            process_score, result_score, outcome_confidence
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             record.id,
@@ -299,6 +316,9 @@ def insert_judgment_feedback(conn: sqlite3.Connection, record: JudgmentFeedback)
             record.failure_mode,
             record.process_lesson,
             record.thesis_id,
+            record.process_score,
+            record.result_score,
+            record.outcome_confidence,
         ),
     )
     conn.commit()

@@ -12,6 +12,8 @@ An evidence record captures what was observed and where it came from.
 
 A thesis records an investment claim, assumptions, supporting evidence, risks, and invalidation conditions.
 
+It should also state its `thesis_type` and `native_horizon`. A timing trade and a compounder hold should not be judged by the same return window.
+
 ### Decision Card
 
 A decision card makes an action explicit.
@@ -33,6 +35,13 @@ A prediction states what should happen, by when, and how it will be evaluated.
 ### Feedback
 
 Feedback compares predictions to outcomes and classifies failure modes.
+
+Feedback should separate:
+
+- `process_score`: whether the judgment was registered cleanly before the outcome
+- `result_score`: what happened after the horizon matured
+
+The process score compounds faster than the result score because it is less polluted by short-term market noise.
 
 ### Screener Candidate
 
@@ -71,7 +80,18 @@ thesis card
   -> Top 5 screener candidate queue
   -> Lattice portfolio review
   -> prediction/action ledger
-  -> fixed-horizon outcome
+  -> native-horizon outcome
   -> prediction, screener, and judgment feedback notes
   -> thesis card and judgment process update
 ```
+
+## Horizon Discipline
+
+Use predefined horizons for accountability, but choose horizons by thesis type:
+
+- `timing_trade`: 3d, 1w, 2w, 1m
+- `cycle_rerating`: 1m, 3m, 6m, 1y
+- `compounder_hold`: 6m, 1y, 3y, 5y
+- `special_situation`: 1m, 3m, 6m
+
+Short-horizon underperformance can flag timing risk. It should not automatically invalidate a long-duration compounder thesis.

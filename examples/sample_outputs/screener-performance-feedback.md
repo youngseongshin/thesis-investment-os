@@ -18,15 +18,17 @@ The goal is not to celebrate winners. The goal is to find which rules repeatedly
 
 ## 2. Forward Return Summary
 
-| Candidate ID | Horizon | Absolute Return | Benchmark Return | Relative Return | MFE | MAE | Result |
-|---|---:|---:|---:|---:|---:|---:|---|
-| SCR-AI-INFRA-001 | 3d | +1.2% | +0.4% | +0.8% | +2.1% | -0.7% | hit |
-| SCR-AI-INFRA-001 | 1w | +3.8% | +1.1% | +2.7% | +4.4% | -0.9% | hit |
-| SCR-AI-INFRA-001 | 1m | +4.0% | +1.5% | +2.5% | +6.2% | -2.4% | hit |
-| SCR-SUBSTRATE-001 | 1w | +0.8% | +1.1% | -0.3% | +2.0% | -1.8% | watch |
-| SCR-CROWD-MOMO-001 | 1w | -3.1% | +0.9% | -4.0% | +0.5% | -5.2% | fail |
+| Candidate ID | Horizon | Process Score | Result Score | Absolute Return | Benchmark Return | Relative Return | MFE | MAE | Result |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| SCR-AI-INFRA-001 | 3d | 0.89 | 0.54 | +1.2% | +0.4% | +0.8% | +2.1% | -0.7% | hit |
+| SCR-AI-INFRA-001 | 1w | 0.89 | 0.64 | +3.8% | +1.1% | +2.7% | +4.4% | -0.9% | hit |
+| SCR-AI-INFRA-001 | 1m | 0.89 | 0.62 | +4.0% | +1.5% | +2.5% | +6.2% | -2.4% | hit |
+| SCR-SUBSTRATE-001 | 1w | 0.78 | 0.49 | +0.8% | +1.1% | -0.3% | +2.0% | -1.8% | watch |
+| SCR-CROWD-MOMO-001 | 1w | 0.67 | 0.30 | -3.1% | +0.9% | -4.0% | +0.5% | -5.2% | fail |
 
 The values are synthetic and included to show the evaluation shape.
+
+Process score is judged immediately from the quality of the recorded candidate. Result score waits for market outcomes and is noisier, especially on short horizons.
 
 ## 3. Failure Modes
 
@@ -67,4 +69,3 @@ This feedback should update:
 - prediction ledger outcomes
 - Lattice process memory
 - wiki index for future retrieval
-
