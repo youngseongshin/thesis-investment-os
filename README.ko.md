@@ -14,6 +14,39 @@ Thesis OS는 **근거 우선, 테시스 기반 투자 리서치 OS**입니다.
 
 **검색 키워드:** investment research, stock research, stock screener, trading journal, portfolio management, equity research, quantitative finance, AI agents, local-first research OS.
 
+## 이 프로젝트의 정체성
+
+Thesis OS는 사적인 포트폴리오 시스템의 복제본도 아니고, 완성된 알파 머신도 아닙니다. 사용자가 자기 데이터, 투자철학, 워치리스트, 증권사 adapter, 개인 노트, 에이전트 프롬프트를 꽂아 **자기만의 테시스 기반 투자 리서치 시스템**을 만들 수 있게 해주는 실행 가능한 오픈소스 코어입니다.
+
+이 프로젝트가 제공하는 것은 종목 추천이 아니라 운영 구조입니다. 흩어진 시장 정보를 테시스, 판단, 예측, 피드백으로 바꾸는 방법입니다.
+
+대부분의 AI 투자 도구는 종목을 추천하려고 합니다. Thesis OS는 다른 길을 택합니다.
+
+> 투자 아이디어가 왜 맞는지, 무엇이 틀리면 폐기해야 하는지, 어떤 행동을 의미하는지, 실제로 시간이 지난 뒤 맞았는지를 기록하고 평가합니다.
+
+## 사용자가 가져갈 수 있는 것
+
+1. **투자판단 객체 모델**
+   - `thesis`, `evidence`, `action`, `prediction`, `feedback`을 분리합니다.
+   - 감으로 남던 투자 확신을 나중에 검토 가능한 기록으로 바꿉니다.
+
+2. **정량 스크리너와 판단 루프의 연결**
+   - 정량 stock screener를 후보 큐, thesis card, forward-return feedback과 연결합니다.
+   - 흥미로운 종목 리스트를 모으는 데서 멈추지 않고, 스크리너 신호가 실제로 유효했는지 기간별로 평가합니다.
+
+3. **멀티에이전트 운영 설계**
+   - Alpha는 evidence를 수집하고 검증합니다.
+   - Lattice/격자는 투자 판단을 내리고 예측을 기록합니다.
+   - Arki는 schema, vault 구조, 반복작업, 시스템 상태를 관리합니다.
+
+4. **로컬-first 지식 저장 구조**
+   - SQLite, markdown vault, SSOT, wiki index, dashboard를 함께 사용합니다.
+   - 리서치는 쌓이는데 사람과 에이전트가 다시 찾지 못하는 문제를 줄입니다.
+
+5. **실행 가능한 starter kit**
+   - CSV 기반 정량 스크리너
+   - 샘플 thesis card, decision card, prediction ledger, feedback evaluator, vault note, dashboard, GitHub Actions CI
+
 ## 지금 바로 확인할 수 있는 것
 
 공개 데모는 증권사 계정, 사적 텔레그램, 유료 피드 없이 실행됩니다.

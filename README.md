@@ -15,6 +15,39 @@ It is not an autonomous trading bot or an AI stock picker. It is a framework for
 
 **Search keywords:** investment research, stock research, stock screener, trading journal, portfolio management, equity research, quantitative finance, AI agents, local-first research OS.
 
+## What This Project Is
+
+Thesis OS is not a clone of a private portfolio system and not a finished alpha machine. It is a runnable open-source core for building your own thesis-driven investment research system.
+
+Bring your own data sources, investing philosophy, watchlists, broker adapters, private notes, and agent prompts. Thesis OS gives you the operating structure: how to turn fragmented market information into theses, decisions, predictions, and feedback.
+
+Most AI investing tools try to recommend stocks. Thesis OS takes a different route:
+
+> Record why an investment idea should work, what would invalidate it, what action it implies, and whether it actually worked after time passed.
+
+## What You Get
+
+1. **A judgment object model**
+   - Separate `thesis`, `evidence`, `action`, `prediction`, and `feedback`.
+   - Turn vague investment conviction into records that can be reviewed later.
+
+2. **A quant screener-to-judgment loop**
+   - Connect quantitative stock screeners to candidate queues, thesis cards, and forward-return feedback.
+   - Evaluate whether a screener signal worked over fixed horizons instead of just collecting interesting names.
+
+3. **A multi-agent operating model**
+   - Alpha collects and verifies evidence.
+   - Lattice makes investment judgments and records predictions.
+   - Arki governs schemas, vault structure, jobs, and system health.
+
+4. **A local-first knowledge architecture**
+   - Combine SQLite, markdown vault notes, SSOT rules, wiki indexes, and dashboards.
+   - Reduce the common failure mode where research accumulates but becomes hard for humans and agents to retrieve.
+
+5. **A runnable starter kit**
+   - CSV-backed quantitative screener.
+   - Sample thesis card, decision card, prediction ledger, feedback evaluator, vault notes, dashboard, and GitHub Actions CI.
+
 ## What You Can Try Today
 
 No broker credentials, private chats, or paid feeds are required for the public demo.
