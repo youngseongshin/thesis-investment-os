@@ -59,6 +59,18 @@ No broker credentials, private chats, or paid feeds are required for the public 
 | Inspect realistic outputs | [`examples/sample_outputs/`](examples/sample_outputs/) | Public-safe thesis card, Top 5 deep dive, concentration strategy, screener results, screener feedback, and social collection |
 | Extend the system | [`examples/sample_jobs.yaml`](examples/sample_jobs.yaml), [`examples/sample_agent_skills.yaml`](examples/sample_agent_skills.yaml) | Recurring job and skill contracts that keep automation auditable |
 
+## Follow The Live Research
+
+Thesis OS is the open-source framework. Korea Invest Insights is where the broader thesis-driven research workflow is published in public form.
+
+| Channel | Link | What to expect |
+|---|---|---|
+| Blog | [Korea Invest Insights](https://koreainvestinsights.com/) | Longer stock research, Korean market analysis, semiconductor/AI infrastructure notes, and thesis-style writeups |
+| Telegram | [@korea_invest_insights](https://t.me/korea_invest_insights) | Faster market notes, post alerts, and compact research updates |
+| Substack | [Korea Invest Insights on Substack](https://koreainvestinsights.substack.com/) | Email-friendly essays and cross-posted investment research |
+
+These channels are examples of a live research publishing surface. They are not required to run Thesis OS, and the repository does not include private portfolio data or private automation.
+
 ## Why It Is Different
 
 | Common investment workflow | Thesis OS |
