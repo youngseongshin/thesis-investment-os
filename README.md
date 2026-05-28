@@ -133,6 +133,7 @@ This repository is the open-source core. It intentionally excludes broker creden
 Included:
 
 - Philosophy and architecture docs
+- Agent persona contracts and prompt-boundary guidance
 - JSON schemas for thesis, evidence, prediction, action, feedback, skills, and recurring jobs
 - A minimal runnable Python package
 - Sample local SQLite database generation
@@ -147,6 +148,7 @@ Included:
 - Lattice judgment feedback loop
 - Vault wiki index and SSOT note generation
 - Public-safe sample output pack for thesis cards, nightly screening, concentrated strategy, screener feedback, and social collection
+- Public-safe recurring job manifest for market refresh, source collection, screeners, roundtable, feedback, wiki, and health checks
 
 Excluded:
 
@@ -168,6 +170,24 @@ The repository includes sanitized examples of the outputs a Thesis OS deployment
 - [Social collection summary](examples/sample_outputs/social-collection-summary.md)
 
 These examples are synthetic and public-safe. They demonstrate structure, not investment advice or real portfolio data. See [Sample Output Pack](docs/sample-output-pack.md) for the boundary rules.
+
+## Agent Personas And Prompts
+
+Agent design is part of the system. Thesis OS treats Alpha, Lattice, and Arki as different operating roles, not interchangeable chatbots.
+
+- [Three-Agent Model](docs/three-agent-model.md)
+- [Agent Persona Contracts](docs/agent-persona-contracts.md)
+
+The public project documents reusable role contracts and output boundaries. A private deployment can extend those contracts into full system prompts while keeping user preferences, private memory, credentials, and operational details outside the public repository.
+
+## Recurring Jobs
+
+Thesis OS depends on durable recurring work. The public core includes:
+
+- [Recurring Jobs](docs/recurring-jobs.md)
+- [sample_jobs.yaml](examples/sample_jobs.yaml)
+
+The manifest covers market-close DB refresh, Tier 1 evidence refresh, qualitative collection, screeners, Top 5 discovery, intraday monitoring, roundtables, concentrated strategy review, prediction evaluation, screener feedback, vault/wiki compilation, and health checks.
 
 ## Quickstart
 

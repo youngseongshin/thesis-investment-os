@@ -187,11 +187,13 @@ python -m thesis_os arki build-wiki-index --workspace ./workspace
 공개 repo에 포함되는 것:
 
 - 철학과 아키텍처 문서
+- 에이전트 페르소나 계약과 프롬프트 경계 가이드
 - JSON schema
 - 샘플 adapter contract
 - 샘플 local DB / vault 생성
 - prediction ledger와 feedback evaluator
 - thesis card, nightly screening, concentrated strategy, screener feedback, social collection 샘플 산출물
+- 시장 DB 갱신, 소스 수집, 스크리너, 라운드테이블, 피드백, wiki, health check를 위한 공개 안전 반복작업 manifest
 
 공개 repo에 포함하지 않는 것:
 
@@ -216,6 +218,24 @@ python -m thesis_os arki build-wiki-index --workspace ./workspace
 - [소셜 수집 요약](examples/sample_outputs/social-collection-summary.md)
 
 이 샘플들은 모두 합성 예시입니다. 실제 포트폴리오, 실제 보유 비중, 사적 채널 원문, 계좌 정보, 유료 데이터 raw를 포함하지 않습니다. 자세한 공개 경계는 [Sample Output Pack](docs/sample-output-pack.md)을 참고하세요.
+
+## 에이전트 페르소나와 프롬프트
+
+에이전트 설계도 시스템 설계의 일부입니다. Thesis OS는 Alpha, Lattice/격자, Arki를 서로 다른 역할과 성격을 가진 운영 주체로 봅니다.
+
+- [Three-Agent Model](docs/three-agent-model.md)
+- [Agent Persona Contracts](docs/agent-persona-contracts.md)
+
+공개 프로젝트에는 재사용 가능한 역할 계약과 출력 경계를 문서화합니다. 실제 개인 배포 환경에서는 이를 전체 시스템 프롬프트로 확장할 수 있지만, 사용자 취향, 사적 메모리, 계정/채널 정보, 운영 세부사항은 공개 repo 밖에 둬야 합니다.
+
+## 반복 실행작업
+
+Thesis OS는 반복 실행작업을 통해 살아 움직입니다. 공개 core에는 다음 문서와 샘플 manifest가 포함됩니다.
+
+- [Recurring Jobs](docs/recurring-jobs.md)
+- [sample_jobs.yaml](examples/sample_jobs.yaml)
+
+manifest에는 장 마감 후 market DB 갱신, 티어1 evidence 갱신, 정성 채널 수집, 스크리너, Top 5 발굴, 장중 모니터링, 라운드테이블, 집중전략 리뷰, 예측 평가, 스크리너 피드백, vault/wiki 컴파일, health check가 포함됩니다.
 
 ## 프로젝트 상태
 

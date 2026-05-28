@@ -6,6 +6,8 @@
 - Link sample outputs from English and Korean READMEs.
 - Add a sample-output boundary doc and test coverage for public-sanitized metadata.
 - Strengthen the README and philosophy docs around the default investment lens: Munger for discovery, O'Neil/Minervini for timing, and Druckenmiller for asymmetric concentration.
+- Add public-safe agent persona contracts and prompt-boundary guidance for Alpha, Lattice, and Arki.
+- Expand recurring job documentation and link the public-safe job manifest from the README.
 
 ## 0.4.0 - 2026-05-28
 
