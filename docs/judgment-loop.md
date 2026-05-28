@@ -38,6 +38,17 @@ Feedback compares predictions to outcomes and classifies failure modes.
 
 A screener candidate records why Alpha surfaced an entity. Lattice should not treat it as an answer. It should use the candidate as a prompt to review the relevant thesis card.
 
+### Judgment Feedback
+
+Judgment feedback evaluates Lattice decisions and actions, not just raw predictions.
+
+Examples:
+
+- Was a portfolio-inclusion decision justified?
+- Did an increase/hold/decrease/exit call work over 3 days, 1 week, or 1 month?
+- Was the failure caused by data quality, interpretation, timing, crowding, or execution?
+- What should Lattice change in the next roundtable process?
+
 ## Devil's Advocate Gate
 
 High-importance decisions should pass a red-team review:
@@ -55,10 +66,12 @@ The practical loop is:
 ```text
 thesis card
   -> Alpha evidence refresh
-  -> screener candidate
-  -> Lattice review
-  -> prediction ledger
+  -> market DB refresh
+  -> three-channel discovery
+  -> Top 5 screener candidate queue
+  -> Lattice portfolio review
+  -> prediction/action ledger
   -> fixed-horizon outcome
-  -> feedback note
-  -> thesis card update
+  -> prediction, screener, and judgment feedback notes
+  -> thesis card and judgment process update
 ```

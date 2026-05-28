@@ -40,25 +40,32 @@ Most investment workflows have the same failure mode: the research may be good, 
 
 Thesis OS focuses on the part that compounds:
 
+- Alpha refreshes KR/US listed-equity local databases after the relevant market close.
 - Alpha continuously collects quantitative and qualitative evidence.
-- Screeners turn local market data into candidate lists with feature snapshots.
-- Lattice keeps thesis cards current by reading Alpha evidence and screener outputs.
+- Daily discovery runs through three channels: quantitative screeners, social/community collection, and analyst-report collection.
+- Integrated screening compresses the daily universe to a Top 5 portfolio-review queue.
+- Lattice reviews whether each candidate belongs in the portfolio or only on the watchlist.
+- Intraday monitors route price and flow alerts for holdings and watchlist names.
+- Lattice keeps thesis cards current by reading Alpha evidence, screeners, alerts, and local DB snapshots.
 - Lattice records predictions before outcomes are known.
-- Feedback jobs evaluate whether the thesis and screener judgment worked over fixed horizons.
+- Feedback jobs evaluate whether Lattice's entity-level and portfolio-inclusion judgments worked over fixed horizons.
 - Arki keeps the vault, SSOT notes, schemas, and wiki index clean enough for agents to retrieve current context.
 
-The value is the closed loop: **thesis card -> evidence refresh -> screener signal -> Lattice judgment -> prediction -> forward performance review -> thesis update**.
+The value is the closed loop: **market DB refresh -> evidence refresh -> three-channel discovery -> Top 5 screening -> Lattice portfolio review -> prediction/action -> forward performance review -> thesis/process update**.
 
 ## Operating Workflow
 
 The default workflow is built for holdings and watchlists:
 
-1. Alpha refreshes Tier 1 information, news, filings, market data, and screener signals.
-2. Alpha writes evidence records and screener candidates into the local DB and vault.
-3. Lattice reviews thesis cards with current evidence.
-4. Lattice runs a daily roundtable for increase, hold, decrease, exit, or watch decisions.
-5. Lattice registers predictions when a judgment has a measurable market implication.
-6. Feedback jobs evaluate outcomes over fixed horizons and feed lessons back into thesis cards and screener rules.
+1. After Korea and US market close, Alpha refreshes local listed-equity databases.
+2. Alpha refreshes Tier 1 information, news, filings, social/community signals, analyst-report signals, and screener signals.
+3. Alpha writes evidence records, market snapshots, alerts, and screener candidates into the local DB and vault.
+4. Alpha compresses daily discovery into a Top 5 portfolio-review queue.
+5. During the trading day, Alpha monitors holdings and watchlist names for price and flow alerts.
+6. Lattice reviews thesis cards with current evidence and decides whether candidates deserve portfolio inclusion.
+7. Lattice runs a daily roundtable for increase, hold, decrease, exit, or watch decisions.
+8. Lattice registers predictions or actions when a judgment has a measurable market implication.
+9. Feedback jobs evaluate outcomes over fixed horizons and feed lessons back into thesis cards, screener rules, and Lattice judgment process.
 
 The default philosophy borrows from Munger's latticework of mental models, William O'Neil's strength and loss-discipline framework, and Stanley Druckenmiller's concentration, flexibility, and asymmetry.
 
@@ -70,7 +77,8 @@ Alpha collects, normalizes, and verifies quantitative and qualitative inputs.
 
 - Quant data: prices, volume, flows, fundamentals, filings, consensus, short interest, exports/imports
 - Qualitative data: news, filings, transcripts, Telegram, Facebook, YouTube, newsletters, community signals
-- Output: evidence records, local DB snapshots, screener candidates, research packets
+- Discovery channels: quantitative screeners, social/community collection, analyst-report collection
+- Output: evidence records, local DB snapshots, market refresh notes, intraday alerts, screener candidates, Top 5 discovery queues, research packets
 
 ### Lattice: Judgment
 
@@ -85,6 +93,7 @@ The name comes from Charlie Munger's idea of a "latticework of mental models." T
 - Prediction ledger
 - Feedback interpretation
 - Screener forward-performance review
+- Judgment feedback review for entity-level and portfolio-inclusion decisions
 
 ### Arki: System
 
@@ -111,6 +120,11 @@ Included:
 - Sample prediction ledger and feedback report
 - Public adapter interfaces and examples
 - Screener candidate and screener feedback loop
+- CSV-backed Alpha-style quantitative screener
+- Three-channel daily discovery and Top 5 compression
+- KR/US market DB refresh adapter
+- Intraday holdings/watchlist alert adapter
+- Lattice judgment feedback loop
 - Vault wiki index and SSOT note generation
 
 Excluded:
@@ -164,6 +178,14 @@ Agent-specific commands:
 python -m thesis_os arki init --workspace ./workspace
 python -m thesis_os alpha sample-collect --workspace ./workspace
 python -m thesis_os alpha run-screener --workspace ./workspace
+python -m thesis_os alpha run-quant-screener --workspace ./workspace \
+  --input-csv ./demo_run/sample_quant_features.csv \
+  --top-n 5
+python -m thesis_os alpha discover --workspace ./workspace --top-n 5
+python -m thesis_os alpha refresh-market-db --workspace ./workspace \
+  --input-csv ./demo_run/sample_market_snapshots.csv
+python -m thesis_os alpha intraday-monitor --workspace ./workspace \
+  --input-csv ./demo_run/sample_intraday_events.csv
 python -m thesis_os alpha list-screeners --workspace ./workspace
 python -m thesis_os alpha list-evidence --workspace ./workspace
 python -m thesis_os lattice build-thesis --workspace ./workspace
@@ -178,6 +200,11 @@ python -m thesis_os lattice evaluate --workspace ./workspace \
   --benchmark-return 0.015
 python -m thesis_os lattice evaluate-screener --workspace ./workspace \
   --candidate-id SCR-AI-INFRA-001 \
+  --horizon 1m \
+  --absolute-return 0.04 \
+  --benchmark-return 0.015
+python -m thesis_os lattice evaluate-judgment --workspace ./workspace \
+  --action-id ACTION-SAMPLE-001 \
   --horizon 1m \
   --absolute-return 0.04 \
   --benchmark-return 0.015
@@ -212,6 +239,9 @@ This is an early public scaffold. The current implementation focuses on the mini
 7. Generate screener candidates and evaluate their forward performance
 8. Generate vault wiki and SSOT notes
 9. Run a sample Lattice roundtable for increase/hold/decrease/exit/watch decisions
+10. Refresh sample KR/US market snapshots
+11. Generate sample intraday alerts
+12. Evaluate a Lattice decision/action over a fixed horizon
 
 The next milestones are connector interfaces, richer feedback metrics, and reproducible job scheduling.
 

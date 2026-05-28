@@ -7,8 +7,12 @@ from pathlib import Path
 
 from thesis_os.adapters.sample import SampleQualitativeProvider, SampleQuantProvider
 from thesis_os.alpha.collectors import load_evidence_csv
+from thesis_os.alpha.discovery import run_daily_discovery
 from thesis_os.alpha.evidence_builder import event_to_evidence, ingest_csv_to_workspace, ingest_evidence_to_workspace
+from thesis_os.alpha.intraday_monitor import run_intraday_monitor
 from thesis_os.alpha.local_db import connect, init_db, insert_evidence, list_evidence, list_screener_candidates
+from thesis_os.alpha.market_db import run_market_db_refresh
+from thesis_os.alpha.quant_screener import run_quant_screener
 from thesis_os.alpha.screener import run_sample_screener
 from thesis_os.arki.health_check import check_demo_outputs, check_workspace
 from thesis_os.arki.job_manifest import write_default_job_manifest
@@ -18,6 +22,7 @@ from thesis_os.arki.wiki_index import build_wiki_index
 from thesis_os.lattice.action_queue import write_action_queue
 from thesis_os.lattice.decision_card import decision_card_markdown
 from thesis_os.lattice.feedback_interpreter import feedback_report_markdown
+from thesis_os.lattice.judgment_feedback import evaluate_judgment
 from thesis_os.lattice.prediction_ledger import append_prediction, read_predictions
 from thesis_os.lattice.roundtable import run_sample_roundtable
 from thesis_os.lattice.screener_feedback import evaluate_screener_candidate
@@ -50,6 +55,19 @@ def main(argv: list[str] | None = None) -> int:
     alpha_list.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
     alpha_screen = alpha_sub.add_parser("run-screener", help="Run the public sample screener and write candidates.")
     alpha_screen.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
+    alpha_quant = alpha_sub.add_parser("run-quant-screener", help="Run an executable CSV-backed Alpha-style quantitative screener.")
+    alpha_quant.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
+    alpha_quant.add_argument("--input-csv", required=True, help="Quant screener feature CSV.")
+    alpha_quant.add_argument("--top-n", type=int, default=20)
+    alpha_discovery = alpha_sub.add_parser("discover", help="Run daily multi-channel discovery and compress to a Top 5 portfolio-review queue.")
+    alpha_discovery.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
+    alpha_discovery.add_argument("--top-n", type=int, default=5)
+    alpha_market = alpha_sub.add_parser("refresh-market-db", help="Refresh local KR/US listed-equity DB snapshots from a CSV adapter.")
+    alpha_market.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
+    alpha_market.add_argument("--input-csv", required=True, help="Market snapshot CSV.")
+    alpha_alerts = alpha_sub.add_parser("intraday-monitor", help="Monitor holdings/watchlist intraday price and flow events from a CSV adapter.")
+    alpha_alerts.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
+    alpha_alerts.add_argument("--input-csv", required=True, help="Intraday event CSV.")
     alpha_list_screen = alpha_sub.add_parser("list-screeners", help="List workspace screener candidates.")
     alpha_list_screen.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
 
@@ -80,6 +98,12 @@ def main(argv: list[str] | None = None) -> int:
     lattice_screen_eval.add_argument("--horizon", default="1m")
     lattice_screen_eval.add_argument("--absolute-return", required=True, type=float, help="Example: 0.04 for 4%.")
     lattice_screen_eval.add_argument("--benchmark-return", default=0.0, type=float)
+    lattice_judgment_eval = lattice_sub.add_parser("evaluate-judgment", help="Evaluate a Lattice decision/action over a fixed horizon.")
+    lattice_judgment_eval.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
+    lattice_judgment_eval.add_argument("--action-id", required=True)
+    lattice_judgment_eval.add_argument("--horizon", default="1m")
+    lattice_judgment_eval.add_argument("--absolute-return", required=True, type=float, help="Example: 0.04 for 4%.")
+    lattice_judgment_eval.add_argument("--benchmark-return", default=0.0, type=float)
     lattice_roundtable = lattice_sub.add_parser("roundtable", help="Run a sample holdings/watchlist judgment roundtable.")
     lattice_roundtable.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
 
@@ -145,6 +169,22 @@ def run_alpha(args: argparse.Namespace) -> int:
         return 0
     if args.alpha_command == "run-screener":
         result = run_sample_screener(workspace)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return 0
+    if args.alpha_command == "run-quant-screener":
+        result = run_quant_screener(workspace, args.input_csv, top_n=args.top_n)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return 0
+    if args.alpha_command == "discover":
+        result = run_daily_discovery(workspace, limit=args.top_n)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return 0
+    if args.alpha_command == "refresh-market-db":
+        result = run_market_db_refresh(workspace, args.input_csv)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return 0
+    if args.alpha_command == "intraday-monitor":
+        result = run_intraday_monitor(workspace, args.input_csv)
         print(json.dumps(result, indent=2, ensure_ascii=False))
         return 0
     if args.alpha_command == "list-screeners":
@@ -248,6 +288,21 @@ def run_lattice(args: argparse.Namespace) -> int:
         print(json.dumps(result, indent=2, ensure_ascii=False))
         return 0
 
+    if args.lattice_command == "evaluate-judgment":
+        try:
+            result = evaluate_judgment(
+                workspace=workspace,
+                action_id=args.action_id,
+                horizon=args.horizon,
+                absolute_return=args.absolute_return,
+                benchmark_return=args.benchmark_return,
+            )
+        except KeyError:
+            print(f"ERROR: action not found: {args.action_id}")
+            return 1
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return 0
+
     if args.lattice_command == "roundtable":
         result = run_sample_roundtable(workspace)
         print(json.dumps(result, indent=2, ensure_ascii=False))
@@ -339,6 +394,16 @@ def run_demo(out: Path) -> int:
     _write_decision(out, thesis, action)
     write_action_queue(out / "action_queue.json", [action])
     run_sample_screener(out)
+    sample_quant_csv = out / "sample_quant_features.csv"
+    _write_sample_quant_csv(sample_quant_csv)
+    run_quant_screener(out, sample_quant_csv, top_n=5)
+    run_daily_discovery(out, limit=5)
+    sample_market_csv = out / "sample_market_snapshots.csv"
+    _write_sample_market_csv(sample_market_csv)
+    run_market_db_refresh(out, sample_market_csv)
+    sample_intraday_csv = out / "sample_intraday_events.csv"
+    _write_sample_intraday_csv(sample_intraday_csv)
+    run_intraday_monitor(out, sample_intraday_csv)
     build_wiki_index(out)
 
     prediction = Prediction(
@@ -369,6 +434,7 @@ def run_demo(out: Path) -> int:
             "sample": True,
         },
     )
+    evaluate_judgment(out, action.id, horizon="1m", absolute_return=0.04, benchmark_return=0.015)
 
     manifest = {
         "db": str(db_path),
@@ -415,6 +481,96 @@ def _write_sample_evidence_csv(path: Path) -> None:
         writer = csv.DictWriter(f, fieldnames=list(rows[0]))
         writer.writeheader()
         writer.writerows(rows)
+
+
+def _write_sample_quant_csv(path: Path) -> None:
+    rows = [
+        {
+            "ticker": "AI-INFRA",
+            "entity": "AI Infrastructure Basket",
+            "as_of_date": "2026-01-31",
+            "source_signals": "quality|smart_money_quality|rs80_notlate|consensus_up",
+            "relative_strength": "88",
+            "smart_flow_score": "0.72",
+            "quality_score": "0.76",
+            "extension_risk": "0.30",
+            "universe": "near_core",
+            "value_score": "0.58",
+            "low_vol_score": "0.55",
+            "dividend_score": "0.20",
+            "surface_score": "0.62",
+            "thesis_id": "THESIS-SAMPLE-AI-INFRA-001",
+        },
+        {
+            "ticker": "SUBSTRATE",
+            "entity": "AI Server Substrate Basket",
+            "as_of_date": "2026-01-31",
+            "source_signals": "cycle|earnings|rs80_notlate",
+            "relative_strength": "82",
+            "smart_flow_score": "0.61",
+            "quality_score": "0.64",
+            "extension_risk": "0.22",
+            "universe": "near_core",
+            "value_score": "0.66",
+            "low_vol_score": "0.48",
+            "dividend_score": "0.12",
+            "surface_score": "0.56",
+        },
+        {
+            "ticker": "HUMANOID",
+            "entity": "Humanoid Robotics Basket",
+            "as_of_date": "2026-01-31",
+            "source_signals": "rs80_notlate",
+            "relative_strength": "91",
+            "smart_flow_score": "0.44",
+            "quality_score": "0.38",
+            "extension_risk": "0.46",
+            "universe": "tenbagger",
+            "industry": "robot software",
+            "revenue_growth_score": "0.75",
+            "momentum_score": "0.80",
+            "breakout_score": "0.74",
+            "surface_score": "0.50",
+        },
+    ]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=_csv_fieldnames(rows))
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def _write_sample_market_csv(path: Path) -> None:
+    rows = [
+        {"market": "KR", "ticker": "AI-INFRA", "entity": "AI Infrastructure Basket", "as_of_date": "2026-01-31", "close": "104.0", "volume": "1500000", "foreign_flow": "1200000", "institution_flow": "900000", "retail_flow": "-500000", "source": "sample_kr_close"},
+        {"market": "US", "ticker": "US-AI", "entity": "US AI Infrastructure Basket", "as_of_date": "2026-01-31", "close": "212.0", "volume": "2500000", "foreign_flow": "0", "institution_flow": "700000", "retail_flow": "100000", "source": "sample_us_close"},
+    ]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=_csv_fieldnames(rows))
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def _write_sample_intraday_csv(path: Path) -> None:
+    rows = [
+        {"ticker": "AI-INFRA", "entity": "AI Infrastructure Basket", "watch_type": "holding", "observed_at": "2026-01-31T10:30:00+09:00", "price": "108.0", "reference_price": "104.0", "foreign_flow": "1000000", "institution_flow": "800000"},
+        {"ticker": "CROWD-MOMO", "entity": "Crowded Momentum Basket", "watch_type": "watchlist", "observed_at": "2026-01-31T10:35:00+09:00", "price": "93.0", "reference_price": "100.0", "foreign_flow": "-600000", "institution_flow": "-500000"},
+    ]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=_csv_fieldnames(rows))
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def _csv_fieldnames(rows: list[dict[str, str]]) -> list[str]:
+    names: list[str] = []
+    for row in rows:
+        for key in row:
+            if key not in names:
+                names.append(key)
+    return names
 
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@ class VaultWriter:
         self.root = Path(root)
 
     def ensure_layout(self) -> None:
-        for name in ("evidence", "theses", "decisions", "feedback", "jobs", "screeners", "wiki", "ssot"):
+        for name in ("evidence", "theses", "decisions", "feedback", "jobs", "screeners", "alerts", "wiki", "ssot"):
             (self.root / name).mkdir(parents=True, exist_ok=True)
 
     def write_note(self, relative_path: str | Path, title: str, body: str, frontmatter: dict[str, Any] | None = None) -> Path:

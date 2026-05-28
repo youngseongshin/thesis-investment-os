@@ -12,6 +12,7 @@ VAULT_SECTIONS = {
     "theses": "Living thesis cards",
     "decisions": "Decision cards and action rationale",
     "feedback": "Prediction and screener outcome reviews",
+    "alerts": "Intraday holdings and watchlist alerts",
 }
 
 
@@ -78,4 +79,3 @@ def build_wiki_index(workspace: str | Path) -> dict[str, object]:
         "ssot_path": str(ssot_path),
         "section_counts": section_counts,
     }
-

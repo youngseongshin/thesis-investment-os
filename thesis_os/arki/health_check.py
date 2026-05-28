@@ -27,6 +27,7 @@ def check_workspace(root: str | Path) -> dict[str, object]:
         "decision_notes": len(list((root / "vault" / "decisions").glob("*.md"))) if (root / "vault" / "decisions").exists() else 0,
         "feedback_notes": len(list((root / "vault" / "feedback").glob("*.md"))) if (root / "vault" / "feedback").exists() else 0,
         "screener_notes": len(list((root / "vault" / "screeners").glob("*.md"))) if (root / "vault" / "screeners").exists() else 0,
+        "alert_notes": len(list((root / "vault" / "alerts").glob("*.md"))) if (root / "vault" / "alerts").exists() else 0,
         "wiki_notes": len(list((root / "vault" / "wiki").glob("*.md"))) if (root / "vault" / "wiki").exists() else 0,
         "ssot_notes": len(list((root / "vault" / "ssot").glob("*.md"))) if (root / "vault" / "ssot").exists() else 0,
         "prediction_ledger": (root / "prediction_ledger.jsonl").exists(),

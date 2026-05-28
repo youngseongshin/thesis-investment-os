@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thesis-os.org/schemas/market_snapshot.schema.json",
+  "title": "MarketSnapshot",
+  "type": "object",
+  "required": ["id", "market", "ticker", "entity", "as_of_date", "close", "collected_at"],
+  "properties": {
+    "id": {"type": "string"},
+    "market": {"type": "string"},
+    "ticker": {"type": "string"},
+    "entity": {"type": "string"},
+    "as_of_date": {"type": "string"},
+    "close": {"type": "number"},
+    "volume": {"type": "number"},
+    "foreign_flow": {"type": "number"},
+    "institution_flow": {"type": "number"},
+    "retail_flow": {"type": "number"},
+    "source": {"type": "string"},
+    "collected_at": {"type": "string"}
+  },
+  "additionalProperties": true
+}

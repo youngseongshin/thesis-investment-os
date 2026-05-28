@@ -10,6 +10,11 @@
 - Expand README and Korean README around thesis cards and judgment feedback loops.
 - Add operating workflow and investment philosophy docs.
 - Add sample Lattice roundtable command for increase/hold/decrease/exit/watch decisions.
+- Add CSV-backed Alpha quant screener inspired by the current Research OS screener stack.
+- Add three-channel daily discovery and Top 5 portfolio-review queue.
+- Add KR/US market-close local DB refresh adapter.
+- Add intraday holdings/watchlist price and flow alert adapter.
+- Add Lattice judgment/action feedback evaluation.
 
 ## 0.3.0 - 2026-05-28
 

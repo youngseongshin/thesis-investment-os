@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thesis-os.org/schemas/judgment_feedback.schema.json",
+  "title": "JudgmentFeedback",
+  "type": "object",
+  "required": ["id", "action_id", "entity", "evaluated_at", "horizon", "action", "hit", "failure_mode", "process_lesson"],
+  "properties": {
+    "id": {"type": "string"},
+    "action_id": {"type": "string"},
+    "entity": {"type": "string"},
+    "evaluated_at": {"type": "string"},
+    "horizon": {"type": "string"},
+    "action": {"type": "string"},
+    "absolute_return": {"type": "number"},
+    "benchmark_return": {"type": "number"},
+    "excess_return": {"type": "number"},
+    "hit": {"type": "boolean"},
+    "failure_mode": {"type": "string", "enum": ["none", "data_failure", "interpretation_failure", "timing_failure", "already_priced_in", "execution_failure", "unknown"]},
+    "process_lesson": {"type": "string"},
+    "thesis_id": {"type": "string"}
+  },
+  "additionalProperties": true
+}

@@ -54,6 +54,61 @@ jobs:
     failure_policy: "log and preserve previous candidates"
     enabled: true
 
+  - id: alpha-market-db-refresh-kr
+    owner_agent: alpha
+    cadence: "weekday after Korea market close"
+    command: "thesis-os alpha refresh-market-db --workspace ./demo_run --input-csv ./demo_run/sample_market_snapshots.csv"
+    outputs:
+      - "local/thesis_os.db"
+      - "vault/evidence/market-db-refresh.md"
+    freshness_sla: "1 trading day"
+    failure_policy: "log and preserve previous market snapshot"
+    enabled: true
+
+  - id: alpha-market-db-refresh-us
+    owner_agent: alpha
+    cadence: "weekday after US market close"
+    command: "thesis-os alpha refresh-market-db --workspace ./demo_run --input-csv ./demo_run/sample_market_snapshots.csv"
+    outputs:
+      - "local/thesis_os.db"
+      - "vault/evidence/market-db-refresh.md"
+    freshness_sla: "1 trading day"
+    failure_policy: "log and preserve previous market snapshot"
+    enabled: true
+
+  - id: alpha-daily-discovery-top5
+    owner_agent: alpha
+    cadence: "daily after source refresh"
+    command: "thesis-os alpha discover --workspace ./demo_run --top-n 5"
+    outputs:
+      - "vault/screeners/daily-discovery-top5.md"
+      - "local/thesis_os.db"
+    freshness_sla: "1 day"
+    failure_policy: "log and preserve previous Top 5"
+    enabled: true
+
+  - id: alpha-intraday-holdings-watchlist-monitor
+    owner_agent: alpha
+    cadence: "market hours every 5-15 minutes"
+    command: "thesis-os alpha intraday-monitor --workspace ./demo_run --input-csv ./demo_run/sample_intraday_events.csv"
+    outputs:
+      - "vault/alerts/intraday-alerts.md"
+      - "local/thesis_os.db"
+    freshness_sla: "intraday"
+    failure_policy: "log and avoid duplicate alerts"
+    enabled: true
+
+  - id: lattice-judgment-feedback
+    owner_agent: lattice
+    cadence: "daily after horizon outcomes are available"
+    command: "thesis-os lattice evaluate-judgment --workspace ./demo_run --action-id ACTION-SAMPLE-001 --horizon 1m --absolute-return 0.04 --benchmark-return 0.015"
+    outputs:
+      - "vault/feedback/"
+      - "local/thesis_os.db"
+    freshness_sla: "by evaluation horizon"
+    failure_policy: "log and keep prior process lesson"
+    enabled: true
+
   - id: arki-wiki-index
     owner_agent: arki
     cadence: "daily after research jobs"

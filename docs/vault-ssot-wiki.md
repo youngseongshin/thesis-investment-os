@@ -8,6 +8,7 @@ The goal is not to create endless notes. The goal is to maintain canonical resea
 
 - `evidence/`: source-grounded facts and interpretations
 - `screeners/`: quantitative candidates and feature snapshots
+- `alerts/`: intraday holdings and watchlist alert notes
 - `theses/`: living thesis cards
 - `decisions/`: action rationale and decision cards
 - `feedback/`: prediction and screener outcome reviews
@@ -46,4 +47,3 @@ Good wiki notes:
 ```bash
 python -m thesis_os arki build-wiki-index --workspace ./workspace
 ```
-

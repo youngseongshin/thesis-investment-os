@@ -112,3 +112,61 @@ class ScreenerFeedback:
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
+
+
+@dataclass(frozen=True)
+class MarketSnapshot:
+    id: str
+    market: str
+    ticker: str
+    entity: str
+    as_of_date: str
+    close: float
+    volume: float = 0.0
+    foreign_flow: float = 0.0
+    institution_flow: float = 0.0
+    retail_flow: float = 0.0
+    source: str = "sample"
+    collected_at: str = field(default_factory=utc_now)
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
+class JudgmentFeedback:
+    id: str
+    action_id: str
+    entity: str
+    evaluated_at: str
+    horizon: str
+    action: str
+    absolute_return: float
+    benchmark_return: float
+    excess_return: float
+    hit: bool
+    process_lesson: str
+    failure_mode: str = "none"
+    thesis_id: str = ""
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
+class IntradayAlert:
+    id: str
+    entity: str
+    ticker: str
+    watch_type: str
+    observed_at: str
+    price: float
+    reference_price: float
+    price_change_pct: float
+    flow_signal: str
+    alert_level: str
+    message: str
+    created_at: str = field(default_factory=utc_now)
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)

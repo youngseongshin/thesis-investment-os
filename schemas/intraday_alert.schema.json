@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thesis-os.org/schemas/intraday_alert.schema.json",
+  "title": "IntradayAlert",
+  "type": "object",
+  "required": ["id", "entity", "ticker", "watch_type", "observed_at", "price", "reference_price", "price_change_pct", "alert_level"],
+  "properties": {
+    "id": {"type": "string"},
+    "entity": {"type": "string"},
+    "ticker": {"type": "string"},
+    "watch_type": {"type": "string"},
+    "observed_at": {"type": "string"},
+    "price": {"type": "number"},
+    "reference_price": {"type": "number"},
+    "price_change_pct": {"type": "number"},
+    "flow_signal": {"type": "string"},
+    "alert_level": {"type": "string", "enum": ["action_watch", "risk_watch", "price_watch", "none"]},
+    "message": {"type": "string"},
+    "created_at": {"type": "string"}
+  },
+  "additionalProperties": true
+}

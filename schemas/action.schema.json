@@ -7,7 +7,7 @@
   "properties": {
     "id": {"type": "string"},
     "entity": {"type": "string"},
-    "action": {"type": "string", "enum": ["watch", "deep_dive", "thesis_audit", "add_candidate", "trim_candidate", "hold", "no_action", "invalidate"]},
+    "action": {"type": "string", "enum": ["watch", "deep_dive", "thesis_audit", "add_candidate", "trim_candidate", "increase", "decrease", "exit", "hold", "no_action", "invalidate"]},
     "reason": {"type": "string"},
     "evidence_ids": {"type": "array", "items": {"type": "string"}},
     "thesis_id": {"type": "string"},
@@ -17,4 +17,3 @@
   },
   "additionalProperties": true
 }
-

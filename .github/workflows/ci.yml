@@ -19,11 +19,16 @@ jobs:
       - run: python -m thesis_os arki init --workspace /tmp/thesis-os-workspace
       - run: python -m thesis_os alpha sample-collect --workspace /tmp/thesis-os-workspace
       - run: python -m thesis_os alpha run-screener --workspace /tmp/thesis-os-workspace
+      - run: python -m thesis_os alpha run-quant-screener --workspace /tmp/thesis-os-workspace --input-csv /tmp/thesis-os-demo/sample_quant_features.csv --top-n 5
+      - run: python -m thesis_os alpha discover --workspace /tmp/thesis-os-workspace --top-n 5
+      - run: python -m thesis_os alpha refresh-market-db --workspace /tmp/thesis-os-workspace --input-csv /tmp/thesis-os-demo/sample_market_snapshots.csv
+      - run: python -m thesis_os alpha intraday-monitor --workspace /tmp/thesis-os-workspace --input-csv /tmp/thesis-os-demo/sample_intraday_events.csv
       - run: python -m thesis_os alpha list-screeners --workspace /tmp/thesis-os-workspace
       - run: python -m thesis_os lattice build-thesis --workspace /tmp/thesis-os-workspace
       - run: python -m thesis_os lattice decision-card --workspace /tmp/thesis-os-workspace
       - run: python -m thesis_os lattice predict --workspace /tmp/thesis-os-workspace --prediction "Sample prediction" --direction relative_outperform --horizon 1m
       - run: python -m thesis_os lattice evaluate-screener --workspace /tmp/thesis-os-workspace --candidate-id SCR-AI-INFRA-001 --horizon 1m --absolute-return 0.04 --benchmark-return 0.015
+      - run: python -m thesis_os lattice evaluate-judgment --workspace /tmp/thesis-os-workspace --action-id ACTION-SAMPLE-001 --horizon 1m --absolute-return 0.04 --benchmark-return 0.015
       - run: python -m thesis_os lattice roundtable --workspace /tmp/thesis-os-workspace
       - run: python -m thesis_os arki build-wiki-index --workspace /tmp/thesis-os-workspace
       - run: python -m thesis_os arki health --workspace /tmp/thesis-os-workspace

@@ -30,6 +30,53 @@ skills:
     forbidden_actions:
       - "treat candidate as final buy signal"
 
+  - id: alpha-market-db-refresh
+    agent: alpha
+    purpose: "Refresh KR/US listed-equity local database snapshots after market close."
+    inputs:
+      - "market data adapter"
+      - "KR/US listed universe"
+    outputs:
+      - "market snapshots"
+      - "freshness note"
+    allowed_actions:
+      - "update local db"
+      - "write freshness evidence"
+    forbidden_actions:
+      - "make portfolio decision"
+
+  - id: alpha-daily-discovery-top5
+    agent: alpha
+    purpose: "Merge quantitative screeners, social signals, and analyst reports into a Top 5 portfolio-review queue."
+    inputs:
+      - "quant screener results"
+      - "social/community signals"
+      - "analyst report signals"
+    outputs:
+      - "Top 5 discovery queue"
+      - "screener candidate notes"
+    allowed_actions:
+      - "rank candidates"
+      - "route to Lattice review"
+    forbidden_actions:
+      - "call Top 5 a buy list"
+
+  - id: alpha-intraday-monitor
+    agent: alpha
+    purpose: "Monitor holdings and watchlist names for intraday price/flow alert routing."
+    inputs:
+      - "intraday price events"
+      - "flow events"
+      - "holdings/watchlist universe"
+    outputs:
+      - "intraday alert"
+      - "alert vault note"
+    allowed_actions:
+      - "route attention"
+      - "write alert notes"
+    forbidden_actions:
+      - "execute trade"
+
   - id: lattice-devil-advocate
     agent: lattice
     purpose: "Challenge high-importance theses before action."
@@ -44,6 +91,22 @@ skills:
       - "register prediction"
     forbidden_actions:
       - "execute trade"
+
+  - id: lattice-judgment-feedback
+    agent: lattice
+    purpose: "Evaluate Lattice decisions/actions over fixed horizons and improve the judgment process."
+    inputs:
+      - "action queue"
+      - "forward returns"
+      - "benchmark returns"
+    outputs:
+      - "judgment feedback"
+      - "process lesson"
+    allowed_actions:
+      - "classify failure mode"
+      - "update judgment process notes"
+    forbidden_actions:
+      - "rewrite original decision after the fact"
 
   - id: arki-schema-lint
     agent: arki

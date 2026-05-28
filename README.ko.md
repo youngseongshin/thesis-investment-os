@@ -36,25 +36,31 @@ flowchart LR
 중요한 것은 **테시스 카드가 계속 살아 있어야 한다는 점**입니다.
 
 - Alpha는 정량/정성 evidence를 계속 수집합니다.
-- 스크리너는 로컬 시장 데이터에서 후보와 feature snapshot을 만듭니다.
-- Lattice/격자는 Alpha와 스크리너 데이터를 읽고 테시스 카드를 갱신합니다.
-- 격자는 판단을 Prediction Ledger에 사전 기록합니다.
-- 이후 3일, 1주, 1개월 같은 기간 단위로 성과를 평가합니다.
-- 그 결과가 다시 테시스와 스크리너 룰에 환류됩니다.
+- 한국과 미국 장 마감 이후 Alpha는 상장주식 local DB를 최신화합니다.
+- 종목 발굴은 정량 스크리너, 소셜/커뮤니티 수집, 애널리스트 리포트 수집 세 채널로 매일 수행합니다.
+- 종합 스크리닝은 종목별 신호를 Top 5 편입심사 큐로 압축합니다.
+- 장중에는 보유종목과 관찰종목의 가격/수급 변화를 모니터링해 알람 후보를 만듭니다.
+- Lattice/격자는 Alpha, 스크리너, 알람, local DB 데이터를 읽고 테시스 카드를 갱신합니다.
+- 격자는 포트폴리오 편입, 증액, 홀드, 감액, 청산, 관찰 판단을 내립니다.
+- 이후 3일, 1주, 1개월 같은 기간 단위로 판단 성과를 평가합니다.
+- 그 결과가 다시 테시스, 스크리너 룰, 격자의 판단 프로세스에 환류됩니다.
 - Arki는 vault, SSOT, wiki index, schema, 반복작업을 정리해 에이전트 참조가 최신 상태로 유지되게 합니다.
 
-즉 Thesis OS의 본질은 **테시스 카드 -> evidence 갱신 -> 스크리너 신호 -> 격자 판단 -> 예측 기록 -> 기간별 성과평가 -> 테시스 업데이트**로 이어지는 완결적인 피드백 루프입니다.
+즉 Thesis OS의 본질은 **상장주식 DB 최신화 -> evidence 갱신 -> 3채널 종목 발굴 -> Top 5 압축 -> 격자 편입심사 -> 예측/행동 기록 -> 기간별 성과평가 -> 테시스와 판단 프로세스 업데이트**로 이어지는 완결적인 피드백 루프입니다.
 
 ## 운영 워크플로우
 
 기본 워크플로우는 보유 종목과 워치리스트를 전제로 합니다.
 
-1. Alpha가 티어1 정보, 뉴스, 공시, 시장 데이터, 스크리너 신호를 갱신합니다.
-2. Alpha가 evidence record와 screener candidate를 local DB와 vault에 저장합니다.
-3. Lattice/격자가 최신 evidence로 thesis card를 검토합니다.
-4. 격자가 매일 roundtable을 열어 증액, 홀드, 감액, 청산, 관찰 판단을 내립니다.
-5. 판단이 시장 결과로 검증 가능하면 Prediction Ledger에 사전 기록합니다.
-6. 이후 기간별 성과평가가 테시스와 스크리너 룰에 다시 환류됩니다.
+1. 한국과 미국 장 마감 이후 Alpha가 상장주식 local DB를 최신화합니다.
+2. Alpha가 티어1 정보, 뉴스, 공시, 시장 데이터, 정량 스크리너, 소셜/커뮤니티, 애널리스트 리포트 신호를 갱신합니다.
+3. Alpha가 evidence record, market snapshot, intraday alert, screener candidate를 local DB와 vault에 저장합니다.
+4. Alpha가 종합 스크리닝으로 매일 Top 5 편입심사 큐를 만듭니다.
+5. 장중에는 보유종목과 관찰종목에 대해 가격/수급 알람을 생성합니다.
+6. Lattice/격자가 최신 evidence로 thesis card를 검토하고, 포트폴리오 편입 여부를 심사합니다.
+7. 격자가 매일 roundtable을 열어 증액, 홀드, 감액, 청산, 관찰 판단을 내립니다.
+8. 판단이 시장 결과로 검증 가능하면 Prediction Ledger 또는 Action Queue에 사전 기록합니다.
+9. 이후 기간별 성과평가가 테시스, 스크리너 룰, 격자의 판단 프로세스에 다시 환류됩니다.
 
 기본 투자철학은 멍거의 격자적 사고, 윌리엄 오닐의 강도/타이밍/손실 규율, 드라켄밀러의 집중/유연성/비대칭 사고를 참고합니다.
 
@@ -66,7 +72,8 @@ Alpha는 데이터를 수집하고 검증합니다.
 
 - 정량 데이터: 가격, 거래량, 수급, 실적, 공시, 컨센서스, 공매도, 수출입 데이터
 - 정성 데이터: 뉴스, 공시, 유튜브, 텔레그램, 페이스북, 뉴스레터, 커뮤니티 신호
-- 출력: evidence record, local DB snapshot, screener candidate, research packet
+- 발굴 채널: 정량 스크리너, 소셜/커뮤니티 수집, 애널리스트 리포트 수집
+- 출력: evidence record, local DB snapshot, market refresh note, intraday alert, screener candidate, Top 5 discovery queue, research packet
 
 ### Lattice / 격자: Judgment
 
@@ -82,6 +89,8 @@ Lattice는 evidence를 투자 판단으로 바꿉니다.
 - Action Queue
 - Prediction Ledger
 - Feedback Interpretation
+- Screener Forward-Performance Review
+- Judgment Feedback Review
 
 ### Arki: System
 
@@ -123,6 +132,14 @@ python -m thesis_os demo --out ./demo_run
 python -m thesis_os arki init --workspace ./workspace
 python -m thesis_os alpha sample-collect --workspace ./workspace
 python -m thesis_os alpha run-screener --workspace ./workspace
+python -m thesis_os alpha run-quant-screener --workspace ./workspace \
+  --input-csv ./demo_run/sample_quant_features.csv \
+  --top-n 5
+python -m thesis_os alpha discover --workspace ./workspace --top-n 5
+python -m thesis_os alpha refresh-market-db --workspace ./workspace \
+  --input-csv ./demo_run/sample_market_snapshots.csv
+python -m thesis_os alpha intraday-monitor --workspace ./workspace \
+  --input-csv ./demo_run/sample_intraday_events.csv
 python -m thesis_os alpha list-screeners --workspace ./workspace
 python -m thesis_os alpha list-evidence --workspace ./workspace
 python -m thesis_os lattice build-thesis --workspace ./workspace
@@ -133,6 +150,11 @@ python -m thesis_os lattice predict --workspace ./workspace \
   --horizon 1m
 python -m thesis_os lattice evaluate-screener --workspace ./workspace \
   --candidate-id SCR-AI-INFRA-001 \
+  --horizon 1m \
+  --absolute-return 0.04 \
+  --benchmark-return 0.015
+python -m thesis_os lattice evaluate-judgment --workspace ./workspace \
+  --action-id ACTION-SAMPLE-001 \
   --horizon 1m \
   --absolute-return 0.04 \
   --benchmark-return 0.015
@@ -174,5 +196,8 @@ python -m thesis_os arki build-wiki-index --workspace ./workspace
 7. Screener Candidate 생성과 forward 성과평가
 8. Vault wiki index와 SSOT note 생성
 9. 증액/홀드/감액/청산/관찰 판단을 위한 sample roundtable 실행
+10. 한국/미국 market snapshot refresh
+11. 보유/관찰 종목 intraday alert 생성
+12. 격자 판단/action의 기간별 성과평가
 
 유용하다면 star를 눌러주세요. 이 프로젝트는 투자 판단을 “그럴듯한 설명”에서 “검증 가능한 판단 시스템”으로 바꾸는 것을 목표로 합니다.

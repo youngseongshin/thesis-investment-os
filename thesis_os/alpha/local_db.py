@@ -5,7 +5,7 @@ import sqlite3
 from pathlib import Path
 from typing import Iterable
 
-from thesis_os.models import Evidence, ScreenerCandidate, ScreenerFeedback
+from thesis_os.models import Evidence, IntradayAlert, JudgmentFeedback, MarketSnapshot, ScreenerCandidate, ScreenerFeedback
 
 
 def connect(path: str | Path) -> sqlite3.Connection:
@@ -68,6 +68,52 @@ def init_db(conn: sqlite3.Connection) -> None:
             hit INTEGER NOT NULL,
             failure_mode TEXT NOT NULL,
             lesson TEXT NOT NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS market_snapshots (
+            id TEXT PRIMARY KEY,
+            market TEXT NOT NULL,
+            ticker TEXT NOT NULL,
+            entity TEXT NOT NULL,
+            as_of_date TEXT NOT NULL,
+            close REAL NOT NULL,
+            volume REAL NOT NULL,
+            foreign_flow REAL NOT NULL,
+            institution_flow REAL NOT NULL,
+            retail_flow REAL NOT NULL,
+            source TEXT NOT NULL,
+            collected_at TEXT NOT NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS judgment_feedback (
+            id TEXT PRIMARY KEY,
+            action_id TEXT NOT NULL,
+            entity TEXT NOT NULL,
+            evaluated_at TEXT NOT NULL,
+            horizon TEXT NOT NULL,
+            action TEXT NOT NULL,
+            absolute_return REAL NOT NULL,
+            benchmark_return REAL NOT NULL,
+            excess_return REAL NOT NULL,
+            hit INTEGER NOT NULL,
+            failure_mode TEXT NOT NULL,
+            process_lesson TEXT NOT NULL,
+            thesis_id TEXT NOT NULL
+        );
+
+        CREATE TABLE IF NOT EXISTS intraday_alerts (
+            id TEXT PRIMARY KEY,
+            entity TEXT NOT NULL,
+            ticker TEXT NOT NULL,
+            watch_type TEXT NOT NULL,
+            observed_at TEXT NOT NULL,
+            price REAL NOT NULL,
+            reference_price REAL NOT NULL,
+            price_change_pct REAL NOT NULL,
+            flow_signal TEXT NOT NULL,
+            alert_level TEXT NOT NULL,
+            message TEXT NOT NULL,
+            created_at TEXT NOT NULL
         );
         """
     )
@@ -193,3 +239,96 @@ def insert_screener_feedback(conn: sqlite3.Connection, record: ScreenerFeedback)
         ),
     )
     conn.commit()
+
+
+def insert_market_snapshots(conn: sqlite3.Connection, records: Iterable[MarketSnapshot]) -> int:
+    count = 0
+    for record in records:
+        conn.execute(
+            """
+            INSERT OR REPLACE INTO market_snapshots (
+                id, market, ticker, entity, as_of_date, close, volume,
+                foreign_flow, institution_flow, retail_flow, source, collected_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                record.id,
+                record.market,
+                record.ticker,
+                record.entity,
+                record.as_of_date,
+                record.close,
+                record.volume,
+                record.foreign_flow,
+                record.institution_flow,
+                record.retail_flow,
+                record.source,
+                record.collected_at,
+            ),
+        )
+        count += 1
+    conn.commit()
+    return count
+
+
+def list_market_snapshots(conn: sqlite3.Connection) -> list[dict[str, object]]:
+    rows = conn.execute("SELECT * FROM market_snapshots ORDER BY as_of_date DESC, market, ticker").fetchall()
+    return [dict(row) for row in rows]
+
+
+def insert_judgment_feedback(conn: sqlite3.Connection, record: JudgmentFeedback) -> None:
+    conn.execute(
+        """
+        INSERT OR REPLACE INTO judgment_feedback (
+            id, action_id, entity, evaluated_at, horizon, action,
+            absolute_return, benchmark_return, excess_return, hit,
+            failure_mode, process_lesson, thesis_id
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            record.id,
+            record.action_id,
+            record.entity,
+            record.evaluated_at,
+            record.horizon,
+            record.action,
+            record.absolute_return,
+            record.benchmark_return,
+            record.excess_return,
+            1 if record.hit else 0,
+            record.failure_mode,
+            record.process_lesson,
+            record.thesis_id,
+        ),
+    )
+    conn.commit()
+
+
+def insert_intraday_alerts(conn: sqlite3.Connection, records: Iterable[IntradayAlert]) -> int:
+    count = 0
+    for record in records:
+        conn.execute(
+            """
+            INSERT OR REPLACE INTO intraday_alerts (
+                id, entity, ticker, watch_type, observed_at, price, reference_price,
+                price_change_pct, flow_signal, alert_level, message, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                record.id,
+                record.entity,
+                record.ticker,
+                record.watch_type,
+                record.observed_at,
+                record.price,
+                record.reference_price,
+                record.price_change_pct,
+                record.flow_signal,
+                record.alert_level,
+                record.message,
+                record.created_at,
+            ),
+        )
+        count += 1
+    conn.commit()
+    return count

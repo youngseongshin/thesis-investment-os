@@ -7,8 +7,11 @@ They are not final buy signals. They are candidate generators. A screener become
 ## Screener Loop
 
 ```text
-market data
-  -> screener candidate
+KR/US market-close local DB refresh
+  -> quant screener stack
+  -> social/community signal collection
+  -> analyst-report signal collection
+  -> Top 5 integrated discovery queue
   -> evidence packet
   -> Lattice judgment
   -> prediction ledger
@@ -39,14 +42,18 @@ Many investment systems stop at "this looks interesting." Thesis OS requires one
 
 ## Example Features
 
+- meta-screener overlap
 - relative strength
 - volume expansion
 - trend quality
 - earnings revision
 - foreign/institutional flow
+- retail absorption/supply context
 - short-sale pressure
 - valuation crowding
 - official catalyst proximity
+- social attention quality
+- analyst-report revision/support
 
 ## Feedback Metrics
 
@@ -68,4 +75,3 @@ Many investment systems stop at "this looks interesting." Thesis OS requires one
 ## Operating Principle
 
 Do not optimize only for the best-looking current candidates. Optimize for the screeners that repeatedly produce candidates with positive forward evidence.
-
