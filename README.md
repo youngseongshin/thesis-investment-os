@@ -206,32 +206,17 @@ Arki maintains the operating system.
 
 This repository is the open-source core. It intentionally excludes broker credentials, private portfolio data, real Telegram channel IDs, Gmail contents, cookies, OAuth sessions, and paid raw data.
 
-Included:
+The included features are organized around the judgment loop, not around isolated tools:
 
-- Philosophy and architecture docs
-- Agent persona contracts and prompt-boundary guidance
-- Memory management process for vault, local DB, LLM wiki, predictions, and feedback
-- Vault governance pattern for document policy, codeowners, canonical paths, validators, and cleanup
-- Skill catalog for collection, real-time data, deep dive, semiconductor specialist, Deep Alpha, devil's advocate, and feedback workflows
-- JSON schemas for thesis, evidence, prediction, action, feedback, skills, and recurring jobs
-- A minimal runnable Python package
-- Sample local SQLite database generation
-- Sample vault note generation
-- Sample prediction ledger and feedback report
-- Public adapter interfaces and examples
-- Screener candidate and screener feedback loop
-- CSV-backed Alpha-style quantitative screener
-- Three-channel daily discovery and Top 5 compression
-- KR/US market DB refresh adapter
-- Intraday holdings/watchlist alert adapter
-- CSV-backed trade/customs proxy evidence adapter for semiconductor and supply-chain theses
-- Lattice judgment feedback loop
-- Vault wiki index and SSOT note generation
-- Static HTML dashboard cockpit for theses, watchlists, actions, predictions, and performance feedback
-- Harness contract schema and validator for recurring-job ownership, inputs, outputs, delivery, and failure policy
-- Thesis OS coverage matrix showing what is implemented, partial, or intentionally excluded
-- Public-safe sample output pack for thesis cards, nightly screening, concentrated strategy, screener feedback, and social collection
-- Public-safe recurring job manifest for market refresh, source collection, screeners, roundtable, feedback, wiki, and health checks
+| System layer | What is included | Why it matters |
+|---|---|---|
+| **Philosophy and object model** | Philosophy docs, architecture docs, agent persona contracts, prompt-boundary guidance, and JSON schemas for `thesis`, `evidence`, `action`, `prediction`, `feedback`, skills, and jobs | Makes investment judgment explicit instead of leaving it as notes, taste, or chat history |
+| **Evidence layer** | Public adapter interfaces, sample local SQLite DB generation, sample vault note generation, KR/US market DB refresh adapter, intraday holdings/watchlist alert adapter, and CSV-backed trade/customs proxy evidence adapter | Gives Alpha a clean way to turn market data, filings, flows, screeners, and specialized data into auditable evidence |
+| **Quant discovery and screening** | CSV-backed Alpha-style quantitative screener, screener candidate schema, three-channel discovery pattern, Top 5 compression, and screener feedback loop | Turns stock screeners into accountable candidate generators rather than one-off lists |
+| **Judgment layer** | Thesis card generation, decision cards, devil's advocate pattern, action queue, prediction ledger, Lattice roundtable, concentrated strategy sample, and judgment feedback loop | Turns evidence into reviewable portfolio/watchlist decisions with invalidation and measurable outcomes |
+| **Memory and vault governance** | Memory management process, markdown vault generation, document policy pattern, codeowner/canonical-path governance, vault wiki index, and SSOT note generation | Keeps research retrievable and current for both humans and agents |
+| **Automation harness** | Recurring job manifest, harness contract schema, ownership/input/output/delivery/failure-policy validator, health checks, and GitHub Actions CI | Makes the system operable as a repeatable workflow rather than a pile of scripts |
+| **Human review surface** | Static HTML dashboard cockpit and public-safe sample output pack for thesis cards, nightly screening, concentrated strategy, screener feedback, and social collection | Lets users inspect the loop visually before attaching private data or real adapters |
 
 Excluded:
 

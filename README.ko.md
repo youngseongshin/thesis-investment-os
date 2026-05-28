@@ -268,23 +268,17 @@ python -m thesis_os arki build-dashboard --workspace ./workspace
 
 ## 공개 / 비공개 경계
 
-공개 repo에 포함되는 것:
+공개 repo에 포함되는 기능은 개별 도구 목록이 아니라 판단 루프의 각 층으로 정리됩니다.
 
-- 철학과 아키텍처 문서
-- 에이전트 페르소나 계약과 프롬프트 경계 가이드
-- vault, local DB, LLM wiki, prediction, feedback을 위한 메모리 관리 프로세스
-- document policy, codeowners, canonical path, validator, cleanup을 위한 vault governance 패턴
-- 텔레그램/페이스북/유튜브 수집, 실시간 데이터, 딥다이브, 반도체 전문분석, 딥알파, 악마의 변호인, 피드백을 위한 skill catalog
-- JSON schema
-- 샘플 adapter contract
-- 샘플 local DB / vault 생성
-- prediction ledger와 feedback evaluator
-- thesis card, nightly screening, concentrated strategy, screener feedback, social collection 샘플 산출물
-- 반도체/공급망 테시스를 위한 CSV 기반 통관/수출입 proxy evidence adapter
-- 반복작업의 owner, trigger, input, output, delivery, failure policy를 검증하는 harness contract schema와 validator
-- 테시스, 워치리스트, 보유종목 알람, action queue, prediction ledger, 성과 피드백을 한 화면에 보여주는 static HTML dashboard cockpit
-- Thesis OS의 구현/부분구현/제외 항목을 정리한 coverage matrix
-- 시장 DB 갱신, 소스 수집, 스크리너, 라운드테이블, 피드백, wiki, health check를 위한 공개 안전 반복작업 manifest
+| 시스템 층 | 포함되는 것 | 의미 |
+|---|---|---|
+| **철학과 객체 모델** | 투자철학/아키텍처 문서, 에이전트 페르소나 계약, 프롬프트 경계 가이드, `thesis`, `evidence`, `action`, `prediction`, `feedback`, skill, job JSON schema | 투자 판단을 감각, 노트, 채팅 기록이 아니라 명시적인 객체로 만듭니다 |
+| **Evidence Layer** | public adapter interface, 샘플 local SQLite DB 생성, 샘플 vault note 생성, KR/US market DB refresh adapter, 장중 보유/관찰종목 alert adapter, CSV 기반 통관/수출입 proxy evidence adapter | Alpha가 시장 데이터, 공시, 수급, 스크리너, 특수 데이터를 감사 가능한 evidence로 바꾸게 합니다 |
+| **정량 발굴과 스크리닝** | CSV 기반 Alpha-style quantitative screener, screener candidate schema, 3채널 discovery 패턴, Top 5 압축, screener feedback loop | stock screener를 단순 리스트 생성기가 아니라 성과 검증 가능한 후보 생성기로 만듭니다 |
+| **판단 Layer** | thesis card 생성, decision card, 악마의 변호인 패턴, action queue, prediction ledger, Lattice roundtable, concentrated strategy sample, judgment feedback loop | evidence를 무효화 조건과 성과평가가 붙은 포트폴리오/워치리스트 판단으로 바꿉니다 |
+| **Memory와 Vault Governance** | memory management process, markdown vault 생성, document policy 패턴, codeowner/canonical path governance, vault wiki index, SSOT note 생성 | 리서치가 쌓이기만 하고 다시 찾히지 않는 문제를 줄이고, 사람과 에이전트가 최신 맥락을 참조하게 합니다 |
+| **Automation Harness** | recurring job manifest, harness contract schema, owner/input/output/delivery/failure-policy validator, health check, GitHub Actions CI | 자동화를 여러 스크립트 묶음이 아니라 반복 가능한 운영 워크플로우로 만듭니다 |
+| **Human Review Surface** | static HTML dashboard cockpit, thesis card/nightly screening/concentrated strategy/screener feedback/social collection 공개 안전 샘플 산출물 | 사용자가 개인 데이터나 실제 adapter를 붙이기 전에 전체 판단 루프를 눈으로 확인하게 합니다 |
 
 공개 repo에 포함하지 않는 것:
 
