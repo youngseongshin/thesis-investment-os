@@ -1,6 +1,6 @@
 # Thesis OS
 
-[![CI](https://github.com/youngseongshin/thesis-os/actions/workflows/ci.yml/badge.svg)](https://github.com/youngseongshin/thesis-os/actions/workflows/ci.yml)
+[![CI](https://github.com/youngseongshin/thesis-investment-os/actions/workflows/ci.yml/badge.svg)](https://github.com/youngseongshin/thesis-investment-os/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 [한국어 README](README.ko.md)
@@ -73,8 +73,8 @@ No broker credentials, private chats, or paid feeds are required for the public 
 ## Run It In 60 Seconds
 
 ```bash
-git clone https://github.com/youngseongshin/thesis-os.git
-cd thesis-os
+git clone https://github.com/youngseongshin/thesis-investment-os.git
+cd thesis-investment-os
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install -e .
@@ -311,8 +311,8 @@ Requires Python 3.10+.
 </p>
 
 ```bash
-git clone https://github.com/youngseongshin/thesis-os.git
-cd thesis-os
+git clone https://github.com/youngseongshin/thesis-investment-os.git
+cd thesis-investment-os
 python3 -m venv .venv
 . .venv/bin/activate
 python -m pip install -e .

@@ -40,6 +40,11 @@ classifiers = [
 ]
 dependencies = []
 
+[project.urls]
+Homepage = "https://github.com/youngseongshin/thesis-investment-os"
+Repository = "https://github.com/youngseongshin/thesis-investment-os"
+Issues = "https://github.com/youngseongshin/thesis-investment-os/issues"
+
 [project.optional-dependencies]
 assets = ["pillow>=10"]
 
