@@ -45,6 +45,8 @@ Daily discovery uses three channels:
 - social and community collection
 - analyst-report collection
 
+Only the first channel is a screener. The other two are qualitative discovery inputs. The integrated discovery step can merge all three channels, but screener scores themselves should remain quantitative and reproducible.
+
 The integrated screening step compresses candidates to a Top 5 review queue. Top 5 means "review first", not "buy first". Lattice must still decide whether a name is suitable for portfolio inclusion, thesis audit, watchlist-only status, or rejection.
 
 ## 4. Intraday Monitoring

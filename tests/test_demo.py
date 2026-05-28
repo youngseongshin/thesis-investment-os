@@ -4,6 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from thesis_os.alpha.quant_screener import build_quant_candidates
 from thesis_os.cli import main, run_demo, run_lint
 
 
@@ -21,6 +22,42 @@ class DemoTest(unittest.TestCase):
     def test_schema_lint(self) -> None:
         root = Path(__file__).resolve().parents[1]
         self.assertEqual(run_lint(root), 0)
+
+    def test_quant_screener_uses_numeric_researchos_stack(self) -> None:
+        rows = [
+            {
+                "ticker": "AI-INFRA",
+                "entity": "AI Infrastructure Basket",
+                "as_of_date": "2026-01-31",
+                "source_signals": "quality|smart_money_quality|rs80_notlate|consensus_up",
+                "quality_rank": "2",
+                "smart_money_quality_rank": "4",
+                "rs80_notlate_rank": "8",
+                "consensus_up_rank": "5",
+                "source_count": "40",
+                "relative_strength": "88",
+                "quality_score_basic": "0.76",
+                "compounder_score_basic": "0.78",
+                "smart_money_candidate_score": "0.72",
+                "extension_risk": "0.30",
+                "kiwoom_surface_score": "0.62",
+            },
+            {
+                "ticker": "SOCIAL-ONLY",
+                "entity": "Social Only Basket",
+                "as_of_date": "2026-01-31",
+                "source_signals": "",
+                "social_signal_score": "0.99",
+                "relative_strength": "45",
+                "quality_score_basic": "0.25",
+                "extension_risk": "0.20",
+            },
+        ]
+        candidates = build_quant_candidates(rows, top_n=2)
+        self.assertEqual(candidates[0].ticker, "AI-INFRA")
+        self.assertGreater(float(candidates[0].features["source_membership_points"]), 0)
+        self.assertIn("rs80_notlate_score", candidates[0].features)
+        self.assertLess(candidates[1].score, candidates[0].score)
 
     def test_sample_outputs_are_public_sanitized(self) -> None:
         root = Path(__file__).resolve().parents[1]

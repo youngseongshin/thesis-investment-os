@@ -14,7 +14,7 @@ The examples are synthetic. They are inspired by the shape of a live Research OS
 Use these examples to understand the operating loop:
 
 1. Alpha refreshes market data and collects evidence.
-2. Alpha runs quantitative screeners, social collection, and analyst-report discovery.
+2. Alpha runs quantitative screeners, then uses social collection and analyst-report discovery as context layers.
 3. Alpha compresses candidates into a Top 5 review queue.
 4. Lattice reviews candidates and active thesis cards.
 5. Lattice creates actions and predictions only when the judgment is measurable.
@@ -41,4 +41,3 @@ They intentionally avoid:
 - private company facts
 - channel IDs, bot tokens, OAuth state, cookies, or API keys
 - claims that a sample signal was generated from live market data
-

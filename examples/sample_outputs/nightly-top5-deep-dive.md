@@ -21,29 +21,29 @@ Top 5 does not mean "buy." It means "review first." Lattice must decide whether 
 | Input Layer | Owner | Sample Source |
 |---|---|---|
 | Local market DB | Alpha | KR/US close snapshots, volume, flows |
-| Quant screeners | Alpha | quality, cycle, momentum, revision, flow |
-| Social collection | Alpha | summarized community and social clusters |
-| Analyst-report collection | Alpha | revision tone and catalyst mentions |
+| Quant screeners | Alpha | meta-quant, quality, smart money, cycle, PEAD, consensus, RS80 not-late |
+| Social collection | Alpha | summarized community and social clusters used as context, not screener points |
+| Analyst-report collection | Alpha | revision tone and catalyst mentions converted into explicit evidence fields |
 | Thesis registry | Lattice | existing thesis cards and invalidation rules |
 | Vault memory | Arki | prior decisions, feedback, wiki index |
 
 ## 3. Top 5 Queue
 
-| Rank | Candidate | Channel Overlap | Score | Why It Surfaced | Lattice Route |
-|---:|---|---:|---:|---|---|
-| 1 | AI-INFRA | 3/3 | 86 | Quant strength plus rising evidence quality | Deep dive |
-| 2 | SUBSTRATE | 3/3 | 82 | Cycle recovery plus component bottleneck narrative | Thesis card update |
-| 3 | SEMICAP | 2/3 | 77 | Capex sensitivity and improving revision tone | Watchlist review |
-| 4 | HUMANOID | 2/3 | 71 | Social intensity high, evidence quality mixed | Quarantine until verified |
-| 5 | AI-SW | 2/3 | 69 | Product-cycle narrative improving, price action early | Small research packet |
+| Rank | Candidate | Quant Basis | Score | Why It Surfaced | Lattice Route |
+|---:|---|---|---:|---|---|
+| 1 | AI-INFRA | quality + smart-money-quality + RS80 + consensus-up | 0.78 | Quant source overlap plus acceptable timing risk | Deep dive |
+| 2 | SUBSTRATE | cycle + earnings + RS80 | 0.67 | Cycle recovery and earnings improvement with manageable box risk | Thesis card update |
+| 3 | SEMICAP | value-quality + smart-money-value | 0.61 | Improving factor profile and market-surface support | Watchlist review |
+| 4 | HUMANOID | RS80 watch only | 0.52 | Leadership exists but factor quality and box risk are weak | Evidence quarantine |
+| 5 | AI-SW | PEAD + consensus-up watch | 0.49 | Early revision signal, below promotion threshold | Small research packet |
 
 ## 4. Candidate Notes
 
 ### 4.1 AI-INFRA
 
 - Quant signal is strong enough for review.
-- Social signal is specific to supply bottlenecks rather than generic AI excitement.
-- Analyst signal suggests estimate revision potential.
+- Context channels point to supply bottlenecks, but the promotion starts from quantitative source overlap.
+- Analyst signal has been converted into consensus/revision fields.
 - Main risk is crowding.
 
 Decision need:
@@ -52,7 +52,7 @@ Decision need:
 
 ### 4.2 SUBSTRATE
 
-- Appears in both cycle and component screeners.
+- Appears in cycle, earnings, and RS80 quantitative source sets.
 - May benefit from AI server board complexity.
 - Needs stronger customer and margin linkage.
 
@@ -71,9 +71,9 @@ Decision need:
 
 ### 4.4 HUMANOID
 
-- Social attention rose sharply.
-- Evidence quality is mixed.
-- Lattice should not promote social heat into a thesis without official or financial evidence.
+- RS80 leadership exists, but factor quality and box risk are weak.
+- Social attention can request evidence, but it should not become a screener point by itself.
+- Lattice should not promote heat into a thesis without official, financial, or quant confirmation.
 
 Decision need:
 
@@ -108,4 +108,3 @@ Decision need:
 | `vault/decisions/` | Lattice roundtable notes |
 | `vault/feedback/` | future forward-return evaluation |
 | `vault/wiki/` | current index for agent retrieval |
-

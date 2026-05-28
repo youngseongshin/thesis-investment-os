@@ -101,7 +101,7 @@ def build_sample_discovery_candidates(evidence: list[Evidence], limit: int = 5) 
                 id=str(item["id"]),
                 entity=str(item["entity"]),
                 ticker=str(item["ticker"]),
-                screener_name="daily_multi_channel_discovery",
+                screener_name="daily_discovery_queue",
                 as_of_date="2026-01-31",
                 score=round(score, 4),
                 features={
@@ -151,7 +151,7 @@ def run_daily_discovery(workspace: str | Path, limit: int = 5) -> dict[str, obje
     )
     return {
         "workspace": str(workspace),
-        "pipeline": "daily_multi_channel_discovery",
+        "pipeline": "daily_discovery_queue",
         "candidate_count": len(candidates),
         "top5": [candidate.id for candidate in candidates],
         "summary_path": str(summary_path),
@@ -160,7 +160,7 @@ def run_daily_discovery(workspace: str | Path, limit: int = 5) -> dict[str, obje
 
 def discovery_top5_markdown(candidates: list[ScreenerCandidate]) -> str:
     lines = [
-        "Daily discovery compresses three channels into a portfolio-review queue.",
+        "Daily discovery compresses three channels into a portfolio-review queue. The screener component remains quantitative; social and analyst channels only enrich or prioritize quantitatively surfaced candidates.",
         "",
         "## Channels",
         "- Quantitative screeners",
@@ -191,7 +191,10 @@ def _discovery_score(item: dict[str, float | int | str]) -> float:
     analyst = float(item["analyst_report_score"])
     portfolio_fit = float(item["portfolio_fit_score"])
     extension = float(item["extension_risk"])
-    return max(0.0, 0.40 * quant + 0.20 * social + 0.25 * analyst + 0.15 * portfolio_fit - 0.20 * extension)
+    score = max(0.0, 0.55 * quant + 0.15 * social + 0.20 * analyst + 0.10 * portfolio_fit - 0.20 * extension)
+    if quant < 0.55:
+        score = min(score, 0.45)
+    return score
 
 
 def _channel_hits(item: dict[str, float | int | str]) -> list[str]:
@@ -207,9 +210,11 @@ def _channel_hits(item: dict[str, float | int | str]) -> list[str]:
 
 def _discovery_rationale(item: dict[str, float | int | str], score: float, channel_hits: list[str]) -> str:
     if len(channel_hits) >= 3 and score >= 0.60:
-        return "Top discovery candidate across quant, social, and analyst channels. Send to Lattice portfolio-inclusion review."
+        return "Quantitative screener candidate with social and analyst confirmation. Send to Lattice portfolio-inclusion review."
     if float(item["extension_risk"]) >= 0.80:
         return "High attention but extended. Keep in discovery queue, but do not chase without a fresh thesis review."
+    if float(item["quant_screener_score"]) < 0.55:
+        return "Qualitative attention exists, but quantitative screener support is weak. Keep below top promotion until numeric evidence improves."
     if len(channel_hits) >= 2:
-        return "Multi-channel signal. Useful for watchlist expansion and thesis-card preparation."
+        return "Quantitative candidate with at least one context channel. Useful for watchlist expansion and thesis-card preparation."
     return "Single-channel or weak signal. Keep below the top review queue unless new evidence arrives."

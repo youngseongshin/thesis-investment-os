@@ -131,13 +131,15 @@ Example features:
 
 Purpose:
 
-- merge quantitative screeners, social collection, and analyst-report signals
+- start from quantitative screener candidates
+- use social collection and analyst-report signals as context layers
 - compress the daily universe into a short portfolio-review queue
 
 Boundary:
 
 - Top 5 is not a buy list
 - Top 5 is a Lattice review queue
+- social heat is not a screener unless converted into explicit quantitative evidence
 
 ## Research Synthesis Skills
 
@@ -294,4 +296,3 @@ Private deployments should add:
 - private channel sessions
 - user-specific prompts
 - real portfolio memory
-

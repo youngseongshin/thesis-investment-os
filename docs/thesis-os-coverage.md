@@ -10,7 +10,7 @@ It is intentionally public-safe. It describes reusable architecture and contract
 |---|---|---|
 | Three-agent model | Reflected | Alpha, Lattice, Arki docs and CLI |
 | Thesis / evidence / action / prediction / feedback loop | Reflected | schemas, demo CLI, vault notes, feedback commands |
-| Quant screeners and Top 5 discovery | Reflected | CSV-backed quant screener and `alpha discover` |
+| Quant screeners and Top 5 discovery | Reflected | Research OS-style CSV-backed quant stack; `alpha discover` uses social/report signals only as context overlays |
 | Local listed-equity database refresh | Reflected | CSV-backed KR/US market snapshot adapter |
 | Intraday holdings/watchlist monitor | Reflected | CSV-backed alert adapter |
 | Thesis and portfolio cockpit | Reflected | `arki build-dashboard` static HTML dashboard |

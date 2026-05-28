@@ -8,6 +8,19 @@ from thesis_os.models import Evidence, ScreenerCandidate, utc_now
 from thesis_os.runtime.workspace import load_workspace_evidence
 
 
+SAMPLE_SOURCE_POINTS = {
+    "quality": 34.0,
+    "smart_money_quality": 22.0,
+    "cycle": 16.0,
+    "earnings": 12.0,
+    "pead": 10.0,
+    "consensus_up": 10.0,
+    "rs80_notlate": 14.0,
+    "consensus_down": -8.0,
+}
+SAMPLE_POSITIVE_TOTAL = sum(value for value in SAMPLE_SOURCE_POINTS.values() if value > 0)
+
+
 def build_sample_screener_candidates(evidence: list[Evidence]) -> list[ScreenerCandidate]:
     evidence_ids = [item.id for item in evidence]
     created_at = utc_now()
@@ -16,50 +29,66 @@ def build_sample_screener_candidates(evidence: list[Evidence]) -> list[ScreenerC
             "id": "SCR-AI-INFRA-001",
             "entity": "AI Infrastructure Basket",
             "ticker": "AI-INFRA",
+            "source_signals": "quality|smart_money_quality|rs80_notlate|consensus_up",
+            "factor_profile_score": 0.78,
             "relative_strength": 88,
-            "volume_expansion": 1.7,
-            "earnings_revision": 0.08,
-            "flow_score": 0.62,
+            "smart_flow_score": 0.72,
+            "market_surface_score": 0.64,
             "extension_risk": 0.30,
+            "entry_gap_pct": 0.05,
+            "box_risk_pct": -0.11,
         },
         {
             "id": "SCR-QUALITY-CYCLICAL-001",
             "entity": "Quality Cyclical Basket",
             "ticker": "QUALITY-CYCLE",
+            "source_signals": "quality|cycle|earnings",
+            "factor_profile_score": 0.66,
             "relative_strength": 74,
-            "volume_expansion": 1.2,
-            "earnings_revision": 0.04,
-            "flow_score": 0.45,
+            "smart_flow_score": 0.45,
+            "market_surface_score": 0.52,
             "extension_risk": 0.18,
+            "entry_gap_pct": 0.08,
+            "box_risk_pct": -0.14,
         },
         {
             "id": "SCR-CROWDED-MOMENTUM-001",
             "entity": "Crowded Momentum Basket",
             "ticker": "CROWD-MOMO",
+            "source_signals": "rs80_notlate|pead",
+            "factor_profile_score": 0.48,
             "relative_strength": 96,
-            "volume_expansion": 2.4,
-            "earnings_revision": 0.02,
-            "flow_score": 0.38,
+            "smart_flow_score": 0.38,
+            "market_surface_score": 0.42,
             "extension_risk": 0.82,
+            "entry_gap_pct": 0.18,
+            "box_risk_pct": -0.22,
         },
     ]
     candidates: list[ScreenerCandidate] = []
     for item in raw:
         score = _score_candidate(item)
+        source_points = _source_points(str(item["source_signals"]))
         candidates.append(
             ScreenerCandidate(
                 id=str(item["id"]),
                 entity=str(item["entity"]),
                 ticker=str(item["ticker"]),
-                screener_name="sample_quality_momentum",
+                screener_name="sample_researchos_meta_quant",
                 as_of_date="2026-01-31",
                 score=round(score, 4),
                 features={
+                    "source_signals": item["source_signals"],
+                    "source_membership_points": round(source_points, 2),
+                    "source_membership_score": round(max(0.0, min(1.0, source_points / SAMPLE_POSITIVE_TOTAL)), 4),
+                    "factor_profile_score": item["factor_profile_score"],
                     "relative_strength": item["relative_strength"],
-                    "volume_expansion": item["volume_expansion"],
-                    "earnings_revision": item["earnings_revision"],
-                    "flow_score": item["flow_score"],
+                    "smart_flow_score": item["smart_flow_score"],
+                    "market_surface_score": item["market_surface_score"],
                     "extension_risk": item["extension_risk"],
+                    "entry_gap_pct": item["entry_gap_pct"],
+                    "box_risk_pct": item["box_risk_pct"],
+                    "portfolio_review_gate": "required",
                 },
                 rationale=_rationale(item, score),
                 evidence_ids=evidence_ids,
@@ -92,7 +121,7 @@ def run_sample_screener(workspace: str | Path) -> dict[str, object]:
 
     return {
         "workspace": str(workspace),
-        "screener": "sample_quality_momentum",
+        "screener": "sample_researchos_meta_quant",
         "candidate_count": len(candidates),
         "top_candidate": candidates[0].id if candidates else "",
     }
@@ -125,17 +154,24 @@ def candidate_markdown(candidate: ScreenerCandidate) -> str:
 
 
 def _score_candidate(item: dict[str, float | int | str]) -> float:
+    source_score = max(0.0, min(1.0, _source_points(str(item["source_signals"])) / SAMPLE_POSITIVE_TOTAL))
+    factor = float(item["factor_profile_score"])
     relative_strength = float(item["relative_strength"]) / 100
-    volume = min(float(item["volume_expansion"]) / 2, 1.0)
-    revision = min(max(float(item["earnings_revision"]) * 5, 0), 1.0)
-    flow = float(item["flow_score"])
-    extension_penalty = float(item["extension_risk"]) * 0.35
-    return max(0.0, 0.35 * relative_strength + 0.25 * volume + 0.25 * revision + 0.15 * flow - extension_penalty)
+    flow = float(item["smart_flow_score"])
+    surface = float(item["market_surface_score"])
+    extension_penalty = float(item["extension_risk"]) * 0.30
+    box_penalty = 0.10 if float(item["box_risk_pct"]) < -0.18 else 0.0
+    chase_penalty = max(0.0, float(item["entry_gap_pct"]) - 0.12)
+    return max(0.0, 0.42 * source_score + 0.24 * factor + 0.20 * relative_strength + 0.09 * flow + 0.05 * surface - extension_penalty - box_penalty - chase_penalty)
 
 
 def _rationale(item: dict[str, float | int | str], score: float) -> str:
     if float(item["extension_risk"]) > 0.7:
-        return "Strong momentum but high extension risk. Requires pullback or confirmation before promotion."
+        return "Quantitative leadership exists, but extension and box risk are high. Keep as a timing watch item, not an active promotion."
     if score >= 0.60:
-        return "Balanced strength across relative strength, volume, revisions, and flow. Candidate deserves thesis review."
-    return "Moderate candidate. Useful as a watch item unless evidence improves."
+        return "Multiple quantitative source sets overlap with acceptable timing risk. Candidate deserves Lattice thesis review."
+    return "Moderate quantitative candidate. Keep as watch unless source overlap, factor breadth, or timing improves."
+
+
+def _source_points(signals: str) -> float:
+    return sum(SAMPLE_SOURCE_POINTS.get(part.strip(), 0.0) for part in signals.replace(",", "|").split("|") if part.strip())

@@ -81,7 +81,7 @@ Thesis OS focuses on the part that compounds:
 
 - Alpha refreshes KR/US listed-equity local databases after the relevant market close.
 - Alpha continuously collects quantitative and qualitative evidence.
-- Daily discovery runs through three channels: quantitative screeners, social/community collection, and analyst-report collection.
+- Daily discovery starts from quantitative screeners, then uses social/community collection and analyst-report collection as context overlays.
 - Integrated screening compresses the daily universe to a Top 5 portfolio-review queue.
 - Lattice reviews whether each candidate belongs in the portfolio or only on the watchlist.
 - Intraday monitors route price and flow alerts for holdings and watchlist names.
@@ -122,7 +122,7 @@ The default operating philosophy has three layers:
 
 In practice:
 
-- Alpha finds candidates through quantitative screeners, social collection, and analyst-report collection.
+- Alpha finds candidates through quantitative screeners first; social collection and analyst-report collection enrich context rather than becoming screener points by themselves.
 - Lattice interprets candidates through the Munger-style lattice rather than a single narrative.
 - Lattice uses O'Neil/Minervini-style timing discipline to avoid buying weak, extended, or invalidated setups.
 - Lattice sizes and prioritizes through a Druckenmiller-style lens: few high-conviction opportunities, asymmetric upside, and willingness to reverse when evidence changes.
@@ -136,7 +136,7 @@ Alpha collects, normalizes, and verifies quantitative and qualitative inputs.
 
 - Quant data: prices, volume, flows, fundamentals, filings, consensus, short interest, exports/imports
 - Qualitative data: news, filings, transcripts, Telegram, Facebook, YouTube, newsletters, community signals
-- Discovery channels: quantitative screeners, social/community collection, analyst-report collection
+- Discovery channels: quantitative screeners first, plus social/community and analyst-report context overlays
 - Output: evidence records, local DB snapshots, market refresh notes, intraday alerts, screener candidates, Top 5 discovery queues, research packets
 
 ### Lattice: Judgment

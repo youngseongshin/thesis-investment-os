@@ -47,14 +47,14 @@ skills:
 
   - id: alpha-daily-discovery-top5
     agent: alpha
-    purpose: "Merge quantitative screeners, social signals, and analyst reports into a Top 5 portfolio-review queue."
+    purpose: "Start from quantitative screener candidates, then use social signals and analyst reports as context to build a Top 5 portfolio-review queue."
     inputs:
       - "quant screener results"
       - "social/community signals"
       - "analyst report signals"
     outputs:
       - "Top 5 discovery queue"
-      - "screener candidate notes"
+      - "discovery candidate notes"
     allowed_actions:
       - "rank candidates"
       - "route to Lattice review"
