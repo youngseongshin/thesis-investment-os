@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.4.0 - 2026-05-28
+
+- Add screener candidate schema and screener feedback schema.
+- Add sample Alpha screener command.
+- Add Lattice screener candidate evaluation command.
+- Add vault wiki index and SSOT generation.
+- Add docs for screeners, feedback, vault SSOT, and embedded design principles.
+- Expand README and Korean README around thesis cards and judgment feedback loops.
+- Add operating workflow and investment philosophy docs.
+- Add sample Lattice roundtable command for increase/hold/decrease/exit/watch decisions.
+
 ## 0.3.0 - 2026-05-28
 
 - Add README architecture SVG.

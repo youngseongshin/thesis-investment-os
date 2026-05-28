@@ -77,3 +77,38 @@ class Prediction:
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
+
+@dataclass(frozen=True)
+class ScreenerCandidate:
+    id: str
+    entity: str
+    ticker: str
+    screener_name: str
+    as_of_date: str
+    score: float
+    features: dict[str, float | int | str]
+    rationale: str
+    evidence_ids: list[str] = field(default_factory=list)
+    thesis_id: str = ""
+    status: str = "candidate"
+    created_at: str = field(default_factory=utc_now)
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
+class ScreenerFeedback:
+    id: str
+    candidate_id: str
+    evaluated_at: str
+    horizon: str
+    absolute_return: float
+    benchmark_return: float
+    excess_return: float
+    hit: bool
+    lesson: str
+    failure_mode: str = "none"
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)

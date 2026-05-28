@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thesis-os.org/schemas/screener_feedback.schema.json",
+  "title": "ScreenerFeedback",
+  "type": "object",
+  "required": ["id", "candidate_id", "evaluated_at", "horizon", "absolute_return", "benchmark_return", "excess_return", "hit", "failure_mode"],
+  "properties": {
+    "id": {"type": "string"},
+    "candidate_id": {"type": "string"},
+    "evaluated_at": {"type": "string"},
+    "horizon": {"type": "string", "enum": ["3d", "1w", "2w", "1m", "2m", "3m", "6m", "1y"]},
+    "absolute_return": {"type": "number"},
+    "benchmark_return": {"type": "number"},
+    "excess_return": {"type": "number"},
+    "hit": {"type": "boolean"},
+    "failure_mode": {"type": "string", "enum": ["none", "data_failure", "interpretation_failure", "timing_failure", "already_priced_in", "execution_failure", "unknown"]},
+    "lesson": {"type": "string"}
+  },
+  "additionalProperties": true
+}
+

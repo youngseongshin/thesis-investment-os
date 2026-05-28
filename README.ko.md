@@ -29,6 +29,35 @@ flowchart LR
 
 핵심은 명시성입니다. evidence를 모으고, 기억에 쓰고, 테시스를 만들고, 예측을 사전에 기록하고, 결과를 평가한 뒤, 다음 판단을 개선합니다.
 
+## 왜 Thesis OS인가?
+
+제가 느끼는 핵심 가치는 단순히 데이터를 모으거나 노트를 저장하는 데 있지 않습니다.
+
+중요한 것은 **테시스 카드가 계속 살아 있어야 한다는 점**입니다.
+
+- Alpha는 정량/정성 evidence를 계속 수집합니다.
+- 스크리너는 로컬 시장 데이터에서 후보와 feature snapshot을 만듭니다.
+- Lattice/격자는 Alpha와 스크리너 데이터를 읽고 테시스 카드를 갱신합니다.
+- 격자는 판단을 Prediction Ledger에 사전 기록합니다.
+- 이후 3일, 1주, 1개월 같은 기간 단위로 성과를 평가합니다.
+- 그 결과가 다시 테시스와 스크리너 룰에 환류됩니다.
+- Arki는 vault, SSOT, wiki index, schema, 반복작업을 정리해 에이전트 참조가 최신 상태로 유지되게 합니다.
+
+즉 Thesis OS의 본질은 **테시스 카드 -> evidence 갱신 -> 스크리너 신호 -> 격자 판단 -> 예측 기록 -> 기간별 성과평가 -> 테시스 업데이트**로 이어지는 완결적인 피드백 루프입니다.
+
+## 운영 워크플로우
+
+기본 워크플로우는 보유 종목과 워치리스트를 전제로 합니다.
+
+1. Alpha가 티어1 정보, 뉴스, 공시, 시장 데이터, 스크리너 신호를 갱신합니다.
+2. Alpha가 evidence record와 screener candidate를 local DB와 vault에 저장합니다.
+3. Lattice/격자가 최신 evidence로 thesis card를 검토합니다.
+4. 격자가 매일 roundtable을 열어 증액, 홀드, 감액, 청산, 관찰 판단을 내립니다.
+5. 판단이 시장 결과로 검증 가능하면 Prediction Ledger에 사전 기록합니다.
+6. 이후 기간별 성과평가가 테시스와 스크리너 룰에 다시 환류됩니다.
+
+기본 투자철학은 멍거의 격자적 사고, 윌리엄 오닐의 강도/타이밍/손실 규율, 드라켄밀러의 집중/유연성/비대칭 사고를 참고합니다.
+
 ## 세 에이전트
 
 ### Alpha: Evidence
@@ -93,6 +122,8 @@ python -m thesis_os demo --out ./demo_run
 ```bash
 python -m thesis_os arki init --workspace ./workspace
 python -m thesis_os alpha sample-collect --workspace ./workspace
+python -m thesis_os alpha run-screener --workspace ./workspace
+python -m thesis_os alpha list-screeners --workspace ./workspace
 python -m thesis_os alpha list-evidence --workspace ./workspace
 python -m thesis_os lattice build-thesis --workspace ./workspace
 python -m thesis_os lattice decision-card --workspace ./workspace
@@ -100,6 +131,13 @@ python -m thesis_os lattice predict --workspace ./workspace \
   --prediction "Evidence가 유지되면 이 basket은 benchmark를 outperform해야 한다." \
   --direction relative_outperform \
   --horizon 1m
+python -m thesis_os lattice evaluate-screener --workspace ./workspace \
+  --candidate-id SCR-AI-INFRA-001 \
+  --horizon 1m \
+  --absolute-return 0.04 \
+  --benchmark-return 0.015
+python -m thesis_os lattice roundtable --workspace ./workspace
+python -m thesis_os arki build-wiki-index --workspace ./workspace
 ```
 
 ## 공개 / 비공개 경계
@@ -133,5 +171,8 @@ python -m thesis_os lattice predict --workspace ./workspace \
 4. Decision Card 생성
 5. Prediction Ledger 기록
 6. Feedback Report 생성
+7. Screener Candidate 생성과 forward 성과평가
+8. Vault wiki index와 SSOT note 생성
+9. 증액/홀드/감액/청산/관찰 판단을 위한 sample roundtable 실행
 
 유용하다면 star를 눌러주세요. 이 프로젝트는 투자 판단을 “그럴듯한 설명”에서 “검증 가능한 판단 시스템”으로 바꾸는 것을 목표로 합니다.

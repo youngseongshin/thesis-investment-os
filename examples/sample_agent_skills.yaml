@@ -15,6 +15,21 @@ skills:
     forbidden_actions:
       - "make final portfolio decision"
 
+  - id: alpha-screener
+    agent: alpha
+    purpose: "Generate quantitative candidates with feature snapshots."
+    inputs:
+      - "local market database"
+      - "evidence records"
+    outputs:
+      - "screener candidate"
+      - "screener vault note"
+    allowed_actions:
+      - "write screener candidates"
+      - "link candidates to thesis review"
+    forbidden_actions:
+      - "treat candidate as final buy signal"
+
   - id: lattice-devil-advocate
     agent: lattice
     purpose: "Challenge high-importance theses before action."
@@ -43,3 +58,18 @@ skills:
       - "fail CI"
     forbidden_actions:
       - "change investment thesis"
+
+  - id: arki-wiki-index
+    agent: arki
+    purpose: "Build generated wiki and SSOT notes for agent retrieval."
+    inputs:
+      - "vault"
+      - "canonical layout"
+    outputs:
+      - "wiki index"
+      - "SSOT note"
+    allowed_actions:
+      - "write generated index"
+      - "check canonical locations"
+    forbidden_actions:
+      - "rewrite source evidence"

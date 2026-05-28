@@ -7,6 +7,9 @@ Thesis OS depends on recurring work.
 - market data refresh
 - qualitative channel collection
 - screener update
+- screener feedback evaluation
+- Tier 1 holdings/watchlist information refresh
+- daily Lattice roundtable
 - thesis update scan
 - prediction evaluation
 - vault/wiki compile
@@ -28,4 +31,3 @@ Jobs should be declared in a machine-readable manifest:
 ## Runtime Options
 
 The public project provides generic job manifests. Users can run them through cron, launchd, systemd, GitHub Actions, or another scheduler.
-

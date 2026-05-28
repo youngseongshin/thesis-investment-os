@@ -34,6 +34,10 @@ A prediction states what should happen, by when, and how it will be evaluated.
 
 Feedback compares predictions to outcomes and classifies failure modes.
 
+### Screener Candidate
+
+A screener candidate records why Alpha surfaced an entity. Lattice should not treat it as an answer. It should use the candidate as a prompt to review the relevant thesis card.
+
 ## Devil's Advocate Gate
 
 High-importance decisions should pass a red-team review:
@@ -44,3 +48,17 @@ High-importance decisions should pass a red-team review:
 - What base rate applies?
 - What would prove this wrong?
 
+## Closed Loop
+
+The practical loop is:
+
+```text
+thesis card
+  -> Alpha evidence refresh
+  -> screener candidate
+  -> Lattice review
+  -> prediction ledger
+  -> fixed-horizon outcome
+  -> feedback note
+  -> thesis card update
+```

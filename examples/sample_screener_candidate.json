@@ -1,0 +1,20 @@
+{
+  "id": "SCR-AI-INFRA-001",
+  "entity": "AI Infrastructure Basket",
+  "ticker": "AI-INFRA",
+  "screener_name": "sample_quality_momentum",
+  "as_of_date": "2026-01-31",
+  "score": 0.6085,
+  "features": {
+    "relative_strength": 88,
+    "volume_expansion": 1.7,
+    "earnings_revision": 0.08,
+    "flow_score": 0.62,
+    "extension_risk": 0.3
+  },
+  "rationale": "Balanced strength across relative strength, volume, revisions, and flow. Candidate deserves thesis review.",
+  "evidence_ids": ["EVID-SAMPLE-QUANT-001", "EVID-SAMPLE-YOUTUBE-001"],
+  "thesis_id": "THESIS-SAMPLE-AI-INFRA-001",
+  "status": "candidate",
+  "created_at": "2026-01-31T00:00:00+00:00"
+}

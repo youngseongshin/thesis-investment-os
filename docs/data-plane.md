@@ -14,6 +14,18 @@ The quant data plane collects structured market and company data.
 - Filings and official disclosures
 - Export/import and macro data
 
+## Screener Role
+
+Screeners convert the quant data plane into thesis-review candidates. They should preserve the feature snapshot that caused selection so the system can later evaluate whether the rule worked.
+
+Examples:
+
+- relative strength + volume expansion
+- earnings revision + flow confirmation
+- short pressure unwind
+- quality + cycle acceleration
+- official catalyst proximity
+
 ## Provider Contract
 
 Every provider should produce records with:
@@ -44,4 +56,3 @@ Storage rules:
 ## Public Adapter Boundary
 
 Open-source providers should use public or sample data. Broker, paid data, and authenticated sources should be implemented as private adapters.
-

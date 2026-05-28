@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thesis-os.org/schemas/screener_candidate.schema.json",
+  "title": "ScreenerCandidate",
+  "type": "object",
+  "required": ["id", "entity", "ticker", "screener_name", "as_of_date", "score", "features", "rationale"],
+  "properties": {
+    "id": {"type": "string"},
+    "entity": {"type": "string"},
+    "ticker": {"type": "string"},
+    "screener_name": {"type": "string"},
+    "as_of_date": {"type": "string"},
+    "score": {"type": "number"},
+    "features": {"type": "object"},
+    "rationale": {"type": "string"},
+    "evidence_ids": {"type": "array", "items": {"type": "string"}},
+    "thesis_id": {"type": "string"},
+    "status": {"type": "string", "enum": ["candidate", "promoted", "rejected", "expired", "evaluated"]},
+    "created_at": {"type": "string"}
+  },
+  "additionalProperties": true
+}

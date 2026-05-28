@@ -18,8 +18,13 @@ jobs:
       - run: python -m thesis_os demo --out /tmp/thesis-os-demo
       - run: python -m thesis_os arki init --workspace /tmp/thesis-os-workspace
       - run: python -m thesis_os alpha sample-collect --workspace /tmp/thesis-os-workspace
+      - run: python -m thesis_os alpha run-screener --workspace /tmp/thesis-os-workspace
+      - run: python -m thesis_os alpha list-screeners --workspace /tmp/thesis-os-workspace
       - run: python -m thesis_os lattice build-thesis --workspace /tmp/thesis-os-workspace
       - run: python -m thesis_os lattice decision-card --workspace /tmp/thesis-os-workspace
       - run: python -m thesis_os lattice predict --workspace /tmp/thesis-os-workspace --prediction "Sample prediction" --direction relative_outperform --horizon 1m
+      - run: python -m thesis_os lattice evaluate-screener --workspace /tmp/thesis-os-workspace --candidate-id SCR-AI-INFRA-001 --horizon 1m --absolute-return 0.04 --benchmark-return 0.015
+      - run: python -m thesis_os lattice roundtable --workspace /tmp/thesis-os-workspace
+      - run: python -m thesis_os arki build-wiki-index --workspace /tmp/thesis-os-workspace
       - run: python -m thesis_os arki health --workspace /tmp/thesis-os-workspace
       - run: python -m unittest discover -s tests

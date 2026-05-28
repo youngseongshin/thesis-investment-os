@@ -40,6 +40,7 @@ Output examples:
 - `local/thesis_os.db`
 - `research_packet.json`
 - `screener_candidates.json`
+- `vault/screeners/{candidate}.md`
 
 ### Lattice Layer
 
@@ -73,3 +74,13 @@ Output examples:
 - `feedback/{date}_feedback.md`
 - `feedback_metrics.json`
 - updated thesis status
+- screener forward-performance reviews
+
+### Vault Wiki / SSOT Layer
+
+Arki builds generated indexes over the vault so agents can find canonical, current objects without scanning stale duplicate notes.
+
+Output examples:
+
+- `vault/wiki/index.md`
+- `vault/ssot/canonical-locations.md`

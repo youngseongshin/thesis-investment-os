@@ -26,6 +26,8 @@ class DemoTest(unittest.TestCase):
             workspace = Path(tmp) / "workspace"
             self.assertEqual(main(["arki", "init", "--workspace", str(workspace)]), 0)
             self.assertEqual(main(["alpha", "sample-collect", "--workspace", str(workspace)]), 0)
+            self.assertEqual(main(["alpha", "run-screener", "--workspace", str(workspace)]), 0)
+            self.assertEqual(main(["alpha", "list-screeners", "--workspace", str(workspace)]), 0)
             self.assertEqual(main(["lattice", "build-thesis", "--workspace", str(workspace)]), 0)
             self.assertEqual(main(["lattice", "decision-card", "--workspace", str(workspace)]), 0)
             self.assertEqual(
@@ -45,6 +47,27 @@ class DemoTest(unittest.TestCase):
                 ),
                 0,
             )
+            self.assertEqual(
+                main(
+                    [
+                        "lattice",
+                        "evaluate-screener",
+                        "--workspace",
+                        str(workspace),
+                        "--candidate-id",
+                        "SCR-AI-INFRA-001",
+                        "--horizon",
+                        "1m",
+                        "--absolute-return",
+                        "0.04",
+                        "--benchmark-return",
+                        "0.015",
+                    ]
+                ),
+                0,
+            )
+            self.assertEqual(main(["arki", "build-wiki-index", "--workspace", str(workspace)]), 0)
+            self.assertEqual(main(["lattice", "roundtable", "--workspace", str(workspace)]), 0)
             ledger = workspace / "prediction_ledger.jsonl"
             prediction_id = ledger.read_text(encoding="utf-8").split('"id": "')[1].split('"', 1)[0]
             self.assertEqual(
@@ -65,6 +88,10 @@ class DemoTest(unittest.TestCase):
                 0,
             )
             self.assertTrue((workspace / "vault" / "feedback" / f"{prediction_id}_feedback.md").exists())
+            self.assertTrue((workspace / "vault" / "feedback" / "SCR-AI-INFRA-001_1m_screener_feedback.md").exists())
+            self.assertTrue((workspace / "vault" / "wiki" / "index.md").exists())
+            self.assertTrue((workspace / "vault" / "ssot" / "canonical-locations.md").exists())
+            self.assertTrue((workspace / "vault" / "decisions" / "daily-roundtable-sample.md").exists())
 
 
 if __name__ == "__main__":

@@ -15,11 +15,12 @@
   <text x="128" y="246" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">│   ├── evidence/</text>
   <text x="128" y="278" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">│   ├── theses/</text>
   <text x="128" y="310" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">│   ├── decisions/</text>
-  <text x="128" y="342" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">│   └── feedback/</text>
-  <text x="82" y="382" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">├── action_queue.json</text>
-  <text x="82" y="414" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">├── prediction_ledger.jsonl</text>
-  <text x="82" y="446" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">├── jobs.yaml</text>
-  <text x="82" y="478" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">└── manifest.json</text>
+  <text x="128" y="342" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">│   ├── feedback/</text>
+  <text x="128" y="374" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">│   ├── screeners/</text>
+  <text x="128" y="406" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">│   ├── wiki/</text>
+  <text x="128" y="438" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">│   └── ssot/</text>
+  <text x="82" y="478" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">├── action_queue.json</text>
+  <text x="82" y="510" font-family="Menlo, Consolas, ui-monospace, monospace" font-size="17" fill="#D1D5DB">└── prediction_ledger.jsonl</text>
 
   <rect x="575" y="120" width="300" height="88" rx="16" fill="#ECFDF5" stroke="#5EEAD4"/>
   <text x="604" y="154" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="800" fill="#0F766E">Alpha writes evidence</text>
@@ -33,4 +34,3 @@
   <text x="604" y="398" font-family="Inter, ui-sans-serif, system-ui" font-size="18" font-weight="800" fill="#0F172A">Arki checks health</text>
   <text x="604" y="426" font-family="Inter, ui-sans-serif, system-ui" font-size="15" fill="#334155">schemas, jobs, workspace state</text>
 </svg>
-

@@ -34,6 +34,34 @@ flowchart LR
 
 The loop is deliberately explicit: collect evidence, write memory, form a thesis, register a prediction, evaluate the outcome, and improve the next judgment.
 
+## Why Thesis OS?
+
+Most investment workflows have the same failure mode: the research may be good, but the judgment trail is hard to audit later.
+
+Thesis OS focuses on the part that compounds:
+
+- Alpha continuously collects quantitative and qualitative evidence.
+- Screeners turn local market data into candidate lists with feature snapshots.
+- Lattice keeps thesis cards current by reading Alpha evidence and screener outputs.
+- Lattice records predictions before outcomes are known.
+- Feedback jobs evaluate whether the thesis and screener judgment worked over fixed horizons.
+- Arki keeps the vault, SSOT notes, schemas, and wiki index clean enough for agents to retrieve current context.
+
+The value is the closed loop: **thesis card -> evidence refresh -> screener signal -> Lattice judgment -> prediction -> forward performance review -> thesis update**.
+
+## Operating Workflow
+
+The default workflow is built for holdings and watchlists:
+
+1. Alpha refreshes Tier 1 information, news, filings, market data, and screener signals.
+2. Alpha writes evidence records and screener candidates into the local DB and vault.
+3. Lattice reviews thesis cards with current evidence.
+4. Lattice runs a daily roundtable for increase, hold, decrease, exit, or watch decisions.
+5. Lattice registers predictions when a judgment has a measurable market implication.
+6. Feedback jobs evaluate outcomes over fixed horizons and feed lessons back into thesis cards and screener rules.
+
+The default philosophy borrows from Munger's latticework of mental models, William O'Neil's strength and loss-discipline framework, and Stanley Druckenmiller's concentration, flexibility, and asymmetry.
+
 ## Three Agents
 
 ### Alpha: Evidence
@@ -56,6 +84,7 @@ The name comes from Charlie Munger's idea of a "latticework of mental models." T
 - Action queue
 - Prediction ledger
 - Feedback interpretation
+- Screener forward-performance review
 
 ### Arki: System
 
@@ -81,6 +110,8 @@ Included:
 - Sample vault note generation
 - Sample prediction ledger and feedback report
 - Public adapter interfaces and examples
+- Screener candidate and screener feedback loop
+- Vault wiki index and SSOT note generation
 
 Excluded:
 
@@ -132,6 +163,8 @@ Agent-specific commands:
 ```bash
 python -m thesis_os arki init --workspace ./workspace
 python -m thesis_os alpha sample-collect --workspace ./workspace
+python -m thesis_os alpha run-screener --workspace ./workspace
+python -m thesis_os alpha list-screeners --workspace ./workspace
 python -m thesis_os alpha list-evidence --workspace ./workspace
 python -m thesis_os lattice build-thesis --workspace ./workspace
 python -m thesis_os lattice decision-card --workspace ./workspace
@@ -143,6 +176,13 @@ python -m thesis_os lattice evaluate --workspace ./workspace \
   --prediction-id PRED_ID \
   --absolute-return 0.04 \
   --benchmark-return 0.015
+python -m thesis_os lattice evaluate-screener --workspace ./workspace \
+  --candidate-id SCR-AI-INFRA-001 \
+  --horizon 1m \
+  --absolute-return 0.04 \
+  --benchmark-return 0.015
+python -m thesis_os lattice roundtable --workspace ./workspace
+python -m thesis_os arki build-wiki-index --workspace ./workspace
 ```
 
 ## Public / Private Boundary
@@ -169,6 +209,9 @@ This is an early public scaffold. The current implementation focuses on the mini
 4. Create a decision card
 5. Register a prediction
 6. Generate a feedback report
+7. Generate screener candidates and evaluate their forward performance
+8. Generate vault wiki and SSOT notes
+9. Run a sample Lattice roundtable for increase/hold/decrease/exit/watch decisions
 
 The next milestones are connector interfaces, richer feedback metrics, and reproducible job scheduling.
 

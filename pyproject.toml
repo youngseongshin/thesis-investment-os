@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "thesis-os"
-version = "0.3.0"
+version = "0.4.0"
 description = "A three-agent, thesis-driven investment research operating system."
 readme = "README.md"
 requires-python = ">=3.10"

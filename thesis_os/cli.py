@@ -8,15 +8,19 @@ from pathlib import Path
 from thesis_os.adapters.sample import SampleQualitativeProvider, SampleQuantProvider
 from thesis_os.alpha.collectors import load_evidence_csv
 from thesis_os.alpha.evidence_builder import event_to_evidence, ingest_csv_to_workspace, ingest_evidence_to_workspace
-from thesis_os.alpha.local_db import connect, init_db, insert_evidence, list_evidence
+from thesis_os.alpha.local_db import connect, init_db, insert_evidence, list_evidence, list_screener_candidates
+from thesis_os.alpha.screener import run_sample_screener
 from thesis_os.arki.health_check import check_demo_outputs, check_workspace
 from thesis_os.arki.job_manifest import write_default_job_manifest
 from thesis_os.arki.schema_lint import lint_schemas
 from thesis_os.arki.vault_writer import VaultWriter
+from thesis_os.arki.wiki_index import build_wiki_index
 from thesis_os.lattice.action_queue import write_action_queue
 from thesis_os.lattice.decision_card import decision_card_markdown
 from thesis_os.lattice.feedback_interpreter import feedback_report_markdown
 from thesis_os.lattice.prediction_ledger import append_prediction, read_predictions
+from thesis_os.lattice.roundtable import run_sample_roundtable
+from thesis_os.lattice.screener_feedback import evaluate_screener_candidate
 from thesis_os.lattice.thesis_registry import build_sample_thesis, thesis_markdown
 from thesis_os.models import Action, Prediction, utc_now
 from thesis_os.runtime.workspace import init_workspace, load_workspace_evidence
@@ -44,6 +48,10 @@ def main(argv: list[str] | None = None) -> int:
     alpha_sample.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
     alpha_list = alpha_sub.add_parser("list-evidence", help="List workspace evidence records.")
     alpha_list.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
+    alpha_screen = alpha_sub.add_parser("run-screener", help="Run the public sample screener and write candidates.")
+    alpha_screen.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
+    alpha_list_screen = alpha_sub.add_parser("list-screeners", help="List workspace screener candidates.")
+    alpha_list_screen.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
 
     lattice_parser = sub.add_parser("lattice", help="Lattice judgment commands. Korean: 격자.")
     lattice_sub = lattice_parser.add_subparsers(dest="lattice_command", required=True)
@@ -66,6 +74,14 @@ def main(argv: list[str] | None = None) -> int:
     lattice_eval.add_argument("--prediction-id", required=True)
     lattice_eval.add_argument("--absolute-return", required=True, type=float, help="Example: 0.04 for 4%.")
     lattice_eval.add_argument("--benchmark-return", default=0.0, type=float)
+    lattice_screen_eval = lattice_sub.add_parser("evaluate-screener", help="Evaluate a screener candidate with measured forward returns.")
+    lattice_screen_eval.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
+    lattice_screen_eval.add_argument("--candidate-id", required=True)
+    lattice_screen_eval.add_argument("--horizon", default="1m")
+    lattice_screen_eval.add_argument("--absolute-return", required=True, type=float, help="Example: 0.04 for 4%.")
+    lattice_screen_eval.add_argument("--benchmark-return", default=0.0, type=float)
+    lattice_roundtable = lattice_sub.add_parser("roundtable", help="Run a sample holdings/watchlist judgment roundtable.")
+    lattice_roundtable.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
 
     arki_parser = sub.add_parser("arki", help="Arki system governance commands.")
     arki_sub = arki_parser.add_subparsers(dest="arki_command", required=True)
@@ -73,6 +89,8 @@ def main(argv: list[str] | None = None) -> int:
     arki_init.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
     arki_health = arki_sub.add_parser("health", help="Check workspace health.")
     arki_health.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
+    arki_wiki = arki_sub.add_parser("build-wiki-index", help="Build vault wiki index and SSOT notes.")
+    arki_wiki.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
 
     args = parser.parse_args(argv)
     if args.command == "demo":
@@ -124,6 +142,17 @@ def run_alpha(args: argparse.Namespace) -> int:
     if args.alpha_command == "list-evidence":
         evidence = load_workspace_evidence(workspace)
         print(json.dumps([item.to_dict() for item in evidence], indent=2, ensure_ascii=False))
+        return 0
+    if args.alpha_command == "run-screener":
+        result = run_sample_screener(workspace)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return 0
+    if args.alpha_command == "list-screeners":
+        conn = connect(workspace / "local" / "thesis_os.db")
+        init_db(conn)
+        candidates = list_screener_candidates(conn)
+        conn.close()
+        print(json.dumps(candidates, indent=2, ensure_ascii=False))
         return 0
     raise ValueError(f"unknown alpha command: {args.alpha_command}")
 
@@ -204,6 +233,26 @@ def run_lattice(args: argparse.Namespace) -> int:
         print(json.dumps({"prediction_id": args.prediction_id, "path": str(path)}, indent=2, ensure_ascii=False))
         return 0
 
+    if args.lattice_command == "evaluate-screener":
+        try:
+            result = evaluate_screener_candidate(
+                workspace=workspace,
+                candidate_id=args.candidate_id,
+                horizon=args.horizon,
+                absolute_return=args.absolute_return,
+                benchmark_return=args.benchmark_return,
+            )
+        except KeyError:
+            print(f"ERROR: screener candidate not found: {args.candidate_id}")
+            return 1
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return 0
+
+    if args.lattice_command == "roundtable":
+        result = run_sample_roundtable(workspace)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return 0
+
     raise ValueError(f"unknown lattice command: {args.lattice_command}")
 
 
@@ -217,6 +266,10 @@ def run_arki(args: argparse.Namespace) -> int:
         health = check_workspace(workspace)
         print(json.dumps({"workspace": str(workspace), "health": health}, indent=2, ensure_ascii=False))
         return 0 if health["ok"] else 1
+    if args.arki_command == "build-wiki-index":
+        result = build_wiki_index(workspace)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return 0
     raise ValueError(f"unknown arki command: {args.arki_command}")
 
 
@@ -285,6 +338,8 @@ def run_demo(out: Path) -> int:
     )
     _write_decision(out, thesis, action)
     write_action_queue(out / "action_queue.json", [action])
+    run_sample_screener(out)
+    build_wiki_index(out)
 
     prediction = Prediction(
         id="PRED-SAMPLE-001",

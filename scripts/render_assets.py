@@ -75,6 +75,15 @@ def render_terminal_demo() -> Path:
             "# Alpha writes evidence into DB + vault.",
         ],
         [
+            "$ thesis-os alpha run-screener --workspace ./workspace",
+            "{",
+            '  "candidate_count": 3,',
+            '  "top_candidate": "SCR-AI-INFRA-001"',
+            "}",
+            "",
+            "# Screeners create candidates, not final answers.",
+        ],
+        [
             "$ thesis-os lattice build-thesis --workspace ./workspace",
             "{",
             '  "thesis_id": "THESIS-SAMPLE-AI-INFRA-001",',
@@ -95,15 +104,32 @@ def render_terminal_demo() -> Path:
             "# Prediction is registered before the outcome.",
         ],
         [
-            "$ thesis-os arki health --workspace ./workspace",
+            "$ thesis-os lattice roundtable --workspace ./workspace",
             "{",
-            '  "ok": true,',
-            '  "evidence_notes": 2,',
-            '  "thesis_notes": 1,',
-            '  "prediction_ledger": true',
+            '  "decision_count": 3',
             "}",
             "",
-            "✓ thesis loop is auditable and reproducible",
+            "# Lattice maps candidates to increase/hold/decrease/watch.",
+        ],
+        [
+            "$ thesis-os lattice evaluate-screener --workspace ./workspace \\",
+            "  --candidate-id SCR-AI-INFRA-001 --horizon 1m \\",
+            "  --absolute-return 0.04 --benchmark-return 0.015",
+            "{",
+            '  "excess_return": 0.025,',
+            '  "hit": true',
+            "}",
+            "",
+            "# Forward returns teach the next screener and thesis update.",
+        ],
+        [
+            "$ thesis-os arki build-wiki-index --workspace ./workspace",
+            "{",
+            '  "wiki": "vault/wiki/index.md",',
+            '  "ssot": "vault/ssot/canonical-locations.md"',
+            "}",
+            "",
+            "✓ evidence, screeners, theses, and feedback stay retrievable",
         ],
     ]
     frames = [terminal_frame(lines, cursor=i == len(frames_text) - 1) for i, lines in enumerate(frames_text)]
@@ -121,4 +147,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
