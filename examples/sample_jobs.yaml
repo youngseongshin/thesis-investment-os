@@ -98,6 +98,17 @@ jobs:
     failure_policy: "log and avoid duplicate alerts"
     enabled: true
 
+  - id: alpha-trade-proxy-refresh
+    owner_agent: alpha
+    cadence: "monthly after customs/export-import data release"
+    command: "thesis-os alpha trade-proxy --workspace ./demo_run --input-csv ./demo_run/sample_trade_proxy.csv --proxy-name semiconductor-memory"
+    outputs:
+      - "vault/evidence/semiconductor-memory-trade-proxy.md"
+      - "local/thesis_os.db"
+    freshness_sla: "monthly data release + 1 day"
+    failure_policy: "log and preserve previous proxy evidence"
+    enabled: true
+
   - id: lattice-judgment-feedback
     owner_agent: lattice
     cadence: "daily after horizon outcomes are available"
@@ -118,6 +129,27 @@ jobs:
       - "vault/ssot/canonical-locations.md"
     freshness_sla: "1 day"
     failure_policy: "log and keep previous index"
+    enabled: true
+
+  - id: arki-dashboard-cockpit-build
+    owner_agent: arki
+    cadence: "after evidence, thesis, and feedback refresh"
+    command: "thesis-os arki build-dashboard --workspace ./demo_run"
+    outputs:
+      - "vault/dashboard/index.html"
+      - "vault/dashboard/summary.md"
+    freshness_sla: "1 day"
+    failure_policy: "keep previous dashboard and write health finding"
+    enabled: true
+
+  - id: arki-harness-contract-validation
+    owner_agent: arki
+    cadence: "daily before recurring job execution"
+    command: "thesis-os arki validate-harness --workspace ./demo_run --input-json ./demo_run/sample_harness_contracts.json"
+    outputs:
+      - "vault/jobs/harness-contract-validation.md"
+    freshness_sla: "1 day"
+    failure_policy: "block newly added job contracts until fixed"
     enabled: true
 
   - id: arki-health-check

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thesis-os.org/schemas/harness_contract.schema.json",
+  "title": "HarnessContract",
+  "type": "object",
+  "required": ["id", "owner_agent", "purpose", "trigger", "command", "inputs", "outputs", "delivery"],
+  "properties": {
+    "id": {"type": "string"},
+    "owner_agent": {"type": "string", "enum": ["alpha", "lattice", "arki"]},
+    "purpose": {"type": "string"},
+    "trigger": {"type": "string"},
+    "command": {"type": "string"},
+    "inputs": {"type": "array", "items": {"type": "string"}},
+    "outputs": {"type": "array", "items": {"type": "string"}},
+    "delivery": {"type": "array", "items": {"type": "string"}},
+    "model_policy": {"type": "object"},
+    "failure_policy": {"type": "string"},
+    "public_private_boundary": {"type": "string"}
+  },
+  "additionalProperties": true
+}

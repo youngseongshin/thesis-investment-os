@@ -15,6 +15,7 @@ The recurring job list matters because Thesis OS is an operating system, not a s
 | Quant screener refresh | Alpha | Generate candidate list from local DB features | Weekday after market DB refresh |
 | Three-channel discovery Top 5 | Alpha | Merge quant, social, and analyst-report candidates into review queue | Daily after source refresh |
 | Intraday holdings/watchlist monitor | Alpha | Route price and flow alerts for active names | Market hours, 5-15 minutes or adapter-defined |
+| Trade/customs proxy refresh | Alpha | Convert export-import or customs proxy data into sector/value-chain evidence | Monthly or every official data release |
 | Thesis update scan | Lattice | Decide which thesis cards need updates | Daily after evidence refresh |
 | Daily roundtable | Lattice | Review increase, hold, decrease, exit, and watch decisions | Daily after Alpha refresh |
 | Concentrated strategy review | Lattice | Check common-driver exposure and sizing risk | Daily or weekly depending on portfolio concentration |
@@ -22,6 +23,8 @@ The recurring job list matters because Thesis OS is an operating system, not a s
 | Screener feedback evaluation | Lattice | Check whether screener candidates produced forward value | Daily/weekly by horizon |
 | Judgment feedback evaluation | Lattice | Evaluate portfolio-inclusion and action decisions | Daily/weekly by horizon |
 | Vault/wiki compile | Arki | Build current retrieval index and SSOT notes | Daily after research jobs |
+| Dashboard cockpit build | Arki | Export a static cockpit for thesis, watchlist, actions, predictions, and feedback | After evidence/thesis/feedback refresh |
+| Harness contract validation | Arki | Check recurring jobs have explicit owner, inputs, outputs, delivery, and failure policy | Daily before job execution and in CI |
 | Health check | Arki | Check schemas, job outputs, freshness, and public/private boundaries | Daily and CI |
 
 ## Job Manifest
@@ -35,6 +38,18 @@ Jobs should be declared in a machine-readable manifest:
 - outputs
 - freshness SLA
 - failure policy
+
+High-impact recurring jobs should also have a harness contract:
+
+- trigger
+- command
+- inputs
+- outputs
+- delivery surfaces
+- model policy
+- failure behavior
+
+See [sample_harness_contracts.json](../examples/sample_harness_contracts.json) for a public-safe contract manifest.
 
 ## Runtime Options
 

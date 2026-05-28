@@ -14,6 +14,9 @@ from thesis_os.alpha.local_db import connect, init_db, insert_evidence, list_evi
 from thesis_os.alpha.market_db import run_market_db_refresh
 from thesis_os.alpha.quant_screener import run_quant_screener
 from thesis_os.alpha.screener import run_sample_screener
+from thesis_os.alpha.trade_proxy import run_trade_proxy
+from thesis_os.arki.dashboard import build_dashboard
+from thesis_os.arki.harness_contracts import validate_harness_contracts
 from thesis_os.arki.health_check import check_demo_outputs, check_workspace
 from thesis_os.arki.job_manifest import write_default_job_manifest
 from thesis_os.arki.schema_lint import lint_schemas
@@ -68,6 +71,10 @@ def main(argv: list[str] | None = None) -> int:
     alpha_alerts = alpha_sub.add_parser("intraday-monitor", help="Monitor holdings/watchlist intraday price and flow events from a CSV adapter.")
     alpha_alerts.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
     alpha_alerts.add_argument("--input-csv", required=True, help="Intraday event CSV.")
+    alpha_trade = alpha_sub.add_parser("trade-proxy", help="Build customs/export-import style trade proxy evidence from a CSV adapter.")
+    alpha_trade.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
+    alpha_trade.add_argument("--input-csv", required=True, help="Trade proxy CSV.")
+    alpha_trade.add_argument("--proxy-name", default="trade_proxy", help="Proxy name, e.g. semiconductor-memory.")
     alpha_list_screen = alpha_sub.add_parser("list-screeners", help="List workspace screener candidates.")
     alpha_list_screen.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
 
@@ -115,6 +122,11 @@ def main(argv: list[str] | None = None) -> int:
     arki_health.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
     arki_wiki = arki_sub.add_parser("build-wiki-index", help="Build vault wiki index and SSOT notes.")
     arki_wiki.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
+    arki_harness = arki_sub.add_parser("validate-harness", help="Validate a public harness contract JSON manifest.")
+    arki_harness.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
+    arki_harness.add_argument("--input-json", required=True, help="Harness contract JSON manifest.")
+    arki_dashboard = arki_sub.add_parser("build-dashboard", help="Build a static HTML Thesis OS cockpit from workspace state.")
+    arki_dashboard.add_argument("--workspace", default="./thesis_os_workspace", help="Workspace directory.")
 
     args = parser.parse_args(argv)
     if args.command == "demo":
@@ -185,6 +197,10 @@ def run_alpha(args: argparse.Namespace) -> int:
         return 0
     if args.alpha_command == "intraday-monitor":
         result = run_intraday_monitor(workspace, args.input_csv)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return 0
+    if args.alpha_command == "trade-proxy":
+        result = run_trade_proxy(workspace, args.input_csv, proxy_name=args.proxy_name)
         print(json.dumps(result, indent=2, ensure_ascii=False))
         return 0
     if args.alpha_command == "list-screeners":
@@ -325,6 +341,16 @@ def run_arki(args: argparse.Namespace) -> int:
         result = build_wiki_index(workspace)
         print(json.dumps(result, indent=2, ensure_ascii=False))
         return 0
+    if args.arki_command == "validate-harness":
+        init_workspace(workspace)
+        result = validate_harness_contracts(args.input_json, workspace=workspace)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return 0 if result.get("error_count") == 0 else 1
+    if args.arki_command == "build-dashboard":
+        init_workspace(workspace)
+        result = build_dashboard(workspace)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return 0
     raise ValueError(f"unknown arki command: {args.arki_command}")
 
 
@@ -404,6 +430,28 @@ def run_demo(out: Path) -> int:
     sample_intraday_csv = out / "sample_intraday_events.csv"
     _write_sample_intraday_csv(sample_intraday_csv)
     run_intraday_monitor(out, sample_intraday_csv)
+    sample_trade_csv = out / "sample_trade_proxy.csv"
+    _write_sample_trade_proxy_csv(sample_trade_csv)
+    run_trade_proxy(out, sample_trade_csv, proxy_name="semiconductor-memory")
+    sample_harness_json = out / "sample_harness_contracts.json"
+    _write_sample_harness_contracts_json(sample_harness_json)
+    validate_harness_contracts(sample_harness_json, workspace=out)
+    evidence = load_workspace_evidence(out)
+    thesis = build_sample_thesis(evidence)
+    _write_thesis(out, thesis)
+    action = Action(
+        id="ACTION-SAMPLE-001",
+        entity=thesis.entity,
+        action="watch",
+        reason="Evidence supports active monitoring, but market reflection and base-rate checks are still required.",
+        evidence_ids=thesis.evidence_ids,
+        created_at=utc_now(),
+        thesis_id=thesis.id,
+        confidence="medium",
+        next_check="Next weekly refresh",
+    )
+    _write_decision(out, thesis, action)
+    write_action_queue(out / "action_queue.json", [action])
     build_wiki_index(out)
 
     prediction = Prediction(
@@ -435,6 +483,7 @@ def run_demo(out: Path) -> int:
         },
     )
     evaluate_judgment(out, action.id, horizon="1m", absolute_return=0.04, benchmark_return=0.015)
+    build_dashboard(out)
 
     manifest = {
         "db": str(db_path),
@@ -562,6 +611,81 @@ def _write_sample_intraday_csv(path: Path) -> None:
         writer = csv.DictWriter(f, fieldnames=_csv_fieldnames(rows))
         writer.writeheader()
         writer.writerows(rows)
+
+
+def _write_sample_trade_proxy_csv(path: Path) -> None:
+    rows = [
+        {
+            "period": "2026-01",
+            "entity": "AI Memory Export Proxy",
+            "origin": "Korea",
+            "destination": "Taiwan",
+            "hs_code": "854232",
+            "description": "memory IC export proxy",
+            "value_usd": "133400000",
+            "baseline_usd": "105200000",
+            "yoy_value_usd": "47500000",
+            "quantity": "0",
+            "unit": "",
+            "confidence": "medium",
+            "source": "sample_customs_adapter",
+            "source_url": "https://example.com/customs-sample",
+        },
+        {
+            "period": "2026-01",
+            "entity": "AI Server Substrate Proxy",
+            "origin": "Korea",
+            "destination": "Global",
+            "hs_code": "853400",
+            "description": "printed circuit substrate proxy",
+            "value_usd": "62000000",
+            "baseline_usd": "54000000",
+            "yoy_value_usd": "51000000",
+            "quantity": "0",
+            "unit": "",
+            "confidence": "low",
+            "source": "sample_customs_adapter",
+            "source_url": "https://example.com/customs-sample",
+        },
+    ]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=_csv_fieldnames(rows))
+        writer.writeheader()
+        writer.writerows(rows)
+
+
+def _write_sample_harness_contracts_json(path: Path) -> None:
+    data = {
+        "contracts": [
+            {
+                "id": "alpha.trade-proxy.semiconductor.v1",
+                "owner_agent": "alpha",
+                "purpose": "Convert customs/export-import adapter output into thesis evidence.",
+                "trigger": "after_monthly_trade_data_refresh",
+                "command": "thesis-os alpha trade-proxy --workspace ./workspace --input-csv ./trade.csv --proxy-name semiconductor-memory",
+                "inputs": ["trade_proxy_csv"],
+                "outputs": ["local_db.evidence", "vault/evidence/{proxy_name}-trade-proxy.md"],
+                "delivery": ["vault"],
+                "failure_policy": "write deterministic error note and keep previous evidence",
+                "model_policy": {"llm_required": False},
+            },
+            {
+                "id": "lattice.concentrated-strategy.v1",
+                "owner_agent": "lattice",
+                "purpose": "Review Top 5 candidates and holdings for portfolio inclusion and concentration decisions.",
+                "trigger": "after_market_close_evidence_refresh",
+                "command": "thesis-os lattice roundtable --workspace ./workspace",
+                "inputs": ["local_db.evidence", "vault/theses", "screeners.top5"],
+                "outputs": ["vault/decisions/daily-roundtable-sample.md"],
+                "delivery": ["vault", "telegram-summary-placeholder"],
+                "failure_policy": "preserve previous decision and flag stale output",
+                "model_policy": {"high_capability_model_for_judgment": True},
+            },
+        ]
+    }
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
 def _csv_fieldnames(rows: list[dict[str, str]]) -> list[str]:

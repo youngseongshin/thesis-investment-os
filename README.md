@@ -5,11 +5,35 @@
 
 [한국어 README](README.ko.md)
 
-Thesis OS is a three-agent, thesis-driven investment research operating system.
+> Build investment research agents that do not just summarize markets. They maintain theses, make decisions, register predictions, and grade themselves later.
 
-It combines quantitative market data, qualitative intelligence channels, local databases, long-term vault memory, agent skills, recurring research jobs, thesis registries, prediction ledgers, and feedback loops.
+**Thesis OS is an evidence-first, thesis-driven investment research operating system.** It combines quantitative data, qualitative intelligence, local databases, vault memory, agent workflows, prediction ledgers, and feedback loops into one auditable judgment machine.
 
-The goal is not to build an autonomous trading bot. The goal is to make investment judgment explicit, evidence-backed, auditable, and improvable over time.
+It is not an autonomous trading bot or an AI stock picker. It is a framework for making investment judgment explicit, testable, and improvable.
+
+## Why It Is Different
+
+| Common investment workflow | Thesis OS |
+|---|---|
+| Research notes pile up and go stale | Thesis cards stay linked to current evidence |
+| Screeners produce lists with no accountability | Candidates are evaluated over forward horizons |
+| LLMs write plausible narratives | Lattice records actions, predictions, invalidation, and feedback |
+| Data lives in scattered tools | Local DB + markdown vault + wiki/SSOT keep retrieval clean |
+| Automation is a bundle of scripts | Harness contracts define owner, trigger, inputs, outputs, delivery, and failure policy |
+| Portfolio review is hard to audit | Dashboard cockpit shows theses, watchlist alerts, actions, predictions, and performance feedback |
+
+## Run It In 60 Seconds
+
+```bash
+git clone https://github.com/youngseongshin/thesis-os.git
+cd thesis-os
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install -e .
+thesis-os demo --out ./demo_run
+```
+
+The demo creates a local SQLite DB, markdown vault, thesis card, decision card, prediction ledger, screener outputs, feedback notes, harness validation, trade proxy evidence, and a static dashboard at `demo_run/vault/dashboard/index.html`.
 
 <p align="center">
   <img src="docs/assets/thesis-os-architecture.svg" alt="Thesis OS architecture" width="100%">
@@ -148,8 +172,12 @@ Included:
 - Three-channel daily discovery and Top 5 compression
 - KR/US market DB refresh adapter
 - Intraday holdings/watchlist alert adapter
+- CSV-backed trade/customs proxy evidence adapter for semiconductor and supply-chain theses
 - Lattice judgment feedback loop
 - Vault wiki index and SSOT note generation
+- Static HTML dashboard cockpit for theses, watchlists, actions, predictions, and performance feedback
+- Harness contract schema and validator for recurring-job ownership, inputs, outputs, delivery, and failure policy
+- Thesis OS coverage matrix showing what is implemented, partial, or intentionally excluded
 - Public-safe sample output pack for thesis cards, nightly screening, concentrated strategy, screener feedback, and social collection
 - Public-safe recurring job manifest for market refresh, source collection, screeners, roundtable, feedback, wiki, and health checks
 
@@ -216,6 +244,14 @@ Vault governance adds the write-side discipline:
 doc_type -> policy resolver -> canonical path -> codeowner check -> frontmatter -> write -> wiki index
 ```
 
+## Dashboard Cockpit
+
+Thesis OS can generate a static dashboard for human review:
+
+- [Dashboard Cockpit](docs/dashboard-cockpit.md)
+
+The cockpit summarizes thesis cards, holdings/watchlist alerts, market snapshots, screener candidates, action queue items, predictions, and performance feedback. It is generated from the local DB and vault, so it can be published as a periodic snapshot behind private authentication without exposing credentials or live broker sessions.
+
 ## Skills
 
 Thesis OS is composed of reusable skills with explicit owners and boundaries.
@@ -226,6 +262,16 @@ Thesis OS is composed of reusable skills with explicit owners and boundaries.
 - [sample_skill_catalog.yaml](examples/sample_skill_catalog.yaml)
 
 The public skill catalog includes social collection, Facebook collection, YouTube scout, real-time market monitoring, quantitative screening, Top 5 deep dives, semiconductor specialist analysis, Deep Alpha, devil's advocate, roundtable judgment, and feedback evaluation.
+
+## Operational Coverage
+
+Thesis OS is designed as an executable operating loop, not only a document set. The current coverage is tracked in [Thesis OS Coverage](docs/thesis-os-coverage.md).
+
+Key executable components include:
+
+- `alpha trade-proxy`: turns customs/export-import style proxy data into evidence and vault notes for memory, HBM, substrate, and supply-chain theses.
+- `arki validate-harness`: validates job contracts so ownership, trigger, inputs, outputs, delivery, and failure behavior are explicit.
+- `arki build-dashboard`: builds a static HTML cockpit for thesis cards, watchlist/holdings alerts, action queues, prediction ledgers, and performance feedback.
 
 ## Quickstart
 
@@ -255,6 +301,7 @@ The demo creates:
 - `demo_run/vault/theses/`
 - `demo_run/vault/decisions/`
 - `demo_run/vault/feedback/`
+- `demo_run/vault/dashboard/index.html`
 - `demo_run/prediction_ledger.jsonl`
 
 You can also run without installing:
@@ -278,6 +325,9 @@ python -m thesis_os alpha refresh-market-db --workspace ./workspace \
   --input-csv ./demo_run/sample_market_snapshots.csv
 python -m thesis_os alpha intraday-monitor --workspace ./workspace \
   --input-csv ./demo_run/sample_intraday_events.csv
+python -m thesis_os alpha trade-proxy --workspace ./workspace \
+  --input-csv ./demo_run/sample_trade_proxy.csv \
+  --proxy-name semiconductor-memory
 python -m thesis_os alpha list-screeners --workspace ./workspace
 python -m thesis_os alpha list-evidence --workspace ./workspace
 python -m thesis_os lattice build-thesis --workspace ./workspace
@@ -302,6 +352,9 @@ python -m thesis_os lattice evaluate-judgment --workspace ./workspace \
   --benchmark-return 0.015
 python -m thesis_os lattice roundtable --workspace ./workspace
 python -m thesis_os arki build-wiki-index --workspace ./workspace
+python -m thesis_os arki validate-harness --workspace ./workspace \
+  --input-json ./demo_run/sample_harness_contracts.json
+python -m thesis_os arki build-dashboard --workspace ./workspace
 ```
 
 ## Public / Private Boundary
@@ -334,12 +387,17 @@ This is an early public scaffold. The current implementation focuses on the mini
 10. Refresh sample KR/US market snapshots
 11. Generate sample intraday alerts
 12. Evaluate a Lattice decision/action over a fixed horizon
+13. Convert sample trade/customs proxy rows into evidence and a vault note
+14. Validate sample harness contracts for recurring job governance
+15. Build a static thesis, watchlist, portfolio-action, and feedback dashboard
 
 The next milestones are connector interfaces, richer feedback metrics, and reproducible job scheduling.
 
 ## Community
 
-If this project is useful, please star it and open issues with concrete agent ownership:
+If you believe investment agents should be auditable, evidence-linked, and self-improving instead of just persuasive, please star the repo. It helps more builders find the project.
+
+Open issues with concrete agent ownership:
 
 - Alpha for evidence collection
 - Lattice for judgment

@@ -14,6 +14,7 @@ class DemoTest(unittest.TestCase):
             self.assertEqual(run_demo(out), 0)
             self.assertTrue((out / "local" / "thesis_os.db").exists())
             self.assertTrue((out / "vault" / "theses" / "THESIS-SAMPLE-AI-INFRA-001.md").exists())
+            self.assertTrue((out / "vault" / "dashboard" / "index.html").exists())
             self.assertTrue((out / "prediction_ledger.jsonl").exists())
             self.assertTrue((out / "manifest.json").exists())
 
@@ -25,12 +26,15 @@ class DemoTest(unittest.TestCase):
         root = Path(__file__).resolve().parents[1]
         required = [
             "docs/agent-persona-contracts.md",
+            "docs/dashboard-cockpit.md",
             "docs/domain-specialist-skills.md",
             "docs/memory-management.md",
             "docs/recurring-jobs.md",
             "docs/sample-output-pack.md",
             "docs/skills-and-pipelines.md",
+            "docs/thesis-os-coverage.md",
             "docs/vault-governance.md",
+            "examples/sample_harness_contracts.json",
             "examples/sample_jobs.yaml",
             "examples/sample_memory_policy.yaml",
             "examples/sample_skill_catalog.yaml",
@@ -94,6 +98,31 @@ class DemoTest(unittest.TestCase):
                 encoding="utf-8",
             )
             self.assertEqual(main(["alpha", "intraday-monitor", "--workspace", str(workspace), "--input-csv", str(intraday_csv)]), 0)
+            trade_csv = workspace / "trade_proxy.csv"
+            trade_csv.write_text(
+                "\n".join(
+                    [
+                        "period,entity,origin,destination,hs_code,description,value_usd,baseline_usd,yoy_value_usd,confidence,source",
+                        "2026-01,AI Memory Export Proxy,Korea,Taiwan,854232,memory IC export proxy,133400000,105200000,47500000,medium,sample_customs_adapter",
+                    ]
+                ),
+                encoding="utf-8",
+            )
+            self.assertEqual(
+                main(
+                    [
+                        "alpha",
+                        "trade-proxy",
+                        "--workspace",
+                        str(workspace),
+                        "--input-csv",
+                        str(trade_csv),
+                        "--proxy-name",
+                        "semiconductor-memory",
+                    ]
+                ),
+                0,
+            )
             self.assertEqual(main(["alpha", "list-screeners", "--workspace", str(workspace)]), 0)
             self.assertEqual(main(["lattice", "build-thesis", "--workspace", str(workspace)]), 0)
             self.assertEqual(main(["lattice", "decision-card", "--workspace", str(workspace)]), 0)
@@ -134,6 +163,29 @@ class DemoTest(unittest.TestCase):
                 0,
             )
             self.assertEqual(main(["arki", "build-wiki-index", "--workspace", str(workspace)]), 0)
+            harness_json = workspace / "harness_contracts.json"
+            harness_json.write_text(
+                """{
+  "contracts": [
+    {
+      "id": "alpha.trade-proxy.semiconductor.v1",
+      "owner_agent": "alpha",
+      "purpose": "Convert customs data into evidence.",
+      "trigger": "monthly",
+      "command": "thesis-os alpha trade-proxy --workspace ./workspace --input-csv ./trade.csv",
+      "inputs": ["trade_csv"],
+      "outputs": ["vault/evidence/trade-proxy.md"],
+      "delivery": ["vault"]
+    }
+  ]
+}""",
+                encoding="utf-8",
+            )
+            self.assertEqual(
+                main(["arki", "validate-harness", "--workspace", str(workspace), "--input-json", str(harness_json)]),
+                0,
+            )
+            self.assertEqual(main(["arki", "build-dashboard", "--workspace", str(workspace)]), 0)
             self.assertEqual(main(["lattice", "roundtable", "--workspace", str(workspace)]), 0)
             self.assertEqual(
                 main(
@@ -178,7 +230,11 @@ class DemoTest(unittest.TestCase):
             self.assertTrue((workspace / "vault" / "feedback" / "ACTION-SAMPLE-001_1m_judgment_feedback.md").exists())
             self.assertTrue((workspace / "vault" / "screeners" / "daily-discovery-top5.md").exists())
             self.assertTrue((workspace / "vault" / "evidence" / "market-db-refresh.md").exists())
+            self.assertTrue((workspace / "vault" / "evidence" / "semiconductor-memory-trade-proxy.md").exists())
             self.assertTrue((workspace / "vault" / "alerts" / "intraday-alerts.md").exists())
+            self.assertTrue((workspace / "vault" / "jobs" / "harness-contract-validation.md").exists())
+            self.assertTrue((workspace / "vault" / "dashboard" / "index.html").exists())
+            self.assertTrue((workspace / "vault" / "dashboard" / "summary.md").exists())
             self.assertTrue((workspace / "vault" / "wiki" / "index.md").exists())
             self.assertTrue((workspace / "vault" / "ssot" / "canonical-locations.md").exists())
             self.assertTrue((workspace / "vault" / "decisions" / "daily-roundtable-sample.md").exists())

@@ -1,0 +1,43 @@
+{
+  "contracts": [
+    {
+      "id": "alpha.trade-proxy.semiconductor.v1",
+      "owner_agent": "alpha",
+      "purpose": "Turn customs/export-import style semiconductor proxy data into evidence.",
+      "trigger": "monthly or 10-day customs data refresh",
+      "command": "thesis-os alpha trade-proxy --workspace ./demo_run --input-csv ./demo_run/sample_trade_proxy.csv --proxy-name semiconductor-memory",
+      "inputs": ["trade proxy CSV", "baseline assumptions"],
+      "outputs": ["vault/evidence/semiconductor-memory-trade-proxy.md", "local evidence records"],
+      "delivery": ["vault"],
+      "model_policy": {"llm_required": false},
+      "failure_policy": "log failure and preserve previous valid evidence",
+      "public_private_boundary": "Official API keys and paid shipment microdata stay outside the public repo."
+    },
+    {
+      "id": "lattice.concentrated-strategy.v1",
+      "owner_agent": "lattice",
+      "purpose": "Review common-driver exposure and action implications for concentrated portfolios.",
+      "trigger": "daily after Alpha evidence refresh",
+      "command": "thesis-os lattice roundtable --workspace ./demo_run",
+      "inputs": ["thesis cards", "market DB snapshots", "screener candidates", "feedback memory"],
+      "outputs": ["vault/decisions/daily-roundtable-sample.md", "action queue"],
+      "delivery": ["vault", "optional digest"],
+      "model_policy": {"llm_required": "deployment-specific"},
+      "failure_policy": "preserve previous decision note and mark stale",
+      "public_private_boundary": "Real portfolio weights stay private."
+    },
+    {
+      "id": "arki.wiki-ssot-compile.v1",
+      "owner_agent": "arki",
+      "purpose": "Compile current vault retrieval index and canonical location note.",
+      "trigger": "daily after research jobs",
+      "command": "thesis-os arki build-wiki-index --workspace ./demo_run",
+      "inputs": ["vault canonical notes", "vault policy"],
+      "outputs": ["vault/wiki/index.md", "vault/ssot/canonical-locations.md"],
+      "delivery": ["vault"],
+      "model_policy": {"llm_required": false},
+      "failure_policy": "keep previous index and write health finding",
+      "public_private_boundary": "Generated index should not expose private raw content."
+    }
+  ]
+}

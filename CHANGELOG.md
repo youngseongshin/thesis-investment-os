@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.5.0 - 2026-05-28
+
+- Add a Thesis OS coverage review that tracks implemented, partial, and intentionally excluded public components.
+- Add a CSV-backed trade/customs proxy evidence layer for semiconductor, memory, HBM, substrate, and supply-chain thesis inputs.
+- Add `thesis-os alpha trade-proxy` to write trade proxy evidence into the local DB and vault.
+- Add harness contract schema, sample manifest, and `thesis-os arki validate-harness` for recurring-job ownership, inputs, outputs, delivery, and failure-policy checks.
+- Add `thesis-os arki build-dashboard` for a static HTML cockpit covering theses, watchlists, actions, predictions, and performance feedback.
+- Add dashboard cockpit and Thesis OS coverage docs.
+- Refine English and Korean READMEs to communicate the project value, differentiation, runnable components, and dashboard workflow more clearly.
+- Extend the demo and tests so trade proxy evidence and harness validation produce executable vault outputs.
+
 ## 0.4.1 - 2026-05-28
 
 - Add a public-safe sample output pack covering thesis cards, nightly Top 5 deep dives, concentrated strategy reviews, screener discovery, screener feedback, and social collection.

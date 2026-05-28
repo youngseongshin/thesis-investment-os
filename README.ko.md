@@ -2,11 +2,37 @@
 
 [English README](README.md)
 
-Thesis OS는 **테시스 기반 투자 리서치 OS**입니다.
+> 시장을 요약하는 에이전트가 아니라, 테시스를 유지하고, 판단을 기록하고, 예측을 사전에 남기고, 나중에 스스로 채점하는 투자 리서치 에이전트 시스템.
 
-정량 데이터와 정성 인텔리전스를 수집하고, 로컬 데이터베이스와 마크다운 vault에 축적한 뒤, 이를 투자 테시스, 행동 판단, 예측 원장, 사후 피드백 루프로 변환합니다.
+Thesis OS는 **근거 우선, 테시스 기반 투자 리서치 OS**입니다.
 
-목표는 자동매매 봇을 만드는 것이 아닙니다. 목표는 투자 판단을 더 명시적이고, 근거 기반이며, 감사 가능하고, 시간이 지날수록 개선 가능한 형태로 만드는 것입니다.
+정량 데이터, 정성 인텔리전스, 로컬 데이터베이스, 마크다운 vault, 에이전트 워크플로우, 예측 원장, 피드백 루프를 하나의 감사 가능한 판단 기계로 묶습니다.
+
+목표는 자동매매 봇이나 AI 종목 추천기를 만드는 것이 아닙니다. 목표는 투자 판단을 더 명시적이고, 검증 가능하며, 시간이 지날수록 개선 가능한 형태로 만드는 것입니다.
+
+## 무엇이 다른가?
+
+| 일반적인 투자 리서치 흐름 | Thesis OS |
+|---|---|
+| 리서치 노트가 쌓이고 금방 낡음 | 테시스 카드가 최신 evidence와 계속 연결됨 |
+| 스크리너가 리스트만 만들고 책임지지 않음 | 후보 종목을 기간별 forward 성과로 평가 |
+| LLM이 그럴듯한 내러티브를 작성 | Lattice/격자가 action, prediction, 무효화 조건, feedback을 기록 |
+| 데이터가 여러 도구에 흩어짐 | Local DB + markdown vault + wiki/SSOT로 검색과 참조를 정리 |
+| 자동화가 여러 스크립트 묶음으로 흩어짐 | harness contract가 owner, trigger, input, output, delivery, failure policy를 명시 |
+| 포트폴리오 리뷰가 사후 감사하기 어려움 | dashboard cockpit이 thesis, watchlist alert, action, prediction, performance feedback을 한 화면에 표시 |
+
+## 60초 실행
+
+```bash
+git clone https://github.com/youngseongshin/thesis-os.git
+cd thesis-os
+python3 -m venv .venv
+. .venv/bin/activate
+python -m pip install -e .
+thesis-os demo --out ./demo_run
+```
+
+데모는 local SQLite DB, markdown vault, thesis card, decision card, prediction ledger, screener output, feedback note, harness validation, trade proxy evidence, static dashboard를 생성합니다. 대시보드는 `demo_run/vault/dashboard/index.html`에서 확인할 수 있습니다.
 
 <p align="center">
   <img src="docs/assets/thesis-os-architecture.svg" alt="Thesis OS architecture" width="100%">
@@ -114,7 +140,7 @@ Lattice는 evidence를 투자 판단으로 바꿉니다.
 
 ### Arki: System
 
-Arki는 Research OS의 구조와 운영을 관리합니다.
+Arki는 Thesis OS의 구조와 운영을 관리합니다.
 
 - 스키마
 - vault layout
@@ -160,6 +186,9 @@ python -m thesis_os alpha refresh-market-db --workspace ./workspace \
   --input-csv ./demo_run/sample_market_snapshots.csv
 python -m thesis_os alpha intraday-monitor --workspace ./workspace \
   --input-csv ./demo_run/sample_intraday_events.csv
+python -m thesis_os alpha trade-proxy --workspace ./workspace \
+  --input-csv ./demo_run/sample_trade_proxy.csv \
+  --proxy-name semiconductor-memory
 python -m thesis_os alpha list-screeners --workspace ./workspace
 python -m thesis_os alpha list-evidence --workspace ./workspace
 python -m thesis_os lattice build-thesis --workspace ./workspace
@@ -180,6 +209,9 @@ python -m thesis_os lattice evaluate-judgment --workspace ./workspace \
   --benchmark-return 0.015
 python -m thesis_os lattice roundtable --workspace ./workspace
 python -m thesis_os arki build-wiki-index --workspace ./workspace
+python -m thesis_os arki validate-harness --workspace ./workspace \
+  --input-json ./demo_run/sample_harness_contracts.json
+python -m thesis_os arki build-dashboard --workspace ./workspace
 ```
 
 ## 공개 / 비공개 경계
@@ -196,6 +228,10 @@ python -m thesis_os arki build-wiki-index --workspace ./workspace
 - 샘플 local DB / vault 생성
 - prediction ledger와 feedback evaluator
 - thesis card, nightly screening, concentrated strategy, screener feedback, social collection 샘플 산출물
+- 반도체/공급망 테시스를 위한 CSV 기반 통관/수출입 proxy evidence adapter
+- 반복작업의 owner, trigger, input, output, delivery, failure policy를 검증하는 harness contract schema와 validator
+- 테시스, 워치리스트, 보유종목 알람, action queue, prediction ledger, 성과 피드백을 한 화면에 보여주는 static HTML dashboard cockpit
+- Thesis OS의 구현/부분구현/제외 항목을 정리한 coverage matrix
 - 시장 DB 갱신, 소스 수집, 스크리너, 라운드테이블, 피드백, wiki, health check를 위한 공개 안전 반복작업 manifest
 
 공개 repo에 포함하지 않는 것:
@@ -211,7 +247,7 @@ python -m thesis_os arki build-wiki-index --workspace ./workspace
 
 ## 샘플 산출물 팩
 
-공개 repo에는 실제 Research OS의 구조를 이해할 수 있는 공개 안전 샘플 산출물이 포함되어 있습니다.
+공개 repo에는 Thesis OS의 구조를 이해할 수 있는 공개 안전 샘플 산출물이 포함되어 있습니다.
 
 - [테시스 카드](examples/sample_outputs/thesis-card-ai-infrastructure-basket.md)
 - [나이트 Top 5 딥다이브](examples/sample_outputs/nightly-top5-deep-dive.md)
@@ -264,6 +300,14 @@ Vault governance는 쓰기 규율을 추가합니다.
 doc_type -> policy resolver -> canonical path -> codeowner check -> frontmatter -> write -> wiki index
 ```
 
+## 대시보드 콕핏
+
+Thesis OS는 사람이 현재 판단 루프를 빠르게 볼 수 있도록 static HTML dashboard를 생성할 수 있습니다.
+
+- [Dashboard Cockpit](docs/dashboard-cockpit.md)
+
+콕핏은 thesis card, 보유/관찰 종목 알람, market snapshot, screener candidate, action queue, prediction ledger, performance feedback을 요약합니다. local DB와 vault만 읽어 생성되므로, 개인 배포 환경에서는 주기적으로 export한 HTML을 비밀번호 뒤에 두고 운영할 수 있습니다.
+
 ## 스킬
 
 Thesis OS는 명시적인 owner와 boundary를 가진 재사용 스킬들로 구성됩니다.
@@ -274,6 +318,16 @@ Thesis OS는 명시적인 owner와 boundary를 가진 재사용 스킬들로 구
 - [sample_skill_catalog.yaml](examples/sample_skill_catalog.yaml)
 
 공개 skill catalog에는 소셜 수집, 페이스북 수집, 유튜브 scout, 종목 실시간 데이터 모니터링, 정량 스크리닝, Top 5 딥다이브, 반도체 전문분석, Deep Alpha, 악마의 변호인, 라운드테이블 판단, 피드백 평가가 포함됩니다.
+
+## Thesis OS 운영 범위
+
+Thesis OS는 단순 문서 묶음이 아니라 실행 가능한 투자 판단 루프를 목표로 합니다. 현재 구현/부분구현/제외 범위는 [Thesis OS Coverage](docs/thesis-os-coverage.md)에 정리했습니다.
+
+현재 실행 가능한 주요 구성요소는 다음과 같습니다.
+
+- `alpha trade-proxy`: 메모리, HBM, 기판, 공급망 수출입 흐름 같은 통관/수출입 proxy 데이터를 CSV adapter로 받아 evidence와 vault note로 변환합니다.
+- `arki validate-harness`: 반복작업이 누구 소유인지, 어떤 입력을 읽고, 무엇을 쓰고, 어디로 전달하며, 실패 시 어떻게 처리하는지 contract 단위로 검증합니다.
+- `arki build-dashboard`: thesis card, watchlist/holding alert, action queue, prediction ledger, performance feedback을 한 화면에서 보는 static HTML cockpit을 생성합니다.
 
 ## 프로젝트 상태
 
@@ -291,5 +345,10 @@ Thesis OS는 명시적인 owner와 boundary를 가진 재사용 스킬들로 구
 10. 한국/미국 market snapshot refresh
 11. 보유/관찰 종목 intraday alert 생성
 12. 격자 판단/action의 기간별 성과평가
+13. 통관/수출입 proxy 데이터를 evidence와 vault note로 변환
+14. 반복작업 harness contract 검증
+15. 테시스, 워치리스트, 포트폴리오 판단, 성과 피드백 dashboard 생성
 
-유용하다면 star를 눌러주세요. 이 프로젝트는 투자 판단을 “그럴듯한 설명”에서 “검증 가능한 판단 시스템”으로 바꾸는 것을 목표로 합니다.
+이 프로젝트는 투자 판단을 “그럴듯한 설명”에서 “검증 가능한 판단 시스템”으로 바꾸는 것을 목표로 합니다.
+
+투자 에이전트가 설득력 있는 글쓰기 도구를 넘어, 근거와 연결되고 사후 검증되며 스스로 개선되어야 한다고 생각하신다면 star를 눌러주세요. 더 많은 빌더에게 닿는 데 큰 도움이 됩니다.

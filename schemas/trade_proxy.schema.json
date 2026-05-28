@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://thesis-os.org/schemas/trade_proxy.schema.json",
+  "title": "TradeProxy",
+  "type": "object",
+  "required": ["period", "entity", "origin", "destination", "hs_code", "value_usd", "source"],
+  "properties": {
+    "period": {"type": "string"},
+    "entity": {"type": "string"},
+    "proxy_name": {"type": "string"},
+    "origin": {"type": "string"},
+    "destination": {"type": "string"},
+    "hs_code": {"type": "string"},
+    "description": {"type": "string"},
+    "value_usd": {"type": "number"},
+    "baseline_usd": {"type": "number"},
+    "proxy_value_usd": {"type": "number"},
+    "yoy_value_usd": {"type": "number"},
+    "quantity": {"type": "number"},
+    "unit": {"type": "string"},
+    "confidence": {"type": "string"},
+    "source": {"type": "string"},
+    "source_url": {"type": "string"}
+  },
+  "additionalProperties": true
+}

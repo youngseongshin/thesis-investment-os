@@ -13,6 +13,7 @@ VAULT_SECTIONS = {
     "decisions": "Decision cards and action rationale",
     "feedback": "Prediction and screener outcome reviews",
     "alerts": "Intraday holdings and watchlist alerts",
+    "dashboard": "Portfolio and thesis cockpit artifacts",
 }
 
 
@@ -61,6 +62,7 @@ def build_wiki_index(workspace: str | Path) -> dict[str, object]:
             "- Thesis cards: `vault/theses/`",
             "- Decision cards: `vault/decisions/`",
             "- Feedback reports: `vault/feedback/`",
+            "- Dashboards: `vault/dashboard/`",
             "- Wiki index: `vault/wiki/index.md`",
             "",
             "## Freshness Principle",
