@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.6.0 - 2026-05-29
+
+- Separate process quality from market outcome: add `process_score`, `result_score`, and `outcome_confidence` to screener and judgment feedback so a sound process is not graded by noisy short-term results.
+- Add `thesis_type`, `native_horizon`, and `measurement_note` to theses, plus direction-aware result scoring, so a multi-year compounder thesis is not invalidated by a short timing-window return. New doc: thesis types and native horizons.
+- Add a process-quality module (`thesis_os/lattice/process_quality.py`) and extend the demo, schemas, and tests around the process/result split.
+- Add `thesis-os quickstart-stock`: a no-credential public stock loop using a bundled sample CSV by default, with an optional `--live` no-key Yahoo/Stooq mode.
+- Add rolling walk-forward screener feedback to the quickstart (rolling windows, hit rate, average excess return, per-window candidate table), framed explicitly as a loop demonstration rather than an alpha claim.
+- Add live research channel links.
+- Upgrade CI actions to the Node 24 runtime (`actions/checkout@v6`, `actions/setup-python@v6`) to clear the Node 20 deprecation warnings.
+- Add a redaction gate: a secret/PII scan and public-sanitization test, with an installable pre-push hook.
+- Restructure the English and Korean READMEs to lead with the value proposition, a copy-paste quickstart, and the dashboard screenshot; replace SEO keyword lists with natural copy (repo topics already cover discovery) and add Python/PRs badges.
+- Replace the architecture diagram, refine the launch README flow, and sharpen the public value proposition and discoverability.
+
 ## 0.5.0 - 2026-05-28
 
 - Add a Thesis OS coverage review that tracks implemented, partial, and intentionally excluded public components.
