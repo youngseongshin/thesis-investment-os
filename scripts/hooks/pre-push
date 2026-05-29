@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# ThesisOS pre-push redaction gate.
+#
+# Blocks a secret / PII / credential leak BEFORE it leaves this machine — the
+# real prevention layer for a PUBLIC repo (GitHub CI is post-hoc: on a direct
+# push the leak is already public by the time CI fails).
+#
+# Policy SSOT: Research OS registry M-20260529-03 §9.
+#
+# Install (one-time, per clone):
+#   cp scripts/hooks/pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+#
+# Bypass (discouraged, leaves an audit-visible --no-verify): git push --no-verify
+set -euo pipefail
+
+repo_root="$(git rev-parse --show-toplevel)"
+echo "[pre-push] running redaction gate..."
+if ! python3 "$repo_root/scripts/redaction_gate.py"; then
+  echo "[pre-push] BLOCKED: redaction gate failed — push aborted." >&2
+  exit 1
+fi
+echo "[pre-push] redaction gate OK — allowing push."
