@@ -1,0 +1,25 @@
+name: Redaction Gate
+
+# Public boundary enforcement for this PUBLIC repo.
+# Policy SSOT: Research OS registry M-20260529-03 §9 (private/public boundary).
+# Fails the build if a tracked file leaks a secret / credential / owner PII,
+# or if a public sample loses its sanitization markers.
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  redaction-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+      - name: Secret / PII scan (boundary §9)
+        run: python scripts/redaction_gate.py
+      - name: Install package (for sanitization test)
+        run: python -m pip install -e .
+      - name: Public sanitization test
+        run: python -m unittest tests.test_demo.DemoTest.test_sample_outputs_are_public_sanitized
