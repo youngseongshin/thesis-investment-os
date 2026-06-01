@@ -6,9 +6,14 @@ The first public goal is not to claim investment performance. It is to show a co
 
 ```text
 Stop building persuasive AI. Build accountable AI.
+Thesis OS turns evidence into judgment. Capital is the test.
 ```
 
 Thesis OS should be positioned as an **accountability layer for investment agents**. Competing thinking-skill projects sell better reasoning inside a single response. Thesis OS sells the next layer: a prediction is registered before the outcome, preserved in a ledger, and graded later.
+
+Human-system contract:
+
+> The machine produces judgment candidates; the investor validates, selects, and compounds.
 
 ## Positioning
 

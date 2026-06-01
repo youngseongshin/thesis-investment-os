@@ -8,10 +8,14 @@
 [한국어 README](README.ko.md)
 
 > Stop building persuasive AI. Build accountable AI.
+>
+> Thesis OS turns evidence into judgment. Capital is the test.
 
 **Thesis OS is an accountability layer for investment agents.** It is a runnable open-source core that turns fragmented market information into theses, decisions, predictions, and forward-return feedback loops you can audit later.
 
 It is for investors and builders who want their stock research, screeners, and trading-journal decisions to leave an auditable trail — not just another wall of signals.
+
+The machine produces judgment candidates; the investor validates, selects, executes, and compounds. Thesis OS is designed to make that human-system contract explicit.
 
 It is **not** an autonomous trading bot, a signal seller, or an AI stock picker, and it does not promise alpha. It is a framework for making investment judgment explicit, testable, and honest about its own track record.
 
@@ -50,6 +54,8 @@ Bring your own data sources, investing philosophy, watchlists, broker adapters, 
 Most AI investing tools either recommend stocks or aggregate more data for you to react to. Thesis OS takes a different route:
 
 > Record why an investment idea should work, what would invalidate it, what action it implies, and whether it actually worked after time passed.
+>
+> Generate judgment candidates; underwrite them yourself; let capital and feedback expose what was right, lucky, or wrong.
 
 ## What You Get
 

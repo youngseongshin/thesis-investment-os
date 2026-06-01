@@ -9,6 +9,10 @@ bet like Druckenmiller
 audit everything with feedback
 ```
 
+The operating contract is:
+
+> Thesis OS generates high-quality judgment candidates. The investor re-underwrites them through their own lens, executes selectively, and compounds capital.
+
 A private deployment can keep this as an Investment Philosophy Ledger in the vault. The ledger should link philosophy to actual decisions, thesis cards, action queues, and feedback reports. Philosophy is useful only if it changes behavior and can be audited later.
 
 ## Conflict Resolution

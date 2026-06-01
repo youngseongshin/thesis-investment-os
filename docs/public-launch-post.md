@@ -2,6 +2,8 @@
 
 Stop building persuasive AI. Build accountable AI.
 
+Thesis OS turns evidence into judgment. Capital is the test.
+
 Most AI investing tools try to answer one question:
 
 > What should I buy?
@@ -11,6 +13,8 @@ Thesis OS starts with a different question:
 > Why did I believe this idea, what would prove me wrong, and did the judgment actually work after time passed?
 
 That difference matters. A recommendation can be persuasive and still be useless six weeks later. A thesis-driven system has to leave a trail: evidence, assumptions, action, prediction, invalidation, and feedback.
+
+The machine produces judgment candidates. The investor validates, selects, executes, and compounds. Thesis OS is the ledger that keeps that relationship honest.
 
 ## The Problem
 

@@ -3,8 +3,16 @@
 Thesis OS starts from one claim:
 
 > Good investment judgment should be explicit, evidence-backed, auditable, and improvable.
+>
+> Thesis OS turns evidence into judgment. Capital is the test.
 
 The system is not designed to replace human judgment. It is designed to make judgment visible enough that it can be inspected, challenged, measured, and improved.
+
+## Human-System Contract
+
+Thesis OS generates judgment candidates. The investor re-underwrites them through their own lens, selects only the ones worth acting on, and accepts the capital risk of execution.
+
+The framework therefore optimizes for accountable judgment, not passive recommendation. Its job is to preserve the trail from evidence to thesis to action to result, so the investor can see what was sound, what was lucky, and what was wrong.
 
 ## Principles
 

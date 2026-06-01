@@ -13,6 +13,8 @@ The core category is:
 Useful public phrases:
 
 - Stop building persuasive AI. Build accountable AI.
+- Thesis OS turns evidence into judgment. Capital is the test.
+- The machine produces judgment candidates; the investor validates, selects, and compounds.
 - Theses that invalidate themselves.
 - Screeners that get graded.
 - Agents that keep score.

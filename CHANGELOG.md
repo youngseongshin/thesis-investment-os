@@ -5,6 +5,7 @@
 - Reposition README hero around the accountability layer: "Stop building persuasive AI. Build accountable AI."
 - Add a prediction-ledger demo GIF that shows register -> wait -> grade.
 - Add a public-safe prediction ledger accountability sample that shows hits and misses together.
+- Add the capital-test philosophy sentence and human-system contract to README and philosophy docs.
 - Add promotion and compliance guardrails, including disclaimer language and public/private promotion boundaries.
 - Expand the public launch plan around P0/P1/P2/P3 sequencing, developer audience, VC/finance audience, and legal-review gates.
 - Add `judgment-os`, `prediction-ledger`, `auditable-ai`, `evidence-first`, and `accountability-layer` keywords.
