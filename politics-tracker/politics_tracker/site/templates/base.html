@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}발언록{% endblock %}</title>
+<style>
+  :root { --ink: #1a1c20; --muted: #6b7280; --line: #e5e7eb; --accent: #1d4ed8; --bg: #fafafa; --card: #ffffff; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+         line-height: 1.65; }
+  header { border-bottom: 1px solid var(--line); background: var(--card); }
+  .shell { max-width: 760px; margin: 0 auto; padding: 0 1.25rem; }
+  header .shell { display: flex; align-items: baseline; gap: 1.25rem; padding-top: 0.9rem; padding-bottom: 0.9rem; }
+  .brand { font-weight: 800; font-size: 1.15rem; color: var(--ink); text-decoration: none; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
+  nav a:hover { color: var(--accent); }
+  main { padding: 2rem 0 3rem; }
+  a { color: var(--accent); }
+  h1 { font-size: 1.5rem; margin: 0 0 0.25rem; }
+  .muted { color: var(--muted); font-size: 0.92rem; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.15rem; margin: 0.6rem 0; }
+  .badge { display: inline-block; font-size: 0.78rem; color: var(--muted); border: 1px solid var(--line);
+           border-radius: 999px; padding: 0.05rem 0.55rem; margin-left: 0.4rem; vertical-align: middle; }
+  .day { margin: 1.6rem 0 0.4rem; font-weight: 700; }
+  .day .session { font-weight: 400; color: var(--muted); font-size: 0.9rem; }
+  .speech { white-space: pre-line; margin: 0.35rem 0 0.5rem; }
+  .srcline { font-size: 0.85rem; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  th, td { text-align: left; padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--line); font-size: 0.95rem; }
+  th { color: var(--muted); font-weight: 600; font-size: 0.85rem; }
+  tr:last-child td { border-bottom: none; }
+  input[type="search"] { width: 100%; padding: 0.65rem 0.9rem; margin: 0.8rem 0 1rem; font-size: 1rem;
+                          border: 1px solid var(--line); border-radius: 10px; background: var(--card); }
+  footer { border-top: 1px solid var(--line); color: var(--muted); font-size: 0.85rem; }
+  footer .shell { padding-top: 1rem; padding-bottom: 2rem; }
+</style>
+</head>
+<body>
+<header>
+  <div class="shell">
+    <a class="brand" href="{{ root }}index.html">발언록</a>
+    <nav><a href="{{ root }}about.html">방법론</a></nav>
+  </div>
+</header>
+<main>
+  <div class="shell">
+  {% block content %}{% endblock %}
+  </div>
+</main>
+<footer>
+  <div class="shell">
+    모든 발언은 원문 출처 링크와 함께 제공됩니다. 판정은 독자의 몫입니다. ·
+    Phase 0 walking skeleton · 생성 {{ generated_at }}
+  </div>
+</footer>
+</body>
+</html>

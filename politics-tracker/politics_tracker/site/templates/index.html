@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}발언록 — 인물 목록{% endblock %}
+{% block content %}
+<h1>인물</h1>
+<p class="muted">수록 발언 {{ total_utterances }}건 · 이름·정당·지역구로 검색</p>
+<input type="search" id="q" placeholder="예: 이가상, 가상당, 서울" autocomplete="off">
+<table id="people">
+  <thead>
+    <tr><th>이름</th><th>정당</th><th>지역구</th><th>발언</th></tr>
+  </thead>
+  <tbody>
+  {% for row in rows %}
+    <tr data-search="{{ row.person.name }} {{ row.person.party or '' }} {{ row.person.district or '' }}">
+      <td><a href="person/{{ row.person.person_id }}.html">{{ row.person.name }}</a></td>
+      <td>{{ row.person.party or "—" }}</td>
+      <td>{{ row.person.district or "—" }}</td>
+      <td>{{ row.count }}건</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+<script>
+  document.getElementById("q").addEventListener("input", function () {
+    var q = this.value.trim().toLowerCase();
+    document.querySelectorAll("#people tbody tr").forEach(function (tr) {
+      tr.style.display = tr.dataset.search.toLowerCase().includes(q) ? "" : "none";
+    });
+  });
+</script>
+{% endblock %}

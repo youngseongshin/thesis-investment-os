@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://politics-tracker.dev/schemas/utterance.schema.json",
+  "title": "Utterance",
+  "description": "발언 1건. 출처(source.url) 없는 발언은 유효하지 않다. topics/stance는 Phase 1~2에서 확장 (docs/design.md 6장).",
+  "type": "object",
+  "required": ["utterance_id", "speaker_name", "spoken_at", "venue", "text", "source"],
+  "properties": {
+    "utterance_id": { "type": "string", "description": "날짜+출처URL+순서로 결정되는 안정적 ID (재수집 멱등)" },
+    "speaker_name": { "type": "string", "description": "회의록 표기 기준 화자 이름" },
+    "speaker_role": { "type": ["string", "null"], "description": "회의록 표기 기준 직함 (의원, 의장, ○○부장관 등)" },
+    "person_id": { "type": ["string", "null"], "description": "화자 매칭 결과. 동명이인 등 미확정이면 null — 오귀속보다 미귀속" },
+    "spoken_at": { "type": "string", "format": "date" },
+    "venue": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": { "type": "string", "enum": ["assembly_plenary", "assembly_committee", "gov_briefing", "press_quote", "other"] },
+        "session": { "type": "string" }
+      }
+    },
+    "text": { "type": "string" },
+    "order": { "type": "integer", "minimum": 0, "description": "같은 회의록 안에서의 발언 순서" },
+    "source": {
+      "type": "object",
+      "required": ["kind", "url"],
+      "properties": {
+        "kind": { "type": "string" },
+        "url": { "type": "string" },
+        "title": { "type": ["string", "null"] },
+        "retrieved_at": { "type": ["string", "null"] },
+        "archived_snapshot": { "type": ["string", "null"], "description": "수집 시점 스냅샷 경로 (링크 부패 대비)" }
+      }
+    }
+  }
+}

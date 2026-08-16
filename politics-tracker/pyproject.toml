@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "politics-tracker"
+version = "0.1.0"
+description = "국내 정치인 발언 추적·공개 사이트 (가칭 발언록) — Phase 0 walking skeleton"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+    "jinja2>=3.1",
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+politics-tracker = "politics_tracker.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["politics_tracker*"]
+
+[tool.setuptools.package-data]
+politics_tracker = ["samples/*", "site/templates/*"]

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ person.name }} — 발언록{% endblock %}
+{% block content %}
+<h1>{{ person.name }}</h1>
+<p class="muted">
+  {{ person.party or "정당 정보 없음" }}
+  {% if person.district %} · {{ person.district }}{% endif %}
+  {% if person.era %} · 제{{ person.era }}대{% endif %}
+  {% if person.committees %} · {{ person.committees | join(", ") }}{% endif %}
+  · 수록 발언 {{ utterance_count }}건
+</p>
+
+{% if not groups %}
+<div class="card">아직 수록된 발언이 없습니다.</div>
+{% endif %}
+
+{% for group in groups %}
+<div class="day">{{ group.spoken_at }} <span class="session">{{ group.session }}</span></div>
+  {% for u in group.utterances %}
+  <div class="card">
+    <div class="muted">{{ u.speaker_name }}{% if u.speaker_role %}<span class="badge">{{ u.speaker_role }}</span>{% endif %}</div>
+    <p class="speech">{{ u.text }}</p>
+    <div class="srcline">
+      출처: <a href="{{ u.source.url }}" rel="noopener">{{ u.source.title or "회의록 원문" }}</a>
+      <span class="muted">· 수집 {{ u.source.retrieved_at or "—" }}</span>
+    </div>
+  </div>
+  {% endfor %}
+{% endfor %}
+{% endblock %}

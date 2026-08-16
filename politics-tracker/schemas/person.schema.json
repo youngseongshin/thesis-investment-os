@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://politics-tracker.dev/schemas/person.schema.json",
+  "title": "Person",
+  "description": "추적 대상 인물. 대상 선정은 직위 기반 규칙으로만 한다 (docs/design.md 3장).",
+  "type": "object",
+  "required": ["person_id", "name"],
+  "properties": {
+    "person_id": { "type": "string", "description": "안정적 식별자. 국회 API의 인물 코드(MONA_CD 등)를 우선 사용" },
+    "name": { "type": "string" },
+    "party": { "type": ["string", "null"], "description": "현재 소속 정당. 당적 이력은 Phase 2에서 position_history로 분리" },
+    "district": { "type": ["string", "null"] },
+    "era": { "type": ["string", "null"], "description": "대수 (예: \"22\")" },
+    "committees": { "type": "array", "items": { "type": "string" } },
+    "profile_url": { "type": ["string", "null"] },
+    "raw": { "type": "object", "description": "수집 원본 레코드 보존 (감사 가능성)" }
+  }
+}
