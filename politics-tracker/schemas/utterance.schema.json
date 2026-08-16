@@ -21,6 +21,8 @@
     },
     "text": { "type": "string" },
     "order": { "type": "integer", "minimum": 0, "description": "같은 회의록 안에서의 발언 순서" },
+    "topics": { "type": "array", "items": { "type": "string" }, "description": "주제 키 (enrich/topics.py의 TOPICS)" },
+    "topic_source": { "type": ["string", "null"], "description": "분류 방식 공개: rules | llm:<model> | held:<사유>" },
     "source": {
       "type": "object",
       "required": ["kind", "url"],

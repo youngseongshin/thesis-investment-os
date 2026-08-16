@@ -52,6 +52,8 @@ class Utterance:
     source: dict[str, Any]  # {"kind", "url", "title", "retrieved_at"} — 필수
     order: int = 0  # 같은 회의록 안에서의 발언 순서
     person_id: str | None = None  # 화자 매칭 결과 (미확정이면 None)
+    topics: list[str] = field(default_factory=list)  # 주제 키 (enrich.topics.TOPICS)
+    topic_source: str | None = None  # "rules" | "llm:<model>" | "held:<사유>" — 분류 방식 공개
 
     def __post_init__(self) -> None:
         if not self.source or not self.source.get("url"):
@@ -72,6 +74,8 @@ class Utterance:
             source=dict(d.get("source") or {}),
             order=int(d.get("order") or 0),
             person_id=d.get("person_id"),
+            topics=list(d.get("topics") or []),
+            topic_source=d.get("topic_source"),
         )
 
 

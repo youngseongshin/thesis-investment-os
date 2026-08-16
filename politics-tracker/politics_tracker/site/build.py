@@ -14,6 +14,7 @@ from pathlib import Path
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
+from ..enrich.topics import TOPIC_LABELS
 from ..models import Person, Utterance
 
 _TEMPLATE_DIR = Path(__file__).parent / "templates"
@@ -78,6 +79,7 @@ def build_site(people: list[Person], utterances: list[Utterance], out_dir: str |
             person=person,
             groups=_timeline_groups(person_utts),
             utterance_count=len(person_utts),
+            topic_labels=TOPIC_LABELS,
             generated_at=generated_at,
         )
         (out / "person" / f"{person.person_id}.html").write_text(html, encoding="utf-8")

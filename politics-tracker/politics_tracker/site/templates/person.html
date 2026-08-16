@@ -18,7 +18,8 @@
 <div class="day">{{ group.spoken_at }} <span class="session">{{ group.session }}</span></div>
   {% for u in group.utterances %}
   <div class="card">
-    <div class="muted">{{ u.speaker_name }}{% if u.speaker_role %}<span class="badge">{{ u.speaker_role }}</span>{% endif %}</div>
+    <div class="muted">{{ u.speaker_name }}{% if u.speaker_role %}<span class="badge">{{ u.speaker_role }}</span>{% endif %}
+      {% for t in u.topics %}<span class="badge topic">{{ topic_labels.get(t, t) }}</span>{% endfor %}</div>
     <p class="speech">{{ u.text }}</p>
     <div class="srcline">
       출처: <a href="{{ u.source.url }}" rel="noopener">{{ u.source.title or "회의록 원문" }}</a>
