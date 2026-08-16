@@ -1,20 +1,23 @@
 {% extends "base.html" %}
-{% block title %}발언록 — 인물 목록{% endblock %}
+{% block title %}발언록 · 인물{% endblock %}
 {% block content %}
 <h1>인물</h1>
-<p class="muted">수록 발언 {{ total_utterances }}건 · 이름·정당·지역구로 검색</p>
-<input type="search" id="q" placeholder="예: 이가상, 가상당, 서울" autocomplete="off">
+<p class="lead">국회 회의록에 기록된 발언 <span class="num">{{ total_utterances }}</span>건을
+인물별로 정리했습니다. 현재 <span class="num">{{ rows | length }}</span>명이 수록되어 있으며,
+이름과 정당, 지역구로 찾을 수 있습니다.</p>
+<input type="search" id="q" placeholder="이름, 정당, 지역구 검색" autocomplete="off"
+       aria-label="인물 검색">
 <table id="people">
   <thead>
-    <tr><th>이름</th><th>정당</th><th>지역구</th><th>발언</th></tr>
+    <tr><th>이름</th><th>정당</th><th>지역구</th><th class="num">발언</th></tr>
   </thead>
   <tbody>
   {% for row in rows %}
     <tr data-search="{{ row.person.name }} {{ row.person.party or '' }} {{ row.person.district or '' }}">
       <td><a href="person/{{ row.person.person_id }}.html">{{ row.person.name }}</a></td>
-      <td>{{ row.person.party or "—" }}</td>
-      <td>{{ row.person.district or "—" }}</td>
-      <td>{{ row.count }}건</td>
+      <td>{{ row.person.party or "" }}</td>
+      <td>{{ row.person.district or "" }}</td>
+      <td class="num">{{ row.count }}</td>
     </tr>
   {% endfor %}
   </tbody>
