@@ -110,4 +110,7 @@ pytest
 - Phase 3: 공약 추적, 예측 채점, 팩트체크 연계, 정정 채널
 - Phase 4: 공개 API, 비교 페이지 선거 모드
 
-단계별 성공 기준은 [docs/design.md 12장](docs/design.md#12-로드맵) 참고.
+단계별 성공 기준은 [docs/design.md 12장](docs/design.md#12-로드맵),
+Phase 3까지의 마일스톤별 상세 구현 계획(스키마, 수용 기준, 작업 순서)은
+[docs/implementation-plan.md](docs/implementation-plan.md) 참고.
+구현 계획서는 구현 담당 에이전트(GPT 5.6 Sol)가 단독으로 실행할 수 있도록 작성되어 있다.
