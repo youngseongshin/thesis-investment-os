@@ -123,6 +123,28 @@ Compliance boundary: Thesis OS is a framework, not investment advice or a stock-
 | Automation is a bundle of scripts | Harness contracts define owner, trigger, inputs, outputs, delivery, and failure policy |
 | Portfolio review is hard to audit | Dashboard cockpit shows theses, watchlist alerts, actions, predictions, and performance feedback |
 
+## Operating Maturity
+
+Thesis OS should be honest about what it proves. A working deployment can show
+that evidence, theses, predictions, actions, feedback, memory, and dashboards
+are connected. That is valuable before it proves alpha, because it reduces
+hindsight bias, stale-thesis drift, cherry-picking, and untracked risk.
+
+The main bottleneck is usually **judgment-to-action alignment**: a system may
+correctly detect stale theses, resolved fact gaps, concentration risk, or weak
+screener feedback, but those warnings still need to become explicit choices:
+approve an exception, normalize risk, block new additions, reduce exposure,
+hold and monitor, move to watchlist, retire the thesis, or open a fact-check.
+
+Thesis OS therefore separates:
+
+- **process score**: whether the judgment was pre-registered, evidence-linked,
+  horizon-aware, and explicit about invalidation;
+- **result score**: what happened after the relevant horizon matured.
+
+The public quickstart demonstrates the loop. It does not claim autonomous alpha.
+See [Operating Maturity](docs/operating-maturity.md).
+
 ## Bring Your Own Data
 
 Thesis OS does not need to own the data layer. There are already many excellent public quantitative databases, official filings, and analysis libraries. The framework is designed to ingest them through adapters and keep the judgment trail auditable.
@@ -515,7 +537,7 @@ This is an early public scaffold. The current implementation focuses on the mini
 
 Specialized adapters such as trade/customs proxy data are included as examples of how to extend the evidence layer. They are not the center of the framework. The current coverage map is in [Thesis OS Coverage](docs/thesis-os-coverage.md).
 
-The next milestones are connector interfaces, richer feedback metrics, reproducible job scheduling, and stronger dashboard examples.
+The next milestones are connector interfaces, richer feedback metrics, action-alignment workflows, reproducible job scheduling, and stronger dashboard examples.
 
 ## Launch Note
 

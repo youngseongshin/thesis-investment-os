@@ -123,6 +123,19 @@ Thesis OS는 오픈소스 프레임워크이고, Korea Invest Insights는 더 �
 | 자동화가 여러 스크립트 묶음으로 흩어짐 | harness contract가 owner, trigger, input, output, delivery, failure policy를 명시 |
 | 포트폴리오 리뷰가 사후 감사하기 어려움 | dashboard cockpit이 thesis, watchlist alert, action, prediction, performance feedback을 한 화면에 표시 |
 
+## 운영 성숙도
+
+Thesis OS는 무엇을 증명하고, 무엇을 아직 증명하지 못했는지 정직해야 합니다. 잘 도는 배포 환경은 evidence, thesis, prediction, action, feedback, memory, dashboard가 서로 연결되어 있음을 보여줄 수 있습니다. 이것만으로도 hindsight bias, 오래된 테시스 유지, 성공 사례만 골라 보는 문제, 기록되지 않은 리스크를 줄입니다.
+
+하지만 이것이 곧바로 알파 입증은 아닙니다. 가장 큰 병목은 보통 **판단과 행동의 정렬**입니다. 시스템이 오래된 테시스, 해소된 fact gap, 집중도 리스크, 약해진 screener feedback을 정확히 잡아도, 그 경고는 다시 명시적 선택으로 바뀌어야 합니다. 예외 승인, 리스크 정상화, 신규 증액 금지, 감액, 보유 관찰, watchlist 전환, thesis retire, 추가 fact-check 같은 상태가 필요합니다.
+
+그래서 Thesis OS는 두 점수를 분리합니다.
+
+- **process score**: 판단이 결과 전에 등록됐는지, evidence와 연결됐는지, thesis 고유 horizon을 가졌는지, 무효화 조건이 명확했는지
+- **result score**: 해당 horizon이 지난 뒤 실제 시장 결과가 어땠는지
+
+공개 quickstart는 이 루프가 동작한다는 것을 보여줍니다. 자율 알파 머신이라고 주장하지 않습니다. 자세한 내용은 [Operating Maturity](docs/operating-maturity.md)를 참고하세요.
+
 ## 좋은 공개 데이터를 꽂아 쓰기
 
 Thesis OS가 데이터 제공자까지 모두 대체할 필요는 없습니다. 이미 훌륭한 공개 정량 데이터베이스, 공식 공시, 분석 라이브러리가 많습니다. Thesis OS의 역할은 그 데이터를 adapter로 받아 **evidence -> screener candidate -> thesis -> prediction -> feedback** 흐름으로 감사 가능하게 만드는 것입니다.
@@ -482,6 +495,8 @@ Thesis OS는 명시적인 owner와 boundary를 가진 재사용 스킬들로 구
 8. Recurring job contract를 검증해 자동화가 감사 가능한 상태를 유지합니다.
 
 통관/수출입 proxy 같은 특수 어댑터는 evidence layer를 확장하는 예시로 포함되어 있습니다. 프레임워크의 중심은 특정 데이터 소스가 아니라 **테시스와 판단 피드백 루프**입니다. 현재 구현/부분구현/제외 범위는 [Thesis OS Coverage](docs/thesis-os-coverage.md)에 정리했습니다.
+
+다음 마일스톤은 connector interface, 더 풍부한 feedback metric, action-alignment workflow, 재현 가능한 job scheduling, 더 강한 dashboard 예시입니다.
 
 이 프로젝트는 투자 판단을 “그럴듯한 설명”에서 “검증 가능한 판단 시스템”으로 바꾸는 것을 목표로 합니다.
 

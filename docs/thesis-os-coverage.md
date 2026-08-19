@@ -12,6 +12,7 @@ It is intentionally public-safe. It describes reusable architecture and contract
 | Thesis / evidence / action / prediction / feedback loop | Reflected | schemas, demo CLI, vault notes, feedback commands |
 | Thesis type and native horizon discipline | Reflected | `docs/thesis-types-and-horizons.md`, thesis schema fields, process/result feedback scores |
 | Prediction-ledger accountability positioning | Reflected | README hero, `docs/assets/prediction-ledger-demo.gif`, and `examples/sample_outputs/prediction-ledger-accountability.md` |
+| Operating maturity and overclaim guardrails | Reflected | `docs/operating-maturity.md`, README maturity section, process/result feedback separation |
 | Promotion and compliance boundary | Reflected | `docs/promotion-and-compliance.md`, README disclaimer, security boundary docs |
 | Stock quickstart and live data option | Reflected | `thesis-os quickstart-stock` defaults to a bundled sample CSV and supports `--live` Yahoo/Stooq or a local price CSV to run screener -> thesis -> prediction -> rolling feedback |
 | Public data-source strategy | Reflected | `docs/public-data-sources.md` documents how to plug in Stooq, FinanceDataReader, OpenBB, pykrx, SEC/DART, FRED, customs APIs, and compatible public datasets |
@@ -47,6 +48,10 @@ thesis-os quickstart-stock --out ./quickstart_run
 It fetches or accepts public price history, creates market and screener CSV adapters, writes evidence to the local DB/vault, builds a thesis and decision card, registers a prediction, evaluates historical forward returns, builds the wiki/SSOT notes, and exports the dashboard.
 
 The quickstart proves the operating loop. It is not financial advice and not a buy signal.
+
+It proves that the loop can be run and audited. It does not prove autonomous
+alpha, strategy skill, or that a private deployment's portfolio outcome belongs
+to the framework alone. See `docs/operating-maturity.md`.
 
 ### 2. Harness Contracts And Delivery Policy
 
@@ -112,4 +117,5 @@ The next public-safe areas to implement would be:
 2. `alpha qualitative-ingest`: CSV/JSON adapter for social, Facebook, YouTube, newsletter, and report events.
 3. `lattice devil-advocate`: CLI command that turns a thesis card into a red-team checklist.
 4. `arki run-job`: local runner for sample recurring job manifests.
-5. `alpha verify-evidence`: cross-provider sample verification and stale-data scoring.
+5. `lattice action-alignment`: turn risk warnings and stale-thesis findings into explicit action states.
+6. `alpha verify-evidence`: cross-provider sample verification and stale-data scoring.

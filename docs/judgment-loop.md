@@ -85,6 +85,24 @@ thesis card
   -> thesis card and judgment process update
 ```
 
+## Judgment-To-Action Alignment
+
+The loop is incomplete if Lattice only records that something changed.
+
+Useful findings should become explicit operating states:
+
+- approve an exception;
+- normalize risk over time;
+- block new additions;
+- reduce exposure;
+- hold and monitor;
+- move to watchlist only;
+- retire the thesis;
+- open a fact-check or devil's advocate review.
+
+Without this layer, Thesis OS is a strong memory and warning system, but not yet
+a complete operating decision loop.
+
 ## Horizon Discipline
 
 Use predefined horizons for accountability, but choose horizons by thesis type:
@@ -95,3 +113,13 @@ Use predefined horizons for accountability, but choose horizons by thesis type:
 - `special_situation`: 1m, 3m, 6m
 
 Short-horizon underperformance can flag timing risk. It should not automatically invalidate a long-duration compounder thesis.
+
+## Maturity Guard
+
+Forward-return feedback is necessary, but early samples are noisy. Do not treat
+a handful of successful rows as proof of alpha, and do not assign all portfolio
+performance to the framework. The first measurable win is cleaner judgment:
+pre-registered predictions, evidence-linked decisions, explicit invalidation,
+current thesis cards, and fewer untracked exceptions.
+
+See [Operating Maturity](operating-maturity.md).
