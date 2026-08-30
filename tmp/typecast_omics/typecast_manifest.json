@@ -1,0 +1,388 @@
+{
+  "generated_at_utc": "2026-08-30T14:24:51.232470+00:00",
+  "provider": "Typecast API",
+  "voice": "Anchor Hwa",
+  "voice_id": "tc_5feb213228b7247f8c8eb6d9",
+  "model": "ssfm-v30",
+  "language": "kor",
+  "seed": 84,
+  "segment_count": 47,
+  "segments": [
+    {
+      "id": 1,
+      "role": "hook",
+      "file": "seg_001.mp3",
+      "bytes": 332320,
+      "sha256": "04e7781be53ffd731eb00b329c1dbcafedde1d7d63f466b60850d1d4d050705b",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 2,
+      "role": "explain",
+      "file": "seg_002.mp3",
+      "bytes": 476516,
+      "sha256": "04b02bb5b701f86ca1a00f977226a8fc6493f61e22da5cdd81f7dc0f54efa7e9",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 3,
+      "role": "headline",
+      "file": "seg_003.mp3",
+      "bytes": 582051,
+      "sha256": "d0e8c7ed64513b3cf0de4501577d407e1db925075f289e1730afb6e528e34a48",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 4,
+      "role": "transition",
+      "file": "seg_004.mp3",
+      "bytes": 419047,
+      "sha256": "25263a868c93ffdeb2b474fe65e448e789796ca447627d1ffa0723435ec734cc",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 5,
+      "role": "decision",
+      "file": "seg_005.mp3",
+      "bytes": 474426,
+      "sha256": "2f1ace0edb2d10a106dfe5bb5ab90100f389b12aa309c5a91ad5253a705f0e29",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 6,
+      "role": "chapter",
+      "file": "seg_006.mp3",
+      "bytes": 445169,
+      "sha256": "d32c0ffe64eae80fe20ec3a4411ec14490521c3c083a5a5090f89eca0f5bbff9",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 7,
+      "role": "explain",
+      "file": "seg_007.mp3",
+      "bytes": 528761,
+      "sha256": "48d7915e57f04113c9aadd0b0dab12fede2c940b4ceb4b1d7af8425d7e75c756",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 8,
+      "role": "story",
+      "file": "seg_008.mp3",
+      "bytes": 461888,
+      "sha256": "23bda4db5043f8c01c0a02baf5aab5680df4a43488ec98daeecb7cb87ca4b2de",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 9,
+      "role": "caution",
+      "file": "seg_009.mp3",
+      "bytes": 497414,
+      "sha256": "adb022fabd468ae1610f5ba55541eb134096d16474967c23afd19f313e9b7c1a",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 10,
+      "role": "decision",
+      "file": "seg_010.mp3",
+      "bytes": 450394,
+      "sha256": "830ce1537e72970b3497d9862206b59990a5ea8ab9f1aae44996e4131bff206b",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 11,
+      "role": "chapter",
+      "file": "seg_011.mp3",
+      "bytes": 435765,
+      "sha256": "203863d0af73e8614dc54381f189b2d5bf94fbe37f7c8bba6a6932a2ab08af2b",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 12,
+      "role": "explain",
+      "file": "seg_012.mp3",
+      "bytes": 508908,
+      "sha256": "7b349d58d16c98a759621c6db17626224eede319da16b0a2e2f5bd17c4f3ed86",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 13,
+      "role": "explain",
+      "file": "seg_013.mp3",
+      "bytes": 353218,
+      "sha256": "567db63e9581c1348611b2f347bde4f16f2c69fe37c3b845228db22bc09a3c52",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 14,
+      "role": "story",
+      "file": "seg_014.mp3",
+      "bytes": 386655,
+      "sha256": "ea5ece144ebf955f5781628366d9ac3ed338b9e0ae85610ba263a5dc8655c865",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 15,
+      "role": "caution",
+      "file": "seg_015.mp3",
+      "bytes": 505773,
+      "sha256": "69abf6c685b20feec015d70ca586abd668f610480eb3ec60a70213f924c3b207",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 16,
+      "role": "transition",
+      "file": "seg_016.mp3",
+      "bytes": 387700,
+      "sha256": "37a0d81e93cca574583819af07f6e1dea41d69851e0980fca9155bfa8b010827",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 17,
+      "role": "chapter",
+      "file": "seg_017.mp3",
+      "bytes": 472337,
+      "sha256": "7edb139cb88fe2c0cb7c28b02d3ae76cd0eed6405c0573d6ea60b395c2ed8ce5",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 18,
+      "role": "explain",
+      "file": "seg_018.mp3",
+      "bytes": 544435,
+      "sha256": "a5fc9f2fd6fd97b9b8ee797f3d7de6d61dbf209399a21c2bfdbdd361cbc3ab27",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 19,
+      "role": "caution",
+      "file": "seg_019.mp3",
+      "bytes": 374116,
+      "sha256": "84ae214e91b426b258a7eaa69301aa58ab5c7cd1182989e84c80539eb6d0bfab",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 20,
+      "role": "numbers",
+      "file": "seg_020.mp3",
+      "bytes": 445169,
+      "sha256": "15f667c193c28df0ec507e7abb528a33537403951ba65a9b3d3fdeb93f6a5bd6",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 21,
+      "role": "caution",
+      "file": "seg_021.mp3",
+      "bytes": 478606,
+      "sha256": "c248ba1e4e0b230a356975186fdababac15bc235c46f5f731b8ceb34414c3237",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 22,
+      "role": "decision",
+      "file": "seg_022.mp3",
+      "bytes": 480696,
+      "sha256": "0cdfc084aeaf4810b4644547432ed298e65346e9bc0c4472e132eb8cebddc4c8",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 23,
+      "role": "chapter",
+      "file": "seg_023.mp3",
+      "bytes": 484875,
+      "sha256": "45e2c80a292b28b37dbd03e4fd6f137b04e8e8de86e0852a5f9b358f35cb82b4",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 24,
+      "role": "story",
+      "file": "seg_024.mp3",
+      "bytes": 388745,
+      "sha256": "44f0680b5e153c5004dc3072336f433dc9077f04a2c602ee09408bd53144ecd1",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 25,
+      "role": "caution",
+      "file": "seg_025.mp3",
+      "bytes": 372026,
+      "sha256": "beb17cfab0746802a431809b68b98bfeb63e8de0578e5c5c2d74a14a7e256088",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 26,
+      "role": "explain",
+      "file": "seg_026.mp3",
+      "bytes": 280075,
+      "sha256": "fb5af603b4f002f2dbab779ebae9a0341f6134472954cf6b404cc7f875c4c466",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 27,
+      "role": "explain",
+      "file": "seg_027.mp3",
+      "bytes": 404418,
+      "sha256": "4044fca7a3e91881572b3f38557f56f9ef861b2bdce5270918c73a93c0de986e",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 28,
+      "role": "decision",
+      "file": "seg_028.mp3",
+      "bytes": 410688,
+      "sha256": "8459f5410bf23f236b0227bff2feaa06142b29c7d2c9b0156a5c3ddd14899218",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 29,
+      "role": "chapter",
+      "file": "seg_029.mp3",
+      "bytes": 415912,
+      "sha256": "559d4c59c335cf167ea7ac1677ea3e012a3d974f8c86b30d15e88b8c0d92f600",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 30,
+      "role": "explain",
+      "file": "seg_030.mp3",
+      "bytes": 445169,
+      "sha256": "509781cd048abb255856f3d0416874c4f24eaa66b71fbf3b3c974bf939f212c6",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 31,
+      "role": "explain",
+      "file": "seg_031.mp3",
+      "bytes": 489055,
+      "sha256": "9de77c179c48c18f421d994448f8769d0724289668b28cf54e5ac3533358f9b7",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 32,
+      "role": "story",
+      "file": "seg_032.mp3",
+      "bytes": 404418,
+      "sha256": "085cff8980bd11edeea9170c70da99a0c9050f0c33c774fe7a1b8d78f440f33a",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 33,
+      "role": "decision",
+      "file": "seg_033.mp3",
+      "bytes": 452484,
+      "sha256": "b1bfcbebbabfd77ef38b3c0336940b6d0fb8b6f242ec1ba37ec2630ffabf7063",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 34,
+      "role": "decision",
+      "file": "seg_034.mp3",
+      "bytes": 468157,
+      "sha256": "b6f37a2d7395eb4a8d4b5cd2913e1d88bdcb62acc0ea84cebe1c663eb71f9186",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 35,
+      "role": "chapter",
+      "file": "seg_035.mp3",
+      "bytes": 321871,
+      "sha256": "7dfbcdd5db2c0d8bcf72ba42ee5f3fd06830aa0f66277858273cc848d0cd405d",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 36,
+      "role": "caution",
+      "file": "seg_036.mp3",
+      "bytes": 408598,
+      "sha256": "1c6c5615ed61c68074df1cc1cbb158059e7f2fa748088bb5cf4e5d8586819033",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 37,
+      "role": "decision",
+      "file": "seg_037.mp3",
+      "bytes": 386655,
+      "sha256": "ede70987b3b97eab0908db13f47656e590d3213903c0c8a0fc9dcc8ae9ff10a6",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 38,
+      "role": "explain",
+      "file": "seg_038.mp3",
+      "bytes": 498459,
+      "sha256": "5fbcf3bbd8ebd4671c592bb1d66f28e2f5b626ffadad3613e18bccc3039172d1",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 39,
+      "role": "decision",
+      "file": "seg_039.mp3",
+      "bytes": 544435,
+      "sha256": "331a789d15d32811ebe358f2b8a33a0bbc3cdd2683ae8fc8aa66b383d5d722c7",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 40,
+      "role": "numbers",
+      "file": "seg_040.mp3",
+      "bytes": 578916,
+      "sha256": "02716b8f87fdc3d86bcd3b98dde1bcff83d4107a79db80521a71a7ac24d3d319",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 41,
+      "role": "chapter",
+      "file": "seg_041.mp3",
+      "bytes": 281120,
+      "sha256": "ee3943c81ff6ac66c0571c268533cce701f6e314e14db5110c53bfab7edb28fb",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 42,
+      "role": "numbers",
+      "file": "seg_042.mp3",
+      "bytes": 412777,
+      "sha256": "59a0a12c4e97f7287ac9925505eec1efd67d759eb92f51b73a14e945b052a37b",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 43,
+      "role": "caution",
+      "file": "seg_043.mp3",
+      "bytes": 351128,
+      "sha256": "6248aca0c01f3e15d738041bdabc07d82021b2dc4c9848147d463a04cc8f4628",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 44,
+      "role": "explain",
+      "file": "seg_044.mp3",
+      "bytes": 409643,
+      "sha256": "a72947673898bf9b0c5c63c3ea138741595cfa187a0ac4306614d27fecd7da62",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 45,
+      "role": "decision",
+      "file": "seg_045.mp3",
+      "bytes": 576826,
+      "sha256": "f56fb58aac8605e50872f909ea8abab103553f5a08efb7dad275af23e05070a4",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 46,
+      "role": "recap",
+      "file": "seg_046.mp3",
+      "bytes": 564288,
+      "sha256": "fe8701d7c72cf84ea90155322d491d66e17cd165496aecf482f51c30b355fb4e",
+      "api_duration_seconds": null
+    },
+    {
+      "id": 47,
+      "role": "finale",
+      "file": "seg_047.mp3",
+      "bytes": 414867,
+      "sha256": "512edeed4878e2f90be90b742954c3bc1f883bf4489d5a44724eb6a3bd9a49f8",
+      "api_duration_seconds": null
+    }
+  ]
+}
