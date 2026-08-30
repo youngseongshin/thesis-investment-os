@@ -1,0 +1,32 @@
+name: Temporary Typecast artifact transfer
+
+on:
+  push:
+    branches:
+      - tmp/typecast-omics-260830
+    paths:
+      - '.github/workflows/tmp-typecast-artifact.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: tmp/typecast-omics-260830
+          fetch-depth: 1
+      - name: Verify archive
+        run: |
+          test -s tmp/typecast_omics/typecast_segments.zip
+          unzip -t tmp/typecast_omics/typecast_segments.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: typecast-omics-segments
+          path: tmp/typecast_omics/typecast_segments.zip
+          compression-level: 0
+          retention-days: 1
+          if-no-files-found: error
