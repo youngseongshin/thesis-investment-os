@@ -2,6 +2,10 @@
 
 Thesis OS is designed around repeatable investment workflows.
 
+Every material workflow should begin with a declared objective, owner, bounded
+inputs, context budget, allowed effects, typed outputs, failure policy, and
+completion check. Scheduler entries are projections of that declaration.
+
 ## 1. Collection -> Screening -> Judgment
 
 ```text
@@ -18,7 +22,8 @@ refresh KR/US listed-equity local DBs after market close
   -> feedback review
 ```
 
-Alpha owns collection and screening. Lattice owns judgment. Arki owns workflow health.
+Alpha owns collection and screening. Lattice owns judgment. Arki owns workflow
+contracts, projection health, and run lineage.
 
 ## 2. Holdings And Watchlist Refresh
 
@@ -113,3 +118,16 @@ Feedback should be split into:
 - result score: whether the measured market outcome worked after the horizon matured
 
 For long-duration compounder theses, short-term return feedback should be treated as timing evidence, not final thesis proof.
+
+## 8. Run And Value Review
+
+A successful schedule is not enough. Critical workflows should link:
+
+```text
+input digest -> context packet -> model/tools -> artifact -> delivery or effect
+-> decision use -> outcome
+```
+
+Review cadence, model cost, and artifact retention against decision use, unique
+signal, errors prevented, and attention consumed. Narrow or retire workflows
+that remain operationally busy but decisionally idle.

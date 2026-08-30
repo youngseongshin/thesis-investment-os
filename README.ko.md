@@ -19,6 +19,10 @@ Thesis OS는 고품질 판단 후보를 생성하고, 투자자는 자기 관점
 
 자동매매 봇도, 시그널 판매기도, AI 종목 추천기도 아니며 알파를 약속하지 않습니다. 투자 판단을 명시적이고, 검증 가능하며, 자기 트랙레코드에 정직하게 만드는 프레임워크입니다.
 
+[공개 시스템 백서](docs/system-whitepaper.md)는 현재 기준의 작업 계약,
+컨텍스트 컴파일, 결정론적·효과 게이트, 런타임 어댑터, 실행 원장,
+결과 연결 메모리 구조를 설명합니다.
+
 핵심 루프는 단순합니다.
 
 ```text
@@ -68,10 +72,11 @@ Thesis OS는 사적인 포트폴리오 시스템의 복제본도 아니고, 완�
    - 정량 stock screener를 후보 큐, thesis card, forward-return feedback과 연결합니다.
    - 흥미로운 종목 리스트를 모으는 데서 멈추지 않고, 스크리너 신호가 실제로 유효했는지 테시스 고유 horizon과 rolling walk-forward 구간으로 평가합니다.
 
-3. **멀티에이전트 운영 설계**
+3. **역할 기반 운영 설계**
    - Alpha는 evidence를 수집하고 검증합니다.
-   - Lattice/격자는 투자 판단을 내리고 예측을 기록합니다.
-   - Arki는 schema, vault 구조, 반복작업, 시스템 상태를 관리합니다.
+   - Lattice/격자는 상장주식 판단과 예측을 담당합니다.
+   - Gwajang/과장과 Claw/클로는 VC와 개인 맥락을 위한 확장 역할입니다.
+   - Arki는 계약, 스키마, 런타임 경계, 시스템 상태를 관리합니다.
 
 4. **로컬-first 지식 저장 구조**
    - SQLite, markdown vault, SSOT, wiki index, dashboard를 함께 사용합니다.
@@ -243,7 +248,10 @@ flowchart LR
 - 피드백 루프는 이 철학이 실제로 판단 품질을 높였는지 기간별 성과로 검증합니다.
 - 테시스 타입은 멍거식 장기 컴파운더 테시스가 미네르비니식 단기 타이밍 구간으로 잘못 폐기되지 않도록 막습니다.
 
-## 세 에이전트
+## 운영 역할
+
+공개 CLI는 Alpha, Lattice, Arki를 실행 역할로 제공합니다. 더 큰 배포는
+투자 객체 모델을 바꾸지 않고 Gwajang과 Claw를 추가할 수 있습니다.
 
 ### Alpha: Evidence
 
@@ -282,27 +290,44 @@ Arki는 Thesis OS의 구조와 운영을 관리합니다.
 - migration log
 - agent skill governance
 
-## 런타임과 OpenClaw
+### Gwajang / 과장: VC 확장
 
-Thesis OS는 투자 판단 도메인 코어입니다. CLI, cron, launchd, systemd, GitHub Actions, OpenClaw, custom app 어디에서든 실행될 수 있습니다.
+과장은 별도의 기밀 경계 안에서 비상장사 테시스, 실사 자료, IC 문서,
+사후관리 이력을 담당합니다.
 
-실제 장기 운영 배포판은 **OpenClaw** 위에서 동작합니다. 여기서 OpenClaw는 reference runtime입니다.
+### Claw / 클로: 개인 맥락 확장
 
-- 지속 실행되는 Alpha, Lattice/격자, Arki 에이전트
-- 로컬 스킬과 모델 라우팅
-- 텔레그램 또는 chat gateway
-- 반복작업과 heartbeat
-- 메모리 capture와 promotion
-- vault write, log, recovery note
+클로는 출처가 연결된 성찰, 선호, 약속을 관리합니다. 투자 판단이나
+시스템 정책의 소유자는 아닙니다.
 
-구조를 나누면 다음과 같습니다.
+자세한 계약은 [Operating Roles](docs/operating-roles.md)와
+[Agent Persona Contracts](docs/agent-persona-contracts.md)에 있습니다.
+
+## 런타임과 하네스
+
+Thesis OS는 판단 도메인 코어입니다. CLI, cron, launchd, systemd, GitHub
+Actions, 지속 실행 에이전트 하네스, custom app에서 실행할 수 있습니다.
+
+정본 런타임 경계는 `RuntimeAdapter`입니다.
+
+- 선언된 workflow ID와 제한된 입력
+- 컨텍스트, 모델, 도구, 외부효과 정책
+- 체크포인트, timeout, retry, 정직한 fallback 상태
+- 산출물, 변경, 전달, 결과 trace
+- 공개 코어 밖의 런타임 secret
+
+런타임 경계:
 
 ```text
 Thesis OS = thesis / evidence / action / prediction / feedback core
-OpenClaw  = 이 core를 장기 실행하는 local agent runtime
+RuntimeAdapter = 하네스에 독립적인 실행·권한·전달·추적 경계
 ```
 
-OpenClaw는 quickstart 실행에 필수는 아닙니다. 다만 같은 루프를 장기 실행 로컬 멀티에이전트 시스템으로 운영하는 방법을 보여주는 기준 구현입니다. 자세한 내용은 [Runtime Adapters](docs/runtime-adapters.md), [OpenClaw Reference Runtime](docs/openclaw-reference-runtime.md), [`examples/openclaw/`](examples/openclaw/)를 참고하세요.
+OpenClaw 예시는 과거의 지속 실행 런타임 형태를 보여주는 호환 자료로
+남습니다. 새 연동은 하네스 중립 계약을 사용합니다. 자세한 내용은
+[Runtime Adapters](docs/runtime-adapters.md),
+[Adapter Contracts](docs/adapter-contracts.md),
+[OpenClaw Compatibility Note](docs/openclaw-reference-runtime.md)를 참고하세요.
 
 ## 명령어 레퍼런스
 
@@ -385,7 +410,7 @@ python -m thesis_os arki build-dashboard --workspace ./workspace
 | **판단 Layer** | thesis card 생성, decision card, 악마의 변호인 패턴, action queue, prediction ledger, Lattice roundtable, concentrated strategy sample, judgment feedback loop | evidence를 무효화 조건과 성과평가가 붙은 포트폴리오/워치리스트 판단으로 바꿉니다 |
 | **Memory와 Vault Governance** | memory management process, markdown vault 생성, document policy 패턴, codeowner/canonical path governance, vault wiki index, SSOT note 생성 | 리서치가 쌓이기만 하고 다시 찾히지 않는 문제를 줄이고, 사람과 에이전트가 최신 맥락을 참조하게 합니다 |
 | **Automation Harness** | recurring job manifest, harness contract schema, owner/input/output/delivery/failure-policy validator, health check, GitHub Actions CI | 자동화를 여러 스크립트 묶음이 아니라 반복 가능한 운영 워크플로우로 만듭니다 |
-| **Runtime Adapters** | runtime boundary 문서, OpenClaw reference runtime 문서, 공개 안전 OpenClaw agent/job 예시 | Thesis OS를 단순 CLI 프로젝트로도, 지속 실행 local agent system으로도 운영할 수 있게 합니다 |
+| **Runtime Adapters** | 하네스 중립 runtime/effect/delivery 계약과 호환 예시 | 객체 모델을 바꾸지 않고 CLI, 예약 workflow, 지속 실행 agent system, application에서 운영하게 합니다 |
 | **Human Review Surface** | static HTML dashboard cockpit, thesis card/nightly screening/concentrated strategy/screener feedback/social collection 공개 안전 샘플 산출물 | 사용자가 개인 데이터나 실제 adapter를 붙이기 전에 전체 판단 루프를 눈으로 확인하게 합니다 |
 
 공개 repo에 포함하지 않는 것:
@@ -396,7 +421,7 @@ python -m thesis_os arki build-dashboard --workspace ./workspace
 - 쿠키
 - 텔레그램 세션
 - Gmail 원문
-- private OpenClaw runtime state
+- private runtime, session, harness state
 - 유료 데이터 raw
 - 사적 vault
 
@@ -418,10 +443,12 @@ python -m thesis_os arki build-dashboard --workspace ./workspace
 
 ## 에이전트 페르소나와 프롬프트
 
-에이전트 설계도 시스템 설계의 일부입니다. Thesis OS는 Alpha, Lattice/격자, Arki를 서로 다른 역할과 성격을 가진 운영 주체로 봅니다.
+에이전트 설계도 시스템 설계의 일부입니다. Thesis OS는 evidence, 상장주식
+판단, VC, 개인 맥락, control plane의 소유권을 분리합니다.
 
-- [Three-Agent Model](docs/three-agent-model.md)
+- [Operating Roles](docs/operating-roles.md)
 - [Agent Persona Contracts](docs/agent-persona-contracts.md)
+- [System Whitepaper](docs/system-whitepaper.md)
 
 공개 프로젝트에는 재사용 가능한 역할 계약과 출력 경계를 문서화합니다. 실제 개인 배포 환경에서는 이를 전체 시스템 프롬프트로 확장할 수 있지만, 사용자 취향, 사적 메모리, 계정/채널 정보, 운영 세부사항은 공개 repo 밖에 둬야 합니다.
 
@@ -432,7 +459,10 @@ Thesis OS는 반복 실행작업을 통해 살아 움직입니다. 공개 core�
 - [Recurring Jobs](docs/recurring-jobs.md)
 - [sample_jobs.yaml](examples/sample_jobs.yaml)
 
-manifest에는 장 마감 후 market DB 갱신, 티어1 evidence 갱신, 정성 채널 수집, 스크리너, Top 5 발굴, 장중 모니터링, 라운드테이블, 집중전략 리뷰, 예측 평가, 스크리너 피드백, vault/wiki 컴파일, health check가 포함됩니다.
+manifest에는 market/evidence 갱신, 수집, 스크리너, 포트폴리오 리뷰,
+예측·피드백 평가, wiki compile, health check가 포함됩니다. 선언된
+workflow가 정본이고 cron, launchd, systemd, CI, agent schedule은 runtime
+projection입니다.
 
 ## 공개 런칭 노트
 
@@ -451,10 +481,13 @@ Thesis OS에서 메모리는 단순 저장소가 아니라 관리되는 프로�
 메모리 루프는 다음과 같습니다.
 
 ```text
-capture -> normalize -> classify -> promote/discard -> link -> summarize -> retrieve -> evaluate -> improve
+capture -> normalize -> classify -> promote/discard -> link -> retrieve -> influence 기록 -> outcome 평가 -> replay/revise/retire
 ```
 
-Alpha는 evidence memory, Lattice/격자는 judgment memory, Arki는 system memory를 관리합니다. LLM wiki는 raw archive가 아니라 canonical object를 압축해 에이전트가 현재 맥락을 잘 찾도록 돕는 retrieval layer입니다.
+Alpha는 evidence memory, Lattice/격자는 judgment memory, Arki는 system
+memory를 관리합니다. 확장 역할인 Gwajang과 Claw는 VC와 개인 맥락을
+별도 경계에서 소유합니다. compiled LLM Wiki는 canonical object 위의
+retrieval projection이며 raw archive나 두 번째 정본이 아닙니다.
 
 Vault governance는 쓰기 규율을 추가합니다.
 
@@ -493,10 +526,12 @@ Thesis OS는 명시적인 owner와 boundary를 가진 재사용 스킬들로 구
 6. Wiki/SSOT note를 만들어 에이전트가 최신 canonical context를 찾게 합니다.
 7. Thesis, watchlist, action queue, prediction ledger, feedback을 dashboard cockpit으로 export합니다.
 8. Recurring job contract를 검증해 자동화가 감사 가능한 상태를 유지합니다.
+9. 다음 실행 계층이 구현할 task, context, effect, run lineage, memory influence 계약을 하네스 중립적으로 문서화합니다.
 
 통관/수출입 proxy 같은 특수 어댑터는 evidence layer를 확장하는 예시로 포함되어 있습니다. 프레임워크의 중심은 특정 데이터 소스가 아니라 **테시스와 판단 피드백 루프**입니다. 현재 구현/부분구현/제외 범위는 [Thesis OS Coverage](docs/thesis-os-coverage.md)에 정리했습니다.
 
-다음 마일스톤은 connector interface, 더 풍부한 feedback metric, action-alignment workflow, 재현 가능한 job scheduling, 더 강한 dashboard 예시입니다.
+다음 마일스톤은 실행 가능한 task contract, end-to-end run lineage,
+effect fence, action alignment, retrieval-to-decision outcome telemetry입니다.
 
 이 프로젝트는 투자 판단을 “그럴듯한 설명”에서 “검증 가능한 판단 시스템”으로 바꾸는 것을 목표로 합니다.
 

@@ -1,54 +1,72 @@
 # Adapter Contracts
 
-Thesis OS keeps public methods separate from private runtime credentials.
-
-Adapters are interfaces, not bundled private integrations.
+Adapters connect external systems without leaking provider-specific behavior
+into the Thesis OS object model.
 
 ## QuantProvider
 
-Use for structured market or company data.
+Produces normalized structured evidence.
 
-Required behavior:
+Required fields and behavior:
 
-- read-only by default
-- return normalized `Evidence`
-- include source date and collected time
-- include provider name and confidence
-- never silently fabricate missing data
+- provider and source identity;
+- source date and collection time;
+- entity, metric, value, and unit;
+- delay, fallback, and confidence status;
+- read-only behavior by default;
+- no fabricated value for unavailable data.
 
 ## QualitativeProvider
 
-Use for Telegram, Facebook, YouTube, newsletter, community, or filing text sources.
+Produces source events from filings, reports, news, transcripts, social feeds,
+video, email, or user-supplied documents.
 
-Required behavior:
-
-- return `SourceEvent`
-- preserve source timestamp and URL when available
-- store minimal raw content when possible
-- mark transcript or metadata fallback honestly
-
-## DeliveryAdapter
-
-Use for optional delivery to Telegram, email, Slack, web, or stdout.
-
-Required behavior:
-
-- delivery should not mutate investment state
-- return a delivery result
-- never log credentials
+It must preserve source time and URL or source pointer, distinguish original
+text from summary, label metadata-only or transcript fallback, and avoid
+promoting a secondary narrative into a verified fact.
 
 ## RuntimeAdapter
 
-Use for hosting Thesis OS commands inside a long-running runtime such as OpenClaw, cron, launchd, GitHub Actions, or a custom app.
+Executes a declared Thesis OS workflow inside a CLI, scheduler, persistent
+agent harness, or application.
 
-Required behavior:
+It must enforce bounded inputs, context budget, model/tool permissions,
+timeouts, checkpoints, failure states, and run lineage. Runtime state and
+credentials stay outside the public repository.
 
-- execute Thesis OS commands with explicit inputs and outputs
-- keep secrets outside the public repository
-- write durable logs or run notes
-- preserve previous valid outputs on failure
-- avoid changing the object model for `Evidence`, `Thesis`, `Action`, `Prediction`, and `Feedback`
+## DeliveryAdapter
+
+Delivers an already validated artifact to chat, email, web, file, or another
+surface.
+
+It must:
+
+- accept an explicit destination class;
+- avoid mutating investment state;
+- return a delivery result and stable delivery ID;
+- prevent duplicate delivery when retried;
+- preserve parse-mode and attachment failure details;
+- never log credentials or raw private payloads.
+
+## EffectAdapter
+
+Represents a write or external action with consequences beyond artifact
+generation.
+
+Each effect declares:
+
+- effect type and reversibility;
+- target and expected change;
+- required approval class;
+- idempotency or rollback method;
+- effect ID and resulting state.
+
+External messages, capital actions, confidential disclosures, credential
+changes, destructive history edits, and policy changes require a human gate.
 
 ## Private Adapter Rule
 
-Real broker APIs, Telegram sessions, browser cookies, Gmail OAuth, and paid feeds should live in private repositories or local runtime directories.
+Broker APIs, authenticated sessions, browser cookies, mail OAuth, private chat
+state, paid feeds, and portfolio data belong in private repositories or local
+runtime state. Public adapters expose interfaces, fixtures, and redacted
+examples only.

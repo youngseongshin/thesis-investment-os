@@ -36,9 +36,18 @@ Feedback must not confuse process quality with outcome noise. A cleanly register
 
 ### 5. Agents Need Clear Boundaries
 
-Alpha collects evidence. Lattice makes investment judgments. Arki maintains the operating system. Each agent has a role, skill scope, and output contract.
+Alpha collects evidence. Lattice makes public-market judgments. Gwajang and
+Claw may own VC and personal-context extensions. Arki maintains the control
+plane. Each role has an owner, skill scope, memory boundary, effect boundary,
+and output contract.
 
-### 6. Private Data Stays Private
+### 6. Deterministic Rules Surround Probabilistic Judgment
+
+Code owns arithmetic, identity, freshness, schemas, permissions, and state.
+Models interpret incomplete evidence and write hypotheses, counterarguments,
+and prose. External effects pass through explicit gates.
+
+### 7. Private Data Stays Private
 
 Open-source code should expose methods, schemas, and examples, not real accounts, chat logs, private companies, credentials, cookies, or paid raw data.
 

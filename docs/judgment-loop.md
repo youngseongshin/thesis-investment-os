@@ -1,6 +1,12 @@
 # Judgment Loop
 
-The judgment loop turns evidence into decisions.
+The judgment loop turns evidence into explicit, reviewable decisions inside a
+bounded execution contract.
+
+```text
+task contract -> context packet -> evidence and judgment -> gates -> action or
+explicit non-action -> outcome -> feedback
+```
 
 ## Objects
 
@@ -68,6 +74,24 @@ High-importance decisions should pass a red-team review:
 - What base rate applies?
 - What would prove this wrong?
 
+The red-team result should be a typed artifact linked to the thesis and run. It
+should not become a second untraceable narrative.
+
+## Execution And Effect Gate
+
+Before a judgment changes an external state, the harness checks:
+
+- whether the evidence is fresh enough for the action;
+- whether the context and model contract completed as declared;
+- whether the tool and destination are allowed;
+- whether the effect is reversible;
+- whether human approval is required;
+- whether a retry would duplicate the action.
+
+Read-only analysis and reversible local drafts can be automatic. External
+messages, capital actions, confidential disclosure, policy changes, and
+destructive operations require the appropriate human gate.
+
 ## Closed Loop
 
 The practical loop is:
@@ -82,7 +106,8 @@ thesis card
   -> prediction/action ledger
   -> native-horizon outcome
   -> prediction, screener, and judgment feedback notes
-  -> thesis card and judgment process update
+  -> run, decision-influence, and outcome links
+  -> thesis card, memory, and judgment process update
 ```
 
 ## Judgment-To-Action Alignment

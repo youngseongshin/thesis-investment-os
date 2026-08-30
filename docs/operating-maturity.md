@@ -103,7 +103,26 @@ It is fair to claim:
 - screeners become accountable only when graded later;
 - process quality can improve before statistical alpha is proven;
 - the same object model can run on public data, private data, or a persistent
-  agent runtime such as OpenClaw.
+  agent runtime through a stable adapter.
+
+## Control Maturity
+
+Investment-object maturity and runtime-control maturity are separate. A system
+can have strong thesis cards and weak execution governance.
+
+| Level | Runtime control | Evidence required |
+|---|---|---|
+| C0 | prompts and scripts | output exists |
+| C1 | declared owner, inputs, outputs, and failure policy | valid workflow contract |
+| C2 | bounded context, tools, model calls, and deterministic checks | reproducible run fixture |
+| C3 | effect fence, idempotent delivery, and partial/fallback states | effect and delivery trace |
+| C4 | end-to-end run lineage from input digest to outcome | linked run ledger |
+| C5 | workflow retirement and tool improvement based on measured value | decision-use, cost, and outcome history |
+
+Human approval should follow consequence rather than appear on every step.
+Reversible low-impact work can run automatically. External messages, capital
+actions, confidential disclosure, policy changes, credentials, and destructive
+operations require the appropriate gate.
 
 ## Practical Upgrade Path
 
@@ -113,6 +132,9 @@ It is fair to claim:
 4. Add action alignment so warnings become explicit choices.
 5. Add dashboard surfaces that show open risk and stale context.
 6. Add calibration only after enough comparable observations exist.
+7. Move recurring work behind executable task and effect contracts.
+8. Link retrieval and workflow runs to decisions, cost, and outcomes.
+9. Merge or retire low-value workflows and generated artifacts.
 
 The goal is not to make the agent more persuasive. The goal is to make the
 investment process harder to fool.

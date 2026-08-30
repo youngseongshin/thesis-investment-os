@@ -2,6 +2,21 @@
 
 Thesis OS is intentionally small at the public core. The roadmap expands it without mixing in private broker credentials, private chat logs, or paid raw data.
 
+## Next: Governed Runtime And Decision Lineage
+
+- executable task-contract entry point
+- bounded context compiler with file, section, character, token, and call limits
+- harness-neutral runtime adapter and projection reconciliation
+- run ledger from input digest through model/tools, artifacts, delivery, and outcome
+- typed effect fence and idempotent delivery result
+- explicit partial, fallback, and preserve-last-good states
+- action alignment from warning to approve, hold, block-add, reduce, retire, or fact-check
+- retrieval-to-decision influence and memory outcome telemetry
+- workflow and artifact retirement based on decision use, cost, and attention
+
+These contracts will be added without coupling the public core to one agent
+harness or publishing private runtime state.
+
 ## v0.1: Public Core
 
 - Three-agent model: Alpha, Lattice, Arki

@@ -1,41 +1,65 @@
 # Runtime Adapters
 
-Thesis OS is the investment-domain core. It defines the objects and loop:
+Thesis OS owns the decision objects and their lifecycle. A runtime owns process
+execution, scheduling, tool access, delivery, and recovery.
 
 ```text
-evidence -> screener candidate -> thesis -> action/prediction -> feedback
+Thesis OS core
+  = evidence + thesis + action + prediction + feedback + contracts
+
+Runtime adapter
+  = execute + checkpoint + permissions + delivery + trace
 ```
 
-The core can run in several runtimes:
+## Supported Runtime Shapes
 
-| Runtime | Best for | How it should use Thesis OS |
+| Runtime | Best use | Required boundary |
 |---|---|---|
-| CLI | local experiments and reproducible demos | run commands such as `quickstart-stock`, `alpha run-quant-screener`, and `arki build-dashboard` |
-| cron / launchd / systemd | simple recurring jobs | schedule market refresh, screener refresh, wiki build, and feedback evaluation commands |
-| GitHub Actions | public CI and examples | verify schemas, demos, sample outputs, and docs stay runnable |
-| OpenClaw | long-running local agent systems | host Alpha, Lattice, and Arki as persistent agents with skills, memory, chat gateways, and operational logs |
-| Custom app/server | product deployments | call Thesis OS modules from an API, dashboard, or private data pipeline |
+| CLI | reproducible local runs and debugging | explicit inputs and output directory |
+| cron / launchd / systemd | narrow deterministic recurring work | declared workflow ID and idempotent command |
+| GitHub Actions | tests and public-safe builds | no private credentials or private artifacts |
+| Persistent agent harness | conversations, memory, tools, long-running workflows | profile isolation, context budget, effect fence, run ledger |
+| Custom app or service | product UI, API, workbench | typed adapter and human authorization boundary |
 
-## Boundary
+## RuntimeAdapter Contract
 
-The public repository should not require a specific runtime. A user should be able to run the quickstart with only Python:
+A conforming adapter should:
 
-```bash
-thesis-os quickstart-stock --out ./quickstart_run
+1. accept a stable `workflow_id`, bounded input references, and a run ID;
+2. compile only approved context;
+3. enforce model, tool, and effect permissions;
+4. expose checkpoint, timeout, retry, and partial-output states;
+5. preserve the previous valid artifact when a replacement fails;
+6. record input digest, model/tool use, artifacts, mutations, delivery, and
+   completion state;
+7. return an honest fallback state instead of imitating a successful judgment;
+8. keep runtime secrets and session state outside the public repository.
+
+The adapter must not redefine `Evidence`, `ScreenerCandidate`, `Thesis`,
+`Action`, `Prediction`, or `Feedback` to fit one vendor.
+
+## Declared Workflows And Projections
+
+The workflow registry is the design authority. Scheduler rows are runtime
+projections:
+
+```text
+workflow registry
+  -> adapter compile
+  -> cron / launchd / systemd / harness projection
+  -> observed run state
+  -> health and drift report
 ```
 
-OpenClaw is the reference runtime for the original long-running deployment, but it is not required to understand or use the open-source core.
+Editing an installed scheduler row directly should not create a new canonical
+cadence. The declaration and projection must be reconciled.
 
-## Adapter Contract
+## Harness Neutrality
 
-Runtime adapters should provide:
+The architecture can be hosted by Hermes, OpenClaw, another agent harness, or a
+custom application when the adapter contract is satisfied. The public repo's
+OpenClaw examples document one historical implementation shape; they are not a
+requirement or the current architecture authority.
 
-- command execution
-- scheduling
-- secrets outside the public repo
-- delivery surfaces such as Telegram, email, web, or files
-- durable logs
-- memory promotion policy
-- failure handling
-
-They should not change the Thesis OS object model. The same `Evidence`, `ScreenerCandidate`, `Thesis`, `Action`, `Prediction`, and `Feedback` objects should remain valid whether the runtime is CLI, cron, GitHub Actions, OpenClaw, or a custom app.
+See [Adapter Contracts](adapter-contracts.md) and
+[OpenClaw Compatibility Note](openclaw-reference-runtime.md).

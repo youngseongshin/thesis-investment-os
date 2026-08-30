@@ -19,6 +19,10 @@ The machine produces judgment candidates; the investor validates, selects, execu
 
 It is **not** an autonomous trading bot, a signal seller, or an AI stock picker, and it does not promise alpha. It is a framework for making investment judgment explicit, testable, and honest about its own track record.
 
+The [public system whitepaper](docs/system-whitepaper.md) describes the current
+reference architecture: bounded task contracts, compiled context, deterministic
+and effect gates, runtime adapters, ledgers, and outcome-linked memory.
+
 The core loop is simple:
 
 ```text
@@ -68,10 +72,11 @@ Most AI investing tools either recommend stocks or aggregate more data for you t
    - Connect quantitative stock screeners to candidate queues, thesis cards, and forward-return feedback.
    - Evaluate whether a screener signal worked over thesis-native horizons and rolling walk-forward windows, while keeping process quality separate from noisy outcomes.
 
-3. **A multi-agent operating model**
+3. **A role-based operating model**
    - Alpha collects and verifies evidence.
-   - Lattice makes investment judgments and records predictions.
-   - Arki governs schemas, vault structure, jobs, and system health.
+   - Lattice/격자 makes public-market judgments and records predictions.
+   - Gwajang/과장 and Claw/클로 are optional VC and personal-context roles.
+   - Arki governs contracts, schemas, runtime boundaries, and system health.
 
 4. **A local-first knowledge architecture**
    - Combine SQLite, markdown vault notes, SSOT rules, wiki indexes, and dashboards.
@@ -254,7 +259,10 @@ In practice:
 - Feedback jobs test whether this philosophy actually improved decisions.
 - Thesis types prevent a Munger-style compounder thesis from being invalidated by a Minervini-style timing window unless the thesis itself claimed that timing window.
 
-## Three Agents
+## Operating Roles
+
+The executable public CLI uses Alpha, Lattice, and Arki. Larger deployments can
+add Gwajang and Claw without changing the investment object model.
 
 ### Alpha: Evidence
 
@@ -291,27 +299,44 @@ Arki maintains the operating system.
 - Migration logs
 - Agent skill governance
 
-## Runtime And OpenClaw
+### Gwajang / 과장: VC Extension
 
-Thesis OS is the investment-domain core. It can run from the CLI, cron, launchd, systemd, GitHub Actions, OpenClaw, or a custom app.
+Gwajang maintains private-company theses, diligence packets, IC materials, and
+monitoring history inside a separate confidentiality boundary.
 
-The original long-running deployment runs on **OpenClaw**, which acts as a reference runtime:
+### Claw / 클로: Personal Context Extension
 
-- persistent Alpha, Lattice, and Arki agents
-- local skills and model routing
-- Telegram or chat gateways
-- recurring jobs and heartbeats
-- memory capture and promotion
-- vault writes, logs, and recovery notes
+Claw maintains source-linked reflection, preferences, and commitments. It does
+not own investment or system-policy decisions.
 
-In other words:
+See [Operating Roles](docs/operating-roles.md) and
+[Agent Persona Contracts](docs/agent-persona-contracts.md).
+
+## Runtime And Harnesses
+
+Thesis OS is the decision-domain core. It can run from the CLI, cron, launchd,
+systemd, GitHub Actions, a persistent agent harness, or a custom app.
+
+The canonical runtime boundary is `RuntimeAdapter`:
+
+- declared workflow ID and bounded inputs
+- context, model, tool, and effect policy
+- checkpoints, timeout, retry, and honest fallback state
+- artifact, mutation, delivery, and outcome trace
+- runtime secrets kept outside the public core
+
+Runtime boundary:
 
 ```text
 Thesis OS = thesis / evidence / action / prediction / feedback core
-OpenClaw  = long-running local agent runtime for operating that core
+RuntimeAdapter = harness-neutral execution, permission, delivery, and trace boundary
 ```
 
-OpenClaw is not required for the quickstart, but it shows how the same loop can run continuously as a local multi-agent system. See [Runtime Adapters](docs/runtime-adapters.md), [OpenClaw Reference Runtime](docs/openclaw-reference-runtime.md), and [`examples/openclaw/`](examples/openclaw/).
+The OpenClaw examples remain a compatibility reference for one historical
+persistent-runtime shape. New integrations should use the harness-neutral
+contract. See [Runtime Adapters](docs/runtime-adapters.md),
+[Adapter Contracts](docs/adapter-contracts.md), and
+[OpenClaw Compatibility Note](docs/openclaw-reference-runtime.md).
 
 ## What This Repository Provides
 
@@ -327,7 +352,7 @@ The included features are organized around the judgment loop, not around isolate
 | **Judgment layer** | Thesis card generation, decision cards, devil's advocate pattern, action queue, prediction ledger, Lattice roundtable, concentrated strategy sample, and judgment feedback loop | Turns evidence into reviewable portfolio/watchlist decisions with invalidation and measurable outcomes |
 | **Memory and vault governance** | Memory management process, markdown vault generation, document policy pattern, codeowner/canonical-path governance, vault wiki index, and SSOT note generation | Keeps research retrievable and current for both humans and agents |
 | **Automation harness** | Recurring job manifest, harness contract schema, ownership/input/output/delivery/failure-policy validator, health checks, and GitHub Actions CI | Makes the system operable as a repeatable workflow rather than a pile of scripts |
-| **Runtime adapters** | Runtime boundary docs, OpenClaw reference runtime docs, and public-safe OpenClaw agent/job examples | Lets users run Thesis OS as a simple CLI project or as a persistent local agent system |
+| **Runtime adapters** | Harness-neutral runtime, effect, and delivery contracts plus compatibility examples | Lets users run Thesis OS as a CLI project, scheduled workflow, persistent agent system, or application without changing the object model |
 | **Human review surface** | Static HTML dashboard cockpit and public-safe sample output pack for thesis cards, nightly screening, concentrated strategy, screener feedback, and social collection | Lets users inspect the loop visually before attaching private data or real adapters |
 
 Excluded:
@@ -335,7 +360,7 @@ Excluded:
 - Real account data
 - Real brokerage/session adapters
 - Private vault contents
-- Private OpenClaw runtime state
+- Private runtime, session, and harness state
 - API keys and secrets
 - User-specific chat history
 
@@ -357,10 +382,13 @@ These examples are synthetic and public-safe. They demonstrate structure, not in
 
 ## Agent Personas And Prompts
 
-Agent design is part of the system. Thesis OS treats Alpha, Lattice, and Arki as different operating roles, not interchangeable chatbots.
+Agent design is part of the system. Thesis OS separates evidence, judgment, VC,
+personal context, and control-plane ownership rather than treating agents as
+interchangeable chatbots.
 
-- [Three-Agent Model](docs/three-agent-model.md)
+- [Operating Roles](docs/operating-roles.md)
 - [Agent Persona Contracts](docs/agent-persona-contracts.md)
+- [System Whitepaper](docs/system-whitepaper.md)
 
 The public project documents reusable role contracts and output boundaries. A private deployment can extend those contracts into full system prompts while keeping user preferences, private memory, credentials, and operational details outside the public repository.
 
@@ -371,7 +399,10 @@ Thesis OS depends on durable recurring work. The public core includes:
 - [Recurring Jobs](docs/recurring-jobs.md)
 - [sample_jobs.yaml](examples/sample_jobs.yaml)
 
-The manifest covers market-close DB refresh, Tier 1 evidence refresh, qualitative collection, screeners, Top 5 discovery, intraday monitoring, roundtables, concentrated strategy review, prediction evaluation, screener feedback, vault/wiki compilation, and health checks.
+The manifest covers market and evidence refresh, collection, screeners,
+portfolio review, prediction and feedback evaluation, wiki compilation, and
+health checks. A declared workflow is canonical; cron, launchd, systemd, CI,
+and persistent-agent schedules are runtime projections.
 
 ## Memory Management
 
@@ -386,10 +417,13 @@ Thesis OS treats memory as a managed process, not a dumping ground.
 The memory loop is:
 
 ```text
-capture -> normalize -> classify -> promote/discard -> link -> summarize -> retrieve -> evaluate -> improve
+capture -> normalize -> classify -> promote/discard -> link -> retrieve -> record influence -> evaluate outcome -> replay/revise/retire
 ```
 
-Alpha owns evidence memory, Lattice owns judgment memory, and Arki owns system memory. The LLM wiki is a compact retrieval layer over canonical objects, not a raw archive.
+Alpha owns evidence memory, Lattice owns judgment memory, and Arki owns system
+memory. Deployment extensions give Gwajang and Claw separate VC and personal
+context boundaries. The compiled LLM Wiki is a retrieval projection over
+canonical objects, not a raw archive or a second source of truth.
 
 Vault governance adds the write-side discipline:
 
@@ -534,10 +568,12 @@ This is an early public scaffold. The current implementation focuses on the mini
 6. Compile wiki/SSOT notes so agents can retrieve the current canonical context.
 7. Export a dashboard cockpit for theses, watchlists, action queues, prediction ledgers, and feedback.
 8. Validate recurring job contracts so automation remains auditable.
+9. Document the harness-neutral task, context, effect, run-lineage, and memory-influence contracts that the next executable layer will implement.
 
 Specialized adapters such as trade/customs proxy data are included as examples of how to extend the evidence layer. They are not the center of the framework. The current coverage map is in [Thesis OS Coverage](docs/thesis-os-coverage.md).
 
-The next milestones are connector interfaces, richer feedback metrics, action-alignment workflows, reproducible job scheduling, and stronger dashboard examples.
+The next milestones are executable task contracts, end-to-end run lineage,
+effect fences, action alignment, and retrieval-to-decision outcome telemetry.
 
 ## Launch Note
 

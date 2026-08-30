@@ -1,76 +1,104 @@
-# Vault, SSOT, And LLM Wiki
+# Vault, SSOT, And Compiled LLM Wiki
 
-Thesis OS uses the vault as long-term research memory.
+The vault is durable human-readable memory. The LLM Wiki is a compiled
+retrieval view over canonical objects.
 
-The goal is not to create endless notes. The goal is to maintain canonical research objects that agents can find, update, and evaluate.
+```text
+structured records + owner-domain notes
+  -> policy and integrity checks
+  -> aliases, links, summaries, and freshness
+  -> compiled wiki
+  -> retrieval event
+  -> decision citation and outcome
+```
 
-See [Memory Management](memory-management.md) for the full capture, promotion, retrieval, feedback, and retention process.
+## Canonical Objects
 
-See [Vault Governance](vault-governance.md) for document policy, codeowner, validator, cleanup, and canonical-write rules.
+- source and evidence records;
+- screener and research candidates;
+- living theses and counter-theses;
+- actions, explicit non-actions, and predictions;
+- feedback and outcome reviews;
+- workflow, run, effect, and system records where the deployment supports
+  them.
 
-## Canonical Object Types
-
-- `evidence/`: source-grounded facts and interpretations
-- `screeners/`: quantitative candidates and feature snapshots
-- `alerts/`: intraday holdings and watchlist alert notes
-- `theses/`: living thesis cards
-- `decisions/`: action rationale and decision cards
-- `feedback/`: prediction and screener outcome reviews
-- `wiki/`: generated indexes for agent retrieval
-- `ssot/`: single-source-of-truth policy notes
+The structured store is canonical for IDs, metrics, state, and joins. The
+owner-domain vault note is canonical for durable narrative. Generated wiki,
+dashboard, and digest files are projections.
 
 ## Why SSOT Matters
 
-Without SSOT, agents create duplicate folders and stale parallel memories. With SSOT:
+Without a single-source policy, agents create duplicate folders, conflicting
+summaries, and stale parallel memories. Each document type therefore needs:
 
-- each object type has a canonical location
-- agents know where to read before writing
-- duplicate note creation is easier to detect
-- LLM retrieval stays focused on current objects
+- a canonical owner and path;
+- a stable identity and aliases;
+- source and freshness metadata;
+- supersession and retention rules;
+- a validator before write or publication.
 
 ## Policy-Backed Writes
 
-In a mature deployment, generated vault writes should be policy-backed:
-
 ```text
-doc_type + context -> vault document policy -> canonical path -> codeowner check -> vault writer
+document type + owner + context
+  -> vault policy resolver
+  -> canonical path
+  -> ownership and frontmatter checks
+  -> write
+  -> wiki compile
 ```
 
-This prevents generators from hardcoding paths or creating duplicate folder structures.
+Generators should not hardcode new folder taxonomies. A generated page should
+be repaired at its source serializer or resolver, not edited as an independent
+truth.
 
-The public core keeps this minimal through `VaultWriter`. Private deployments can add:
+## Compilation Rules
 
-- document type routing
-- codeowner enforcement
-- frontmatter validation
-- legacy path compatibility
-- migration reports
-- root-alias guards
+A useful wiki page contains:
 
-## LLM Wiki Principle
+- stable entity and thesis aliases;
+- current status and native horizon;
+- latest evidence date and confidence;
+- supporting and disconfirming claims;
+- open fact gaps and action queue;
+- invalidation conditions;
+- source links and superseded-object pointers;
+- recent outcome and process lessons.
 
-The LLM wiki should not be a raw archive. It should be a compact retrieval layer over canonical objects.
+It should not contain raw dumps, unsupported conclusions, duplicate full-text
+copies, or a summary without provenance.
 
-Good wiki notes:
+## Quality And Influence
 
-- summarize current state
-- link to canonical source objects
-- mark freshness
-- separate facts from interpretation
-- avoid duplicating raw source content
+Search success, ranking quality, and latency test retrieval mechanics. They do
+not show that the wiki improved a decision.
 
-## Agent Responsibilities
+A mature deployment also records:
 
-- Alpha updates `evidence/` and `screeners/`.
-- Lattice reads evidence and screeners before updating thesis cards, predictions, decisions, and feedback.
-- Arki maintains schemas, canonical paths, wiki indexes, and SSOT notes.
+- retrieved memory or document IDs;
+- decision or artifact influenced;
+- accepted, corrected, or rejected status;
+- later outcome and lesson;
+- replay, revision, or retirement decision.
 
-## Public Example Policy
+## Retention
 
-See [sample_vault_policy.yaml](../examples/sample_vault_policy.yaml).
+Canonical theses, actions, predictions, and feedback remain durable. Wiki pages
+are regenerated. Raw capture, cache, intermediate versions, and duplicate
+renderings use bounded retention after their canonical references and required
+audit hashes are preserved.
 
-## Public Demo Command
+Filename similarity alone is not enough to delete a version. The system must
+know that files belong to the same deliverable lineage and that a valid final
+artifact exists.
+
+## Public Example
+
+See [sample_vault_policy.yaml](../examples/sample_vault_policy.yaml) and run:
 
 ```bash
 python -m thesis_os arki build-wiki-index --workspace ./workspace
 ```
+
+Private deployments may add embedding search or knowledge graphs, but markdown
+provenance and canonical source pointers remain intact.

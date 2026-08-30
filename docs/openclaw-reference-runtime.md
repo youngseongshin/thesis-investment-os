@@ -1,71 +1,46 @@
-# OpenClaw Reference Runtime
+# OpenClaw Runtime Compatibility Note
 
-The original long-running deployment that inspired Thesis OS runs on OpenClaw.
+OpenClaw was the original persistent runtime that inspired the public Thesis OS
+agent and recurring-job examples. This path remains so existing links and
+examples continue to work.
 
-Thesis OS itself is runtime-agnostic. OpenClaw is best understood as a reference runtime for operating the Thesis OS loop continuously with local agents, skills, memory, chat gateways, scheduled jobs, and logs.
+OpenClaw is not the Thesis OS architecture authority. The canonical boundary is
+the harness-neutral [`RuntimeAdapter`](runtime-adapters.md).
 
-## Role Split
+## What The Examples Still Demonstrate
 
-| Thesis OS role | OpenClaw runtime responsibility |
-|---|---|
-| Alpha | run evidence collectors, market-data adapters, screeners, social/video/report summarizers, and source-quality checks |
-| Lattice | review thesis cards, run devil's advocate gates, make portfolio/watchlist judgments, register predictions, interpret feedback |
-| Arki | govern schemas, vault layout, memory policy, recurring jobs, launch health, migrations, and public/private boundaries |
+- persistent role profiles;
+- local skill execution;
+- chat delivery;
+- scheduled workflow invocation;
+- memory capture and promotion;
+- logs, health checks, and recovery notes;
+- separation between public contracts and private runtime state.
 
-## What OpenClaw Adds
+## Portability Rule
 
-OpenClaw is useful when the system needs to move beyond one-off CLI commands:
-
-- long-running agent processes
-- Telegram or chat gateways
-- local skill execution
-- recurring job orchestration
-- memory capture and promotion
-- vault write discipline
-- logs, heartbeats, and operational recovery
-- model and cost routing
-
-In this structure, Thesis OS is the investment judgment core, while OpenClaw is the operational shell that keeps the loop alive.
+An OpenClaw workflow should be portable to another harness when it is expressed
+as:
 
 ```text
-OpenClaw runtime
-  -> schedules Alpha evidence work
-  -> routes Lattice judgment requests
-  -> lets Arki enforce schemas, memory, and vault policy
-  -> delivers summaries through chat or web surfaces
-  -> writes logs and recovery notes
-
-Thesis OS core
-  -> schemas
-  -> local DB
-  -> markdown vault
-  -> screeners
-  -> thesis cards
-  -> prediction ledger
-  -> feedback reports
-  -> dashboard
+workflow ID
+  + bounded inputs
+  + typed outputs
+  + context and model policy
+  + tool and effect permissions
+  + failure policy
+  + run and delivery result
 ```
+
+Provider-specific session files, gateway metadata, credentials, and scheduler
+copies are runtime projections. They must not enter the public core or redefine
+the investment object model.
 
 ## Public / Private Boundary
 
-The public repo should include:
+The public repo may include safe role maps, workflow fixtures, and adapter
+examples. It excludes tokens, sessions, private vault content, holdings, raw
+messages, browser state, paid data, and exact production routing.
 
-- role contracts
-- sample OpenClaw agent maps
-- sample harness contracts
-- safe job examples
-- public adapter interfaces
-
-The public repo should not include:
-
-- real Telegram tokens
-- broker credentials
-- OAuth sessions
-- browser state
-- private vault contents
-- private portfolio holdings
-- paid raw data
-
-## Design Principle
-
-Keep Thesis OS useful without OpenClaw, but document OpenClaw as the proven way to run the same loop as a persistent local multi-agent system.
+New runtime work should follow [Runtime Adapters](runtime-adapters.md) rather
+than adding OpenClaw-specific requirements to core schemas.

@@ -1,5 +1,20 @@
 # Changelog
 
+## Unreleased - 2026-08-30
+
+- Add a public-safe system whitepaper aligned with the canonical Thesis OS
+  architecture: task contracts, bounded context, deterministic and effect
+  gates, runtime adapters, run/effect/delivery lineage, and outcome-linked
+  memory.
+- Expand the role model from the executable Alpha/Lattice/Arki core to
+  documented Gwajang and Claw deployment extensions with separate ownership and
+  confidentiality boundaries.
+- Make runtime documentation harness-neutral and retain OpenClaw only as a
+  compatibility example.
+- Treat recurring schedules as projections of a declared workflow registry.
+- Clarify compiled LLM Wiki, source provenance, memory influence, retention,
+  control maturity, and the public/private implementation boundary.
+
 ## 0.6.1 - 2026-05-31
 
 - Reposition README hero around the accountability layer: "Stop building persuasive AI. Build accountable AI."

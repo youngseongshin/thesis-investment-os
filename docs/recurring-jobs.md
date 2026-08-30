@@ -1,81 +1,91 @@
-# Recurring Jobs
+# Recurring Workflows
 
-Thesis OS depends on recurring work.
+Recurring work keeps evidence, theses, predictions, feedback, and retrieval
+views current. The unit of governance is the workflow, not the cron line.
 
-The recurring job list matters because Thesis OS is an operating system, not a static note template. The system only improves if evidence, theses, predictions, and feedback are refreshed on a durable cadence.
+## Declared Registry
 
-## Job Types
+Each workflow should have one canonical declaration. Cron, launchd, systemd,
+GitHub Actions, and persistent-agent schedules are generated or observed
+projections.
 
-| Job Type | Owner | Purpose | Typical Cadence |
-|---|---|---|---|
-| KR market DB refresh | Alpha | Update Korea listed-equity snapshots after close | Weekday after Korea close |
-| US market DB refresh | Alpha | Update US listed-equity snapshots after close | Weekday after US close |
-| Tier 1 holdings/watchlist refresh | Alpha | Refresh official/news/source evidence for important entities | Daily early morning |
-| Qualitative channel collection | Alpha | Summarize social/community, video, newsletter, and report signals | Daily or intraday by source |
-| Quant screener refresh | Alpha | Generate candidate list from local DB features | Weekday after market DB refresh |
-| Three-channel discovery Top 5 | Alpha | Merge quant, social, and analyst-report candidates into review queue | Daily after source refresh |
-| Intraday holdings/watchlist monitor | Alpha | Route price and flow alerts for active names | Market hours, 5-15 minutes or adapter-defined |
-| Trade/customs proxy refresh | Alpha | Convert export-import or customs proxy data into sector/value-chain evidence | Monthly or every official data release |
-| Thesis update scan | Lattice | Decide which thesis cards need updates | Daily after evidence refresh |
-| Daily roundtable | Lattice | Review increase, hold, decrease, exit, and watch decisions | Daily after Alpha refresh |
-| Concentrated strategy review | Lattice | Check common-driver exposure and sizing risk | Daily or weekly depending on portfolio concentration |
-| Prediction evaluation | Lattice | Score past predictions after horizons mature | Daily after outcome data is available |
-| Screener feedback evaluation | Lattice | Check whether screener candidates produced forward value | Daily/weekly by horizon |
-| Judgment feedback evaluation | Lattice | Evaluate portfolio-inclusion and action decisions | Daily/weekly by horizon |
-| Vault/wiki compile | Arki | Build current retrieval index and SSOT notes | Daily after research jobs |
-| Dashboard cockpit build | Arki | Export a static cockpit for thesis, watchlist, actions, predictions, and feedback | After evidence/thesis/feedback refresh |
-| Harness contract validation | Arki | Check recurring jobs have explicit owner, inputs, outputs, delivery, and failure policy | Daily before job execution and in CI |
-| Health check | Arki | Check schemas, job outputs, freshness, and public/private boundaries | Daily and CI |
+```text
+declared workflow
+  -> adapter projection
+  -> scheduled run
+  -> artifact and delivery
+  -> run health and value review
+```
 
-## Job Manifest
+Direct edits to an installed schedule do not create a new canonical cadence.
+Drift should be reported and reconciled.
 
-Jobs should be declared in a machine-readable manifest:
+## Minimum Contract
 
-- id
-- owner agent
-- cadence
-- command
-- outputs
-- freshness SLA
-- failure policy
+Every recurring workflow declares:
 
-High-impact recurring jobs should also have a harness contract:
+- stable workflow ID and owner;
+- decision or operational objective;
+- bounded input references and freshness requirements;
+- context, model-call, wall-time, and external-call budgets;
+- command or adapter entry point;
+- typed outputs and canonical destinations;
+- delivery target class;
+- deterministic, counterargument, and human gates;
+- timeout, retry, partial-output, preserve-last-good, and alert policy;
+- downstream decision and later value check.
 
-- trigger
-- command
-- inputs
-- outputs
-- delivery surfaces
-- model policy
-- failure behavior
+See [sample_harness_contracts.json](../examples/sample_harness_contracts.json)
+and [sample_jobs.yaml](../examples/sample_jobs.yaml).
 
-See [sample_harness_contracts.json](../examples/sample_harness_contracts.json) for a public-safe contract manifest.
+## Workflow Families
 
-## Runtime Options
+| Family | Default owner | Decision use |
+|---|---|---|
+| market and company data refresh | Alpha | keep evidence and outcome data current |
+| filings, official sources, and qualitative collection | Alpha | open or close fact gaps |
+| screeners and candidate compression | Alpha | create explainable review queues |
+| thesis update and red-team review | Lattice | change thesis status or action gate |
+| portfolio review and prediction registration | Lattice | record explicit action or non-action |
+| private-company intelligence and monitoring | Gwajang extension | update VC thesis and diligence queue |
+| reflection and commitment review | Claw extension | support user-owned personal decisions |
+| wiki compile, health, retention, and policy checks | Arki | keep the system retrievable and operable |
+| outcome and process evaluation | owning role + Arki | improve rules, tools, and memory |
 
-The public project provides generic job manifests. Users can run them through cron, launchd, systemd, GitHub Actions, or another scheduler.
+Exact production times and destinations remain deployment configuration, not
+public documentation.
 
-See [sample_jobs.yaml](../examples/sample_jobs.yaml) for a public-safe manifest.
+## Failure Semantics
 
-## Design Rules
+A run can be `succeeded`, `partial`, `failed`, `skipped`, or `stale-preserved`.
+Fallback output must retain the failed model/provider status. A fresh-looking
+artifact cannot erase an unsuccessful run.
 
-Recurring jobs should follow these rules:
+High-value workflows should:
 
-- Keep real credentials and runtime secrets outside the public repository.
-- Prefer deterministic outputs when an LLM step fails.
-- Preserve the previous valid artifact when a job fails.
-- Write freshness and failure status honestly.
-- Avoid generating raw-document noise when a summarized artifact is enough.
-- Keep job outputs linked to the thesis, evidence, prediction, or feedback object they support.
-- Make cadence explicit, but keep private deployment times configurable.
+- preserve the last valid artifact on replacement failure;
+- write partial output only when the contract permits it;
+- use bounded retry and idempotent delivery;
+- alert on repeated failure, not every transient error;
+- link the run to its artifacts, mutations, and delivery result.
 
-## Minimum Job Contract
+## Cost And Attention
 
-Every recurring job should answer:
+A recurring workflow should be reviewed against:
 
-1. Who owns this job?
-2. What input does it read?
-3. What output does it write?
-4. How fresh must the output be?
-5. What happens when it fails?
-6. Which downstream decision uses it?
+- decision use;
+- unique signal contribution;
+- fact gaps closed;
+- action errors prevented;
+- artifact and message volume;
+- token, tool-call, and wall-time cost;
+- failure and stale-output rate.
+
+Low-value work is narrowed, reduced in cadence, merged, or retired. More files
+and messages do not constitute better research.
+
+## Public Runtime Options
+
+The public examples can run from cron, launchd, systemd, GitHub Actions, or a
+custom harness through the [RuntimeAdapter](runtime-adapters.md). Credentials
+and private routing remain outside this repository.

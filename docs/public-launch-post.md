@@ -64,15 +64,17 @@ public or private data -> evidence -> screener -> thesis -> prediction -> feedba
 
 Start with public data. Replace it later with better licensed sources, broker exports, private notes, or paid feeds if your use case requires them.
 
-## Three Roles
+## Core Roles
 
-Thesis OS uses a simple three-agent operating model:
+The executable public core uses three roles:
 
 - **Alpha** collects and verifies evidence.
 - **Lattice** makes investment judgments, in the spirit of Charlie Munger's latticework of mental models.
 - **Arki** keeps schemas, vault structure, recurring jobs, and system health under control.
 
-The goal is not to make a chatbot sound confident. The goal is to separate collection, judgment, and governance so the system can be reviewed.
+The full reference architecture can add separate VC and personal-context roles
+without changing these ownership boundaries. The goal is to separate
+collection, judgment, and governance so the system can be reviewed.
 
 ## The Accountability Layer
 

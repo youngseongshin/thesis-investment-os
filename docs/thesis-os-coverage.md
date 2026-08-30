@@ -8,7 +8,8 @@ It is intentionally public-safe. It describes reusable architecture and contract
 
 | Thesis OS Area | Public Status | Public Implementation |
 |---|---|---|
-| Three-agent model | Reflected | Alpha, Lattice, Arki docs and CLI |
+| Operating-role model | Reflected | Alpha, Lattice, and Arki CLI roles plus documented Gwajang and Claw extension contracts |
+| Public system whitepaper | Reflected | `docs/system-whitepaper.md` public-safe architecture and governance contract |
 | Thesis / evidence / action / prediction / feedback loop | Reflected | schemas, demo CLI, vault notes, feedback commands |
 | Thesis type and native horizon discipline | Reflected | `docs/thesis-types-and-horizons.md`, thesis schema fields, process/result feedback scores |
 | Prediction-ledger accountability positioning | Reflected | README hero, `docs/assets/prediction-ledger-demo.gif`, and `examples/sample_outputs/prediction-ledger-accountability.md` |
@@ -27,13 +28,15 @@ It is intentionally public-safe. It describes reusable architecture and contract
 | Recurring jobs | Reflected | recurring job docs and sample manifest |
 | Skill catalog | Reflected | skills/pipelines docs and sample catalog |
 | Harness contracts / output delivery | Reflected | harness contract schema, sample JSON, validator command |
-| Runtime adapters and OpenClaw reference runtime | Reflected | `docs/runtime-adapters.md`, `docs/openclaw-reference-runtime.md`, and `examples/openclaw/` |
+| Runtime adapters and OpenClaw compatibility examples | Reflected | harness-neutral `RuntimeAdapter`, compatibility note, and `examples/openclaw/` |
+| Task contracts, context budgets, and effect fences | Partially reflected | harness schema and docs; executable universal entry/fence remains roadmap work |
+| End-to-end run/effect/delivery ledger | Partially reflected | public contract documented; full stable public implementation remains roadmap work |
 | Customs / trade proxy data layer | Reflected | CSV-backed trade proxy command and schema |
 | Official filings / SEC-style adapters | Partially reflected | adapter contracts only; private integrations remain deployment-specific |
 | Authenticated social/video/email collectors | Partially reflected | skill contracts only; sessions stay private |
 | Portfolio broker/account integration | Excluded | public/private boundary docs |
-| VC/private-company desk | Outside current public core | can be implemented as a separate extension |
-| Personal ambient coach | Outside current public core | not part of the thesis-driven investment core |
+| VC/private-company desk | Documented extension | Gwajang role and confidentiality boundary; executable private-company pipeline remains outside core |
+| Personal reflection role | Documented extension | Claw role and memory boundary; private personal memory remains outside core |
 
 ## Executable Public Components
 
@@ -74,9 +77,10 @@ Public implementation:
 - `examples/sample_harness_contracts.json`
 - `thesis-os arki validate-harness`
 
-### 3. Runtime Adapters And OpenClaw
+### 3. Runtime Adapters
 
-Thesis OS can run as CLI commands, scheduled jobs, GitHub Actions, OpenClaw agents, or a custom app.
+Thesis OS can run as CLI commands, scheduled jobs, GitHub Actions, a persistent
+agent harness, or a custom app.
 
 Public implementation:
 
@@ -85,7 +89,9 @@ Public implementation:
 - `examples/openclaw/sample_agents.yaml`
 - `examples/openclaw/sample_harness_contract.yaml`
 
-The public core remains usable without OpenClaw. OpenClaw documents how the same loop can be hosted as a persistent local multi-agent system.
+The public core is harness-neutral. OpenClaw files remain compatibility examples
+for one historical persistent-runtime shape; new integrations should implement
+the `RuntimeAdapter` contract.
 
 ### 4. Customs / Trade Proxy Evidence
 
@@ -113,9 +119,10 @@ Public implementation:
 
 The next public-safe areas to implement would be:
 
-1. `arki validate-vault-policy`: static validator for sample vault policy and codeowners.
-2. `alpha qualitative-ingest`: CSV/JSON adapter for social, Facebook, YouTube, newsletter, and report events.
-3. `lattice devil-advocate`: CLI command that turns a thesis card into a red-team checklist.
-4. `arki run-job`: local runner for sample recurring job manifests.
-5. `lattice action-alignment`: turn risk warnings and stale-thesis findings into explicit action states.
-6. `alpha verify-evidence`: cross-provider sample verification and stale-data scoring.
+1. `arki run-workflow`: execute a declared task contract with bounded context.
+2. `arki trace-run`: link input digest, model/tools, artifacts, delivery, and outcome.
+3. `lattice action-alignment`: turn risk warnings and stale-thesis findings into explicit action states.
+4. `arki validate-vault-policy`: static validator for sample vault policy and codeowners.
+5. `alpha qualitative-ingest`: CSV/JSON adapter for qualitative source events.
+6. `lattice devil-advocate`: turn a thesis card into a typed red-team result.
+7. `alpha verify-evidence`: cross-provider sample verification and stale-data scoring.
