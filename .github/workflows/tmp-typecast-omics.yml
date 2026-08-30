@@ -1,0 +1,120 @@
+name: Temporary Typecast OMICS narration
+
+on:
+  push:
+    branches:
+      - tmp/typecast-omics-260830
+    paths:
+      - '.github/workflows/tmp-typecast-omics.yml'
+      - 'tmp/typecast_omics/segments.json'
+
+permissions:
+  contents: write
+
+jobs:
+  synthesize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: tmp/typecast-omics-260830
+          fetch-depth: 1
+
+      - name: Generate Typecast segments
+        env:
+          TYPECAST_PROXY: https://typecast-secure-proxy-260830.vercel.app/api/tts
+          TYPECAST_TRANSFER_TOKEN: UNZrZP8SVMno8iInYRv7MkCkZqtLgPhs6spIOv5UIBQ
+        run: |
+          python3 - <<'PY'
+          import concurrent.futures
+          import hashlib
+          import json
+          import os
+          import time
+          import urllib.parse
+          import urllib.request
+          import zipfile
+          from pathlib import Path
+
+          root = Path('tmp/typecast_omics')
+          segments = json.loads((root / 'segments.json').read_text(encoding='utf-8'))
+          audio_dir = root / 'audio'
+          audio_dir.mkdir(parents=True, exist_ok=True)
+          proxy = os.environ['TYPECAST_PROXY']
+          token = os.environ['TYPECAST_TRANSFER_TOKEN']
+
+          def synth(seg):
+              sid = int(seg['id'])
+              target = audio_dir / f'seg_{sid:03d}.mp3'
+              params = urllib.parse.urlencode({
+                  'token': token,
+                  'seg': f'{sid:03d}',
+                  'role': seg['role'],
+                  'text': seg['text'],
+              })
+              url = f'{proxy}?{params}'
+              last = None
+              for attempt in range(1, 6):
+                  try:
+                      req = urllib.request.Request(url, headers={'User-Agent': 'Thesis-OS-OMICS-Typecast-Builder/1.0'})
+                      with urllib.request.urlopen(req, timeout=90) as r:
+                          data = r.read()
+                          content_type = r.headers.get('Content-Type', '')
+                          duration = r.headers.get('X-Audio-Duration')
+                      if len(data) < 1000 or ('audio' not in content_type and not data.startswith(b'ID3')):
+                          raise RuntimeError(f'invalid audio response: {content_type}, {len(data)} bytes')
+                      target.write_bytes(data)
+                      return {
+                          'id': sid,
+                          'role': seg['role'],
+                          'file': target.name,
+                          'bytes': len(data),
+                          'sha256': hashlib.sha256(data).hexdigest(),
+                          'api_duration_seconds': float(duration) if duration else None,
+                      }
+                  except Exception as exc:
+                      last = exc
+                      time.sleep(min(2 ** attempt, 20))
+              raise RuntimeError(f'segment {sid} failed: {last}')
+
+          results = []
+          with concurrent.futures.ThreadPoolExecutor(max_workers=3) as pool:
+              futures = {pool.submit(synth, seg): seg['id'] for seg in segments}
+              for future in concurrent.futures.as_completed(futures):
+                  item = future.result()
+                  print(f"generated {item['id']:03d}: {item['bytes']} bytes")
+                  results.append(item)
+          results.sort(key=lambda x: x['id'])
+          if len(results) != len(segments):
+              raise RuntimeError(f'expected {len(segments)} segments, got {len(results)}')
+
+          manifest = {
+              'generated_at_utc': __import__('datetime').datetime.now(__import__('datetime').timezone.utc).isoformat(),
+              'provider': 'Typecast API',
+              'voice': 'Anchor Hwa',
+              'voice_id': 'tc_5feb213228b7247f8c8eb6d9',
+              'model': 'ssfm-v30',
+              'language': 'kor',
+              'seed': 84,
+              'segment_count': len(results),
+              'segments': results,
+          }
+          (root / 'typecast_manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding='utf-8')
+
+          zip_path = root / 'typecast_segments.zip'
+          with zipfile.ZipFile(zip_path, 'w', compression=zipfile.ZIP_STORED) as zf:
+              zf.write(root / 'segments.json', 'segments.json')
+              zf.write(root / 'typecast_manifest.json', 'typecast_manifest.json')
+              for item in results:
+                  zf.write(audio_dir / item['file'], f"audio/{item['file']}")
+          print(f'archive={zip_path} bytes={zip_path.stat().st_size}')
+          PY
+
+      - name: Commit temporary narration archive
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add tmp/typecast_omics/typecast_segments.zip tmp/typecast_omics/typecast_manifest.json
+          git commit -m 'build: add temporary Typecast narration archive [skip ci]'
+          git push origin HEAD:tmp/typecast-omics-260830
