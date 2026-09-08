@@ -1,7 +1,7 @@
 # Thesis OS System Whitepaper
 
 Public edition. Updated 2026-09-08 from the canonical Thesis OS whitepaper
-v3.1.0, preserving the public-core implementation boundary.
+v3.1.1, preserving the public-core implementation boundary.
 
 This document describes the reusable architecture. It excludes private
 portfolio data, raw conversations, credentials, channel identifiers, exact
@@ -184,6 +184,18 @@ task records. Historical tasks are projected through explicit source relationshi
 their bodies, completion status, and approvals are preserved. Missing identifiers
 remain visible. Routine worker-model selection follows its declared worker
 contract, independently of a conversation profile's default model.
+
+New governed tasks require an explicit primary purpose or an unambiguous
+workflow mapping before creation. Recurring producers pass the same purpose
+contract. Historical requests can still reuse their original tasks. Reviewed
+legacy records can receive missing identifiers and purpose metadata through a
+previewed, locked, hash-checked update with a private backup. That repair preserves
+business content and completion state; it does not certify that the work was done.
+
+A judgment reader may refresh a stale current-state projection from an existing,
+verified source snapshot and retry retrieval once. Source freshness limits still
+apply. The derived page is replaced atomically, and an unavailable or stale source
+continues to block judgment rather than allowing historical material to stand in.
 
 The purpose catalog, task mapping, matrix projection, and recurring checks are
 private deployment capabilities. This public repository documents the contract;
