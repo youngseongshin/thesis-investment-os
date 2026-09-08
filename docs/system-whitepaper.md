@@ -1,7 +1,7 @@
 # Thesis OS System Whitepaper
 
 Public edition. Updated 2026-09-08 from the canonical Thesis OS whitepaper
-v3.1.2, preserving the public-core implementation boundary.
+v3.1.3, preserving the public-core implementation boundary.
 
 This document describes the reusable architecture. It excludes private
 portfolio data, raw conversations, credentials, channel identifiers, exact
@@ -25,6 +25,18 @@ outcomes within existing risk, authority, and privacy boundaries. Operations fol
 artifacts, effects, outcomes, and reviewed learning**.
 
 ## Operating Principles
+
+The private KR screening runtime carries input-quality state into candidate
+outputs. Local OHLCV checks include missing universe prices, non-finite values,
+duplicate bars, and corporate-action provenance. Assessments refresh after
+successful collection and preserve earlier per-symbol quarantine during partial
+refreshes. An assessment's date and latest-bar fingerprint bind it to the price
+input it checked; this does not certify the entire price history. Unknown inputs
+remain visible as research pending. Identical universe rows are deduplicated,
+while conflicting metadata is exposed as an error in the KOSDAQ consumer.
+Local price checks do not certify consensus freshness, official-source evidence,
+or investment approval. These private-runtime integrations are architectural
+examples, not claims that the public-core ships their production collectors.
 
 The principle IDs match the canonical architecture; local investment rules and
 private user context are not reproduced here.
