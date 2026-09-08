@@ -1,7 +1,7 @@
 # Thesis OS System Whitepaper
 
 Public edition. Updated 2026-09-08 from the canonical Thesis OS whitepaper
-v3.1.1, preserving the public-core implementation boundary.
+v3.1.2, preserving the public-core implementation boundary.
 
 This document describes the reusable architecture. It excludes private
 portfolio data, raw conversations, credentials, channel identifiers, exact
@@ -196,6 +196,15 @@ A judgment reader may refresh a stale current-state projection from an existing,
 verified source snapshot and retry retrieval once. Source freshness limits still
 apply. The derived page is replaced atomically, and an unavailable or stale source
 continues to block judgment rather than allowing historical material to stand in.
+
+A deployment can link existing judgment cohorts to source-bound follow-up cases.
+Preserve the original decision identifier, source snapshot, purpose contract,
+rationale, alternatives, falsifiers, and next review target. Track user decisions,
+explicit execution links, outcomes, and lesson reviews separately. A later fill
+in the same security is only a temporal candidate until its relationship to the
+judgment is established. Do not infer non-execution from an empty observation.
+Bind review closeout to the current evidence versions and reopen it when evidence
+changes. Closing that review does not approve a trade or promote a thesis or memory.
 
 The purpose catalog, task mapping, matrix projection, and recurring checks are
 private deployment capabilities. This public repository documents the contract;
