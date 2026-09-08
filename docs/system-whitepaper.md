@@ -1,7 +1,7 @@
 # Thesis OS System Whitepaper
 
-Public edition. Updated 2026-08-30 from the canonical Thesis OS whitepaper
-v2.5.0 and the current public-core boundary.
+Public edition. Updated 2026-09-08 from the canonical Thesis OS whitepaper
+v3.0.0, preserving the public-core implementation boundary.
 
 This document describes the reusable architecture. It excludes private
 portfolio data, raw conversations, credentials, channel identifiers, exact
@@ -17,33 +17,46 @@ predictions, and outcomes into process improvements.
 It is not an autonomous trading system, an alpha guarantee, or a replacement
 for the person who owns capital and final decisions.
 
+The user's ultimate outcomes are to maximize public-equity portfolio returns,
+maximize VC-fund investment performance, and maintain balance in personal life
+and relationships. Stronger judgment and lower cognitive burden support these
+outcomes within existing risk, authority, and privacy boundaries. Operations follow one traceable hierarchy:
+**philosophy and principles → agent-by-purpose matrix → individual work →
+artifacts, effects, outcomes, and reviewed learning**.
+
 ## Operating Principles
 
-1. **Evidence first.** Facts, assumptions, interpretations, and actions remain
-   distinct objects.
-2. **Deterministic before LLM.** Code owns arithmetic, schemas, identity,
-   paths, freshness, deduplication, permissions, and state transitions. Models
-   own synthesis, causal interpretation, counterarguments, and prose.
-3. **Thesis-centered.** Reports are evidence-bearing inputs. The durable object
-   is the living thesis with assumptions, invalidation conditions, and action
-   gates.
-4. **Mental models above theses.** Reusable question sets, required data,
-   disconfirming evidence, and action gates keep judgment from collapsing into
-   one attractive narrative.
-5. **Compiled knowledge.** The wiki is a generated retrieval view over
-   canonical records, not a second source of truth or a raw-document dump.
-6. **Bounded discretion.** Agents can reason freely inside explicit task,
-   context, tool, and effect boundaries.
-7. **Human authority.** Capital allocation, irreversible external effects, and
-   policy changes remain under human control.
-8. **Low noise.** A workflow earns its place by changing a decision, closing a
-   fact gap, preventing an error, or improving a measured process.
+The principle IDs match the canonical architecture; local investment rules and
+private user context are not reproduced here.
+
+1. **P1 — Life and judgment are the purpose.** Capital and performance support
+   autonomy and responsibility. Health and relationships are not reduced to an investment score.
+2. **P2 — Revise beliefs against reality.** Preserve alternatives, disconfirming
+   evidence, time horizons, and the choice that would change.
+3. **P3 — Separate facts, interpretation, and authority.** Reliable evidence
+   does not itself authorize an external effect.
+4. **P4 — Finish authorized work.** Carry bounded work through verification,
+   canonical storage, and the delivery already authorized.
+5. **P5 — Separate a thesis from a portfolio.** Business quality, expected
+   returns at a price, position size, total risk, and opportunity cost are different questions.
+6. **P6 — One meaning has one canonical authority.** Other views preserve
+   ownership, provenance, and version links.
+7. **P7 — Measure cost per useful result.** Use code for deterministic work
+   and suitable models for judgment; include human rework in the comparison.
+8. **P8 — Observe broadly and communicate useful change.** Collection breadth
+   does not require repetitive messages or long reader-facing output.
+9. **P9 — Memory is reviewable experience.** Distinguish user statements,
+   observations, inferences, generated summaries, and approved principles.
+10. **P10 — Evolution includes stopping and reversal.** Set acceptance,
+    budgets, checkpoints, rollback, and conditions for consolidation or retirement.
 
 ## Architecture
 
 ```mermaid
 flowchart TD
-  U["User / chat / dashboard"] --> B["Request and action boundary"]
+  P["Philosophy and principles"] --> M["Agent-by-purpose matrix"]
+  M --> U["User / chat / dashboard"]
+  U --> B["Request and action boundary"]
   B --> C["Task contract + context compiler"]
   C --> H["Workflow harness"]
   H --> A["Domain agents"]
@@ -111,6 +124,52 @@ The executable public CLI remains centered on Alpha, Lattice, and Arki. The VC
 and reflection roles are documented extension patterns. See
 [Operating Roles](operating-roles.md).
 
+## Purpose-Based Operating Model
+
+Purposes describe the result the system is accountable for. Tasks and workflows
+are implementation units within a purpose. Each has one primary purpose;
+collaboration, shared capabilities, and source reuse remain explicit supporting
+relationships. This prevents double counting without pretending that work is independent.
+
+| Purpose family | Components | Accountability |
+|---|---|---|
+| Public investing | screening and data; external intelligence; candidate decisions; strategy and risk; holdings monitoring; thesis and judgment loop; performance and execution review; investment principles | Alpha supplies evidence; Lattice owns investment judgment |
+| VC and business | deal universe; pipeline; active diligence; research engine; business integration; thesis and judgment loop; technology and investment intelligence; portfolio, funds and exits | Gwajang, within organizational and human authority |
+| Public knowledge | public-market publishing; VC publishing | Domain authoring owners with existing publication gates |
+| Personal context | commitments; reflection and life balance; health context; personal asset context; relationships, communication and care | Claw; investment and organizational records retain their own owners |
+| Shared foundations | storage and recovery; memory and wiki; recurring execution; message delivery and readability; profiles and harness; document SOP and artifact quality; architecture and change governance; shared skills and reusable assets; access and security | Arki, with domain collaborators |
+
+Every active agent-purpose component defines four things:
+
+| Contract field | Required definition |
+|---|---|
+| Purpose | The user question, judgment, or burden it serves |
+| Goal | The outcome state to be achieved |
+| Implementation | Existing tools, sources, records, workflows, gates, and handoffs |
+| Measurement | Metric, unit, denominator, evidence, target or failure condition, and assessment method |
+
+The matrix distinguishes accountability, execution, and collaboration. Purpose
+accountability does not silently reassign an existing workflow, investment
+decision, or permission. A task preserves its purpose ID, principle IDs, and
+purpose-contract revision. Artifacts trace through task or workflow/run IDs to
+that contract. An input-producing workflow and the task consuming its output may
+serve different purposes; their relationship remains explicit.
+
+Every purpose links to one or more ultimate outcomes. Portfolio performance
+distinguishes cash flows, costs, returns, and risk. Fund performance distinguishes
+realized distributions, unrealized valuations, losses, and capital allocation.
+Personal and relationship balance is reviewed through the user's experience,
+commitments, recovery, and perceived burden; it is not folded into one financial score.
+
+Automatic checks cover structural mapping, missing evidence, run freshness,
+artifact integrity, and review age. Owners review actual output samples and
+user usefulness. Execution success, file existence, and a complete catalog do
+not certify purpose fulfillment. Unknown and legacy mappings remain visible.
+
+The purpose catalog, task mapping, matrix projection, and recurring checks are
+private deployment capabilities. This public repository documents the contract;
+it does not claim to ship that complete deployment or its operational evidence.
+
 ## Workflow Contract
 
 A recurring or material workflow should enter through a bounded contract:
@@ -124,6 +183,9 @@ context_budget: file, section, character, token, and call limits
 model_policy: primary, fallback, effort, maximum calls
 tool_permissions: read, write, deliver, external-effect, approve
 outputs: typed artifacts and canonical destinations
+purpose_id: one primary purpose from the deployment catalog
+principle_ids: relevant philosophy references
+purpose_contract_revision: reviewed contract digest
 review_gates: deterministic, counterargument, human
 failure_policy: retry, partial output, preserve-last-good, alert
 outcome_checks: machine-verifiable completion and later value test
@@ -198,6 +260,29 @@ Thesis OS separates four questions:
 
 Activity counts are not value. File, message, token, and commit volume become
 useful only when linked to decision use and outcomes.
+
+Both public-market and VC thesis management own the complete judgment loop:
+evidence → judgment and approval → observed effects and outcomes → reviewed
+lessons and calibration → thesis revision. Performance measurement and research
+engines supply that loop without becoming competing thesis authorities.
+
+Message delivery is also a quality responsibility. A successfully delivered
+message must help its reader identify what changed, why it matters, what to do
+next, and where to verify it. Delivery receipts and reader comprehension are
+separate measurements, including on narrow mobile screens.
+
+The document SOP and production pipeline cover the reader's question, argument,
+source verification, language editing, medium-specific production, actual
+render review, final-file verification, delivery, and user corrections. A file
+changed after review requires renewed verification. Slide and video evidence
+must match their actual medium; a technical smoke test does not establish
+presentation or listening quality.
+
+Recent architecture changes strengthen source/fallback semantics, failure
+propagation, work-to-memory provenance, delivery revisions, document release
+evidence, and package-bound judgment calibration. These are engineering
+capabilities. Future scheduled observations, real adoption, and investment
+outcomes remain separate evidence requirements.
 
 ## Public And Private Boundary
 
