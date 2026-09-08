@@ -1,7 +1,7 @@
 # Thesis OS System Whitepaper
 
 Public edition. Updated 2026-09-08 from the canonical Thesis OS whitepaper
-v3.1.3, preserving the public-core implementation boundary.
+v3.1.4, preserving the public-core implementation boundary.
 
 This document describes the reusable architecture. It excludes private
 portfolio data, raw conversations, credentials, channel identifiers, exact
@@ -25,6 +25,19 @@ outcomes within existing risk, authority, and privacy boundaries. Operations fol
 artifacts, effects, outcomes, and reviewed learning**.
 
 ## Operating Principles
+
+The private VC runtime joins review questions to an explicit opportunity and
+package binding. A prior judgment about the same company does not establish a
+judgment for the current round. Changed source or answer hashes reopen operating
+reviews, whose checkpoints retain the input revision, reviewer, evidence and next
+review date. Checkpoints do not change deal stages or investment approvals.
+Interim observations retain a follow-up date. Completed outcome reviews require
+evidence and an explicit resolution with a lesson. Cooperating journal writers
+share a lock, compare versions, replace files atomically and retain prior content.
+Calibration admits only reviewed thesis resolutions with matching evidence hashes
+and observation and recording dates available as of the evaluation date. These
+integrations belong to the private runtime and do not imply production collectors
+or investment workflows are shipped in public-core.
 
 The private KR screening runtime carries input-quality state into candidate
 outputs. Local OHLCV checks include missing universe prices, non-finite values,
