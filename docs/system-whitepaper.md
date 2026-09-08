@@ -1,7 +1,7 @@
 # Thesis OS System Whitepaper
 
 Public edition. Updated 2026-09-08 from the canonical Thesis OS whitepaper
-v3.0.0, preserving the public-core implementation boundary.
+v3.1.0, preserving the public-core implementation boundary.
 
 This document describes the reusable architecture. It excludes private
 portfolio data, raw conversations, credentials, channel identifiers, exact
@@ -161,10 +161,29 @@ realized distributions, unrealized valuations, losses, and capital allocation.
 Personal and relationship balance is reviewed through the user's experience,
 commitments, recovery, and perceived burden; it is not folded into one financial score.
 
+Baseline validity also matters. Portfolio valuation snapshots do not establish
+period returns without reconciled cash flows and valuation timing. Fund ratios
+require a common paid-in, distribution, and NAV basis; reported hurdles are not
+realized IRRs. Personal ratings require a dated user report and are not inferred
+from generated reflections or task-overdue counts.
+
 Automatic checks cover structural mapping, missing evidence, run freshness,
 artifact integrity, and review age. Owners review actual output samples and
 user usefulness. Execution success, file existence, and a complete catalog do
 not certify purpose fulfillment. Unknown and legacy mappings remain visible.
+
+Evidence follows the kind of work: services require availability observations,
+collectors require data evidence, trackers require state links, and reports
+require readable outputs. A file reference is resolved against the producing
+workspace. Run timestamps are compared with their timezones. Technical review
+and accountable-owner acceptance remain separate, and an observed successful
+run returns an improvement to review rather than automatically closing it.
+
+Native business tasks can retain purpose and principle IDs alongside existing
+task records. Historical tasks are projected through explicit source relationships;
+their bodies, completion status, and approvals are preserved. Missing identifiers
+remain visible. Routine worker-model selection follows its declared worker
+contract, independently of a conversation profile's default model.
 
 The purpose catalog, task mapping, matrix projection, and recurring checks are
 private deployment capabilities. This public repository documents the contract;
