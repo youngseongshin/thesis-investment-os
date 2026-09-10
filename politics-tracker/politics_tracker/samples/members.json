@@ -1,0 +1,32 @@
+[
+  {
+    "person_id": "per_sample_001",
+    "name": "이가상",
+    "party": "가상당",
+    "district": "서울 예시구갑",
+    "era": "22",
+    "committees": ["국토교통위원회"],
+    "profile_url": null,
+    "raw": {"_note": "데모용 가상 인물"}
+  },
+  {
+    "person_id": "per_sample_002",
+    "name": "박사례",
+    "party": "예시당",
+    "district": "부산 견본구을",
+    "era": "22",
+    "committees": ["기획재정위원회"],
+    "profile_url": null,
+    "raw": {"_note": "데모용 가상 인물"}
+  },
+  {
+    "person_id": "per_sample_003",
+    "name": "김모범",
+    "party": "무소속",
+    "district": "경기 표본시병",
+    "era": "22",
+    "committees": [],
+    "profile_url": null,
+    "raw": {"_note": "데모용 가상 인물 (국회의장)"}
+  }
+]
