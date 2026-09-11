@@ -1,7 +1,7 @@
 # Thesis OS System Whitepaper
 
-Public edition. Updated 2026-09-08 from the canonical Thesis OS whitepaper
-v3.1.4, preserving the public-core implementation boundary.
+Public edition. Updated 2026-09-11 from the canonical Thesis OS whitepaper
+v3.1.5, preserving the public-core implementation boundary.
 
 This document describes the reusable architecture. It excludes private
 portfolio data, raw conversations, credentials, channel identifiers, exact
@@ -25,6 +25,19 @@ outcomes within existing risk, authority, and privacy boundaries. Operations fol
 artifacts, effects, outcomes, and reviewed learning**.
 
 ## Operating Principles
+
+Purpose health uses each declared interval, calendar, or cron schedule. A weekly
+or monthly workflow stays current until its next scheduled run and a bounded
+grace period. A recorded failure remains a failure. Every core workflow retains
+one primary purpose, including inactive historical workflows.
+
+Collectors preserve partial success without calling the whole input complete.
+The private KR pipeline refreshes local price-quality metadata after required
+market inputs even when an optional enrichment fails, and it still reports the
+enrichment failure. The private VC compiler exposes an unavailable read-only
+index as a source gap. It does not promote the remaining sources to complete
+coverage. Wiki indexes use the same policy-normalized identifier as the file
+writer. Owner reviews remain separate from these technical recoveries.
 
 The private VC runtime joins review questions to an explicit opportunity and
 package binding. A prior judgment about the same company does not establish a
